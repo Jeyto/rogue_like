@@ -42,58 +42,79 @@ void init_matrice(char matrice[N][M]){
 void generer_matrice(char matrice[N][M]){
 	int positionD_x;
 	int positionD_y;
-	int positionA_x;
-	int positionA_y;
 	int taille_largeur_piece;
 	int taille_longueur_piece;
-	int compteur_piece=0;
-	t_emplacement tab[4];
+	t_direction cote;
+	int taille_longueur_couloir;
+
 	srand(time(NULL));
 
 	//random pour connaitre la position de départ de la génération de la matrice
-	positionD_x=rand()%N-2;
-	positionD_y=rand()%M-2;
+	positionD_x=rand()%N;
+	positionD_y=rand()%M;
 	
-	//random pour connaitre la largeur et la longueur de la pièce(limitée à 3*3cases minimum et 10*10cases maximum)
-	taille_largeur_piece=rand()%7+3;
-	taille_longueur_piece=rand()%7+3;
-	while(positionD_x+taille_longueur_piece>N-2 || positionD_y+taille_largeur_piece>M-2 || positionD_x<1 || positionD_y<1){
-		positionD_x=rand()%N-2;
-		positionD_y=rand()%M-2;
-		taille_largeur_piece=rand()%7+2;
-		taille_longueur_piece=rand()%7+2;
+	//random pour connaitre la largeur et la longueur de la pièce(limitée à 3*3cases minimum et 15*15cases maximum)
+	taille_largeur_piece=rand()%13+3;
+	taille_longueur_piece=rand()%13+3;
+	while(positionD_x+taille_longueur_piece>N-2 || positionD_y+taille_largeur_piece>M-2 || positionD_x<1 || positionD_x>N-2 || positionD_y<1 || positionD_y>M-2){
+		positionD_x=rand()%N;
+		positionD_y=rand()%M;
+		taille_largeur_piece=rand()%13+2;
+		taille_longueur_piece=rand()%13+2;
 	}
+
 	//création pièce avec les infos récoltées précédemment
 	piece(taille_longueur_piece,taille_largeur_piece,matrice,positionD_x,positionD_y);
-	positionA_x=positionD_x+taille_longueur_piece;
-	positionA_y=positionD_y+taille_largeur_piece;
-	tab[0].positionD_x=positionD_x;
-	tab[0].positionA_x=positionA_x;
-	tab[0].positionD_y=positionD_y;
-	tab[0].positionA_y=positionA_y;
-	
-	while(compteur_piece<3){
-		//random pour connaitre la position de départ de la génération de la matrice
-		positionD_x=rand()%N-2;
-		positionD_y=rand()%M-2;
-	
-		//random pour connaitre la largeur et la longueur de la pièce(limitée à 3*3cases minimum et 10*10cases maximum)
-		taille_largeur_piece=rand()%7+3;
-		taille_longueur_piece=rand()%7+3;
-		while(positionD_x+taille_longueur_piece>N-2 || positionD_y+taille_largeur_piece>M-2 || positionD_x<1 || positionD_y<1){
-			positionD_x=rand()%N-2;
-			positionD_y=rand()%M-2;
-			taille_largeur_piece=rand()%7+2;
-			taille_longueur_piece=rand()%7+2;
-		}
-		//création pièce avec les infos récoltées précédemment
-		piece(taille_longueur_piece,taille_largeur_piece,matrice,positionD_x,positionD_y);
-		positionA_x=positionD_x+taille_longueur_piece;
-		positionA_y=positionD_y+taille_largeur_piece;
 
-		compteur_piece++;
-	}
 	
+	//random pour connaitre le coté de la pièce où partira le couloir
+	cote=rand()%4;
+	//random pour connaitre la longueur du couloir(limité à 2*1cases minimum et 10*1cases maximum)
+	taille_longueur_couloir=rand()%8+2;
+	//création couloir à coté de la pièce précédente en vérifiant que le couloir peut être placé(minimum 2 cases de libres autour)
+	switch(cote){
+		case nord:
+			positionD_x=positionD_x;
+			positionD_y=positionD_y+(taille_largeur_piece/2);
+			if(positionD_x>2){			
+				while(positionD_x-taille_longueur_couloir<1){
+					taille_longueur_couloir=rand()%8+2;
+				}
+				couloir(taille_longueur_couloir,nord,matrice,positionD_x,positionD_y);
+			}
+			break;
+		case sud:
+			positionD_x=positionD_x+taille_longueur_piece;
+			positionD_y=positionD_y+(taille_largeur_piece/2);
+			if(positionD_x<N-2){
+				while(positionD_x+taille_longueur_couloir>N-2){
+					taille_longueur_couloir=rand()%8+2;
+				}
+				couloir(taille_longueur_couloir,sud,matrice,positionD_x,positionD_y);
+			}
+			break;
+		case ouest:
+			positionD_x=positionD_x+(taille_longueur_piece/2);
+			positionD_y=positionD_y;
+			if(positionD_y>2){
+				while(positionD_y-taille_longueur_couloir<1){
+					taille_longueur_couloir=rand()%8+2;
+				}
+				couloir(taille_longueur_couloir,ouest,matrice,positionD_x,positionD_y);
+			}
+			break;
+		case est:
+			positionD_x=positionD_x+(taille_longueur_piece/2);
+			positionD_y=positionD_y+taille_largeur_piece;
+			if(positionD_y<M-2){
+				while(positionD_y+taille_longueur_couloir>M-2){
+					taille_longueur_couloir=rand()%8+2;
+				}
+				couloir(taille_longueur_couloir,est,matrice,positionD_x,positionD_y);
+			}
+			break;
+	}
+	printf("\n dir %i",cote);
 }
 
 /*****************************************************************/

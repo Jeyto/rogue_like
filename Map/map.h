@@ -7,6 +7,7 @@
 #define N 20
 #define M 40
 typedef enum{nord=0, sud, ouest, est} t_direction;
+typedef struct{int positionD_x;int positionA_x;int positionD_y;int positionA_y;} t_emplacement;
 
 void init_matrice(char matrice[N][M]);
 void afficher_matrice(char matrice[N][M]);
