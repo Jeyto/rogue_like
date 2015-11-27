@@ -4,16 +4,18 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<time.h>
-#define N 20
-#define M 40
+#define N 40
+#define M 80
+#define nombre_piece 10
 typedef enum{nord=0, sud, ouest, est} t_direction;
-typedef struct{int positionD_x;int positionA_x;int positionD_y;int positionA_y;} t_emplacement;
-
-void init_matrice(char matrice[N][M]);
-void afficher_matrice(char matrice[N][M]);
-void piece(int hauteur, int largeur, char matrice[N][M],int pt_x, int pt_y);
-void couloir(int longueur, t_direction direction,char matrice[N][M],int pt_x, int pt_y);
-void generer_matrice(char matrice[N][M]);
-
+typedef enum{mur=-1, libre, porte,piege,hero,monstre} t_case;
+typedef struct{int x;int y;} t_coord;
+void init_matrice(t_case matrice[N][M]);
+void afficher_matrice(t_case matrice[N][M]);
+void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_direction direction);
+void generer_piece_matrice(t_case matrice[N][M]);
+void afficher_chemin(int grille[N][M]);
+void recherche_chemin(t_case grille[N][M],t_coord depart,t_coord arrive);
+void generer_matrice_tot(t_case matrice[N][M]);
 
 #endif

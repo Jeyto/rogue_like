@@ -6,9 +6,9 @@
 #include "couleur.h"
 
 int main(void){
-	char matrice[N][M];
+	t_case matrice[N][M];
 	init_matrice(matrice);
-	generer_matrice(matrice);
+	generer_matrice_tot(matrice);
 	afficher_matrice(matrice);
 	return 0;
 }
