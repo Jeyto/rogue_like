@@ -5,10 +5,10 @@
 #include<stdio.h>
 #include<time.h>
 #define N 40
-#define M 80
-#define nombre_piece 10
+#define M 120
+#define nombre_piece 8
 typedef enum{nord=0, sud, ouest, est} t_direction;
-typedef enum{mur=-1, libre, porte,piege,hero,monstre} t_case;
+typedef enum{mur_contour=-1,mur,vide,couloir,porte,piege,hero,monstre} t_case;
 typedef struct{int x;int y;} t_coord;
 void init_matrice(t_case matrice[N][M]);
 void afficher_matrice(t_case matrice[N][M]);

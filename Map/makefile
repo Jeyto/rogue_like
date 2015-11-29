@@ -1,5 +1,5 @@
-map: main.o map.o
-	gcc main.o map.o -o map -Wall
+monprog.exe: main.o map.o
+	gcc main.o map.o -o monprog.exe -Wall
 
 map.o: map.c map.h couleur.h
 	gcc -c map.c -Wall
