@@ -6,5 +6,6 @@
 typedef enum{vide,mur,joueur,ennemi}t_cellule;
 
 typedef struct{int x; int y;}t_coord;
+typedef struct element{t_coord valeur;struct element *pred;struct element *succ;} t_element;
 
 #endif
