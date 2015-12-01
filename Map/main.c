@@ -9,7 +9,7 @@ int main(void){
 	t_case matrice[N][M];
 	init_matrice(matrice);
 	generer_matrice_tot(matrice);
+	spawn_item(matrice);
 	afficher_matrice(matrice);
 	return 0;
 }
-	

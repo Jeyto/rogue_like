@@ -55,8 +55,8 @@ void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_d
 							}
 						}*/
 						//piece vide creusée dans la pièce précédente
-						for(i=angleA.x;i<=angleB.x;i++){
-							for(j=angleA.y;j<=angleC.y;j++){
+						for(i=angleA.x;i<=angleB.x && i<N-1;i++){
+							for(j=angleA.y;j<=angleC.y && i<M-1;j++){
 								matrice[i][j]=vide;
 							}
 						}
@@ -71,8 +71,8 @@ void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_d
 						/*angleD.x=pt_x+hauteur;
 						angleD.y=pt_y+largeur/2;*/
 						//piece vide creusée dans la pièce précédente
-						for(i=angleA.x;i<=angleB.x;i++){
-							for(j=angleA.y;j<=angleC.y;j++){
+						for(i=angleA.x;i<=angleB.x && i<N-1;i++){
+							for(j=angleA.y;j<=angleC.y && i<M-1;j++){
 								matrice[i][j]=vide;
 							}
 						}
@@ -87,8 +87,8 @@ void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_d
 						/*angleD.x=pt_x+hauteur/2;
 						angleD.y=pt_y-1;*/
 						//piece vide creusée dans la pièce précédente
-						for(i=angleA.x;i<=angleB.x;i++){
-							for(j=angleA.y;j<=angleC.y;j++){
+						for(i=angleA.x;i<=angleB.x && i<N-1;i++){
+							for(j=angleA.y;j<=angleC.y && i<M-1;j++){
 								matrice[i][j]=vide;
 							}
 						}
@@ -103,8 +103,8 @@ void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_d
 						/*angleD.x=pt_x+hauteur/2;
 						angleD.y=pt_y+largeur;*/
 						//piece vide creusée dans la pièce précédente
-						for(i=angleA.x;i<=angleB.x;i++){
-							for(j=angleA.y;j<=angleC.y;j++){
+						for(i=angleA.x;i<=angleB.x && i<N-1;i++){
+							for(j=angleA.y;j<=angleC.y && i<M-1;j++){
 								matrice[i][j]=vide;
 							}
 						}
@@ -355,9 +355,7 @@ void generer_matrice_tot(t_case matrice[N][M]){
 			piece(taille_hauteur_piece, taille_largeur_piece, matrice,positionD.x,positionD.y,direction_piece);
 			compteur_piece++;
 		}
-	
-	//autre piece +couloir 10fois
-	for(a=0;a<10;a++){
+	for(a=0;a<3;a++){
 		//test couloir
 		switch(direction_piece){
 			//random pour la direction de la porte en fonction de la position de la piece
@@ -438,7 +436,7 @@ void generer_matrice_tot(t_case matrice[N][M]){
 						}
 						break;
 		}
-		longueur_couloir=rand()%10+5;
+		longueur_couloir=rand()%5+5;
 		espaceOk=verif_espace(longueur_couloir,largeur_couloir,matrice,pos_porte.x,pos_porte.y,direction_couloir);
 		if(espaceOk==1){
 			tab_coord_positionD_couloir[compteur_couloir].x=pos_porte.x;
@@ -530,7 +528,7 @@ void generer_matrice_tot(t_case matrice[N][M]){
 								}
 								break;
 				}
-				longueur_couloir=rand()%10;
+				longueur_couloir=rand()%5+5;
 				espaceOk=verif_espace(longueur_couloir,largeur_couloir,matrice,pos_porte.x,pos_porte.y,direction_couloir);
 				passage++;
 			}
@@ -542,10 +540,6 @@ void generer_matrice_tot(t_case matrice[N][M]){
 				couloir(longueur_couloir,matrice,pos_porte.x,pos_porte.y,direction_couloir);
 				matrice[pos_porte.x][pos_porte.y]=porte;
 				compteur_couloir++;
-			}
-			else{
-				pos_porte.x=tab_coord_positionD_piece[compteur_couloir].x;
-				pos_porte.y=tab_coord_positionD_piece[compteur_couloir].y;
 			}
 		}
 	
@@ -723,8 +717,8 @@ void generer_matrice_tot(t_case matrice[N][M]){
 								}
 								break;
 				}
-				taille_hauteur_piece=rand()%5+10;
-				taille_largeur_piece=rand()%5+10;
+				taille_hauteur_piece=rand()%10+2;
+				taille_largeur_piece=rand()%10+2;
 				espaceOk=verif_espace(taille_hauteur_piece,taille_largeur_piece,matrice,positionD.x,positionD.y,direction_piece);
 				passage++;
 			}
@@ -739,13 +733,12 @@ void generer_matrice_tot(t_case matrice[N][M]){
 				compteur_piece++;
 			}
 			else{
-				positionD.x=tab_coord_positionD_couloir[compteur_piece].x;
-				positionD.y=tab_coord_positionD_couloir[compteur_piece].y;
+				direction_couloir=est;
+				couloir(5,matrice,positionD.x,positionD.y-1,direction_couloir);
 			}
 		}
 	}
 }
-
 
 /*****************************************************************/
 /*fonction afficher_matrice */
