@@ -1,39 +1,18 @@
 #include <stdio.h>
 #include <assert.h>
 #include "../include/IA.h"
-#include "../include/struct.h"
+#include "../include/structure.h"
 #include "../include/liste_ptr_coord.h"
 /*Fonctions generant le deplacement prochain d'un monstre agressif*/
 /*http://www.maths-algo.fr/algo/exercices/grille_plus_court_chemin.htm*/
 
-/*affiche la grille chemin*/
-void afficher_grille(t_cellule grille[N][M]){
-	int i,j;
-	for(i=0;i<N;i++){
-		printf("\n");
-		for(j=0;j<M;j++){
-			switch(grille[i][j]){
-				case 0:
-					printf(" ");
-					break;
-				case 1:
-					printf("X");
-					break;
-				case 2:printf("P");
-					break;
-				case 3:printf("M");
-					break;
-			}
-		}
-	}
-	printf("\n");
-}
-int chemin_possible(t_cellule grille[N][M],t_coord a,t_coord b){
+
+int chemin_possible(t_case grille[N][M],t_coord a,t_coord b){
 	int grille_zone[N][M];
 	int i,j,k=1;
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
-			if(grille[i][j]==0) {
+			if(grille[i][j]==vide || grille[i][j]==couloir || grille[i][j]==porte) {
 				grille_zone[i][j]=k;
 				k++;
 			}
@@ -56,10 +35,18 @@ int chemin_possible(t_cellule grille[N][M],t_coord a,t_coord b){
 				
 			}
 		}
-	}printf("\nAffichage de la zone:");
-	afficher_chemin(grille_zone);
+	}
+	//printf("\nAffichage de la zone:");
 	if(grille_zone[a.x][a.y]==grille_zone[b.x][b.y])return 1;
 	else return 0;
+}
+
+
+/*fonction permutant 2 objets de la grille*/
+void permutation(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr){
+	int tampon=grille[pos_arr.x][pos_arr.y];
+	grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
+	grille[pos_ini.x][pos_ini.y]=tampon;
 }
 
 void afficher_chemin(int grille[N][M]){
@@ -74,26 +61,20 @@ void afficher_chemin(int grille[N][M]){
 	printf("\n");
 }
 
-/*fonction permutant 2 objets de la grille*/
-void permutation(t_cellule grille[N][M],t_coord pos_ini,t_coord pos_arr){
-	int tampon=grille[pos_arr.x][pos_arr.y];
-	grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
-	grille[pos_ini.x][pos_ini.y]=tampon;
-}
-
 /*Affiche la recherche du plus court chemin*/
-void recherche_chemin(t_cellule grille[N][M],t_coord depart,t_coord arrive){
+void recherche_chemin(t_case grille[N][M],t_coord depart,t_coord arrive){
 	int tab_longueur[N][M];
 	int i,j;
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
-				if(grille[i][j]!=mur){
+				if(grille[i][j]==vide || grille[i][j]==couloir || grille[i][j]==porte){
 					tab_longueur[i][j]=-1;
 				}
 				else tab_longueur[i][j]=-2;
 		}
 	}
 	tab_longueur[depart.x][depart.y]=0;
+	tab_longueur[arrive.x][arrive.y]=-1;
 	while(tab_longueur[arrive.x][arrive.y]==-1){
 		for(i=0;i<N;i++){
 			for(j=0;j<M;j++){
@@ -123,11 +104,11 @@ void recherche_chemin(t_cellule grille[N][M],t_coord depart,t_coord arrive){
 			}
 		}	
 	}
-	printf("\nAffichage du chemin");
-	afficher_chemin(tab_longueur);
 	/*Recuperation du chemin*/
 	i=arrive.x;
 	j=arrive.y;
+	printf("\n");
+	//afficher_chemin(tab_longueur);
 	while(tab_longueur[i][j]!=1){
 		/*Recherche des coordonnées de la prochaine coordonnée*/
 		if(i-1>=0 && tab_longueur[i-1][j]==tab_longueur[i][j]-1) i--;
@@ -163,13 +144,14 @@ int est_present(t_coord v){
 	return 0;
 }
 
-void generation_mob_suivante(t_cellule grille[N][M],t_coord personnage){
+void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
 	t_coord coordonnee;
 	init_liste();
 	for(coordonnee.x=0;coordonnee.x<N;coordonnee.x++){
 		for(coordonnee.y=0;coordonnee.y<M;coordonnee.y++){
 			//printf("\nX=%d,Y=%d",coordonnee.x,coordonnee.y);
-			if(grille[coordonnee.x][coordonnee.y]==ennemi && !est_present(coordonnee) && chemin_possible(grille,personnage,coordonnee)){
+			if(grille[coordonnee.x][coordonnee.y]==monstre_agressif && !est_present(coordonnee) && chemin_possible(grille,personnage,coordonnee)){
+				//printf("\nChemin Possible: %i",chemin_possible(grille,personnage,coordonnee));
 				recherche_chemin(grille,coordonnee,personnage);
 				en_queue();
 				ajout_droit(coordonnee);

@@ -1,7 +1,8 @@
 /* Mise en oeuvre contigue d'une liste d'entiers */
 #include<stdio.h>
 #include <stdlib.h>
-#include "../include/struct.h"
+#include "../include/structure.h"
+
 /* Déclaration des indices de queue et d'élément courant */
 t_element *drapeau;
 t_element *ec;
@@ -55,7 +56,7 @@ void suivant(void)
 }
 
 void valeur_elt(t_coord* v)
-/* Renvoie dans v la veleur de l'elt courant */
+/* Renvoie dans v la valeur de l'elt courant */
 {	
 	if(!hors_liste()){
 		v->x=ec->valeur.x;

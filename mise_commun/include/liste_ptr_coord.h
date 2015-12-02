@@ -1,4 +1,4 @@
-#include "../include/struct.h"
+#include "structure.h"
 void init_liste(void);
 int liste_vide(void);
 int hors_liste(void);
