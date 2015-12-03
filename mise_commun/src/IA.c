@@ -3,6 +3,8 @@
 #include "../include/IA.h"
 #include "../include/structure.h"
 #include "../include/liste_ptr_coord.h"
+#include "../include/map.h"
+#include "../include/couleur.h"
 /*Fonctions generant le deplacement prochain d'un monstre agressif*/
 /*http://www.maths-algo.fr/algo/exercices/grille_plus_court_chemin.htm*/
 
@@ -44,9 +46,11 @@ int chemin_possible(t_case grille[N][M],t_coord a,t_coord b){
 
 /*fonction permutant 2 objets de la grille*/
 void permutation(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr){
-	int tampon=grille[pos_arr.x][pos_arr.y];
+	t_case tampon=grille[pos_arr.x][pos_arr.y];
 	grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
-	grille[pos_ini.x][pos_ini.y]=tampon;
+	if(tampon==porte) grille[pos_ini.x][pos_ini.y]=vide;
+	else if (tampon==hero) grille[pos_ini.x][pos_ini.y]=vide;
+	else grille[pos_ini.x][pos_ini.y]=tampon;
 }
 
 void afficher_chemin(int grille[N][M]){
@@ -55,7 +59,8 @@ void afficher_chemin(int grille[N][M]){
 		printf("\n");
 		for(j=0;j<M;j++){
 			if(grille[i][j]==-2) printf("X");
-			else printf("%d",grille[i][j]);
+			else if (grille[i][j]==-1) printf("0");
+			else  printf("t");
 		}
 	}
 	printf("\n");
@@ -102,12 +107,11 @@ void recherche_chemin(t_case grille[N][M],t_coord depart,t_coord arrive){
 						tab_longueur[i][j]=valeur;
 				}
 			}
-		}	
+		}
 	}
 	/*Recuperation du chemin*/
 	i=arrive.x;
 	j=arrive.y;
-	printf("\n");
 	//afficher_chemin(tab_longueur);
 	while(tab_longueur[i][j]!=1){
 		/*Recherche des coordonnées de la prochaine coordonnée*/
@@ -119,6 +123,8 @@ void recherche_chemin(t_case grille[N][M],t_coord depart,t_coord arrive){
 	arrive.x=i;
 	arrive.y=j;
 	permutation(grille,depart,arrive);
+	en_tete();
+	ajout_droit(arrive);
 }
 void vider_liste()
 {	
@@ -149,12 +155,8 @@ void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
 	init_liste();
 	for(coordonnee.x=0;coordonnee.x<N;coordonnee.x++){
 		for(coordonnee.y=0;coordonnee.y<M;coordonnee.y++){
-			//printf("\nX=%d,Y=%d",coordonnee.x,coordonnee.y);
-			if(grille[coordonnee.x][coordonnee.y]==monstre_agressif && !est_present(coordonnee) && chemin_possible(grille,personnage,coordonnee)){
-				//printf("\nChemin Possible: %i",chemin_possible(grille,personnage,coordonnee));
+			if(grille[coordonnee.x][coordonnee.y]==monstre_agressif && !est_present(coordonnee) && chemin_possible(grille,coordonnee,personnage)){
 				recherche_chemin(grille,coordonnee,personnage);
-				en_queue();
-				ajout_droit(coordonnee);
 			}
 		}
 	}

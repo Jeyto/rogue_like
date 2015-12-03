@@ -5,3 +5,5 @@ void permutation(t_cellule grille[N][M],t_coord pos_ini,t_coord pos_arr);
 void afficher_chemin(int grille[N][M]);
 int chemin_possible(t_cellule grille[N][M],t_coord a,t_coord b);
 void generation_mob_suivante(t_cellule grille[N][M],t_coord personnage);
+int est_present(t_coord v);
+void vider_liste();

@@ -8,7 +8,7 @@
 
 #include "../include/structure.h"
 #include "../include/IA.h"
-
+#include <unistd.h>
 
 int main(void){
 	t_coord personnage;
@@ -32,7 +32,6 @@ int main(void){
 	while(matrice[personnage.x][personnage.y]==hero){
 		generation_mob_suivante(matrice,personnage);
 		afficher_matrice(matrice);
-		printf("\n");
 	}
 	
 	return 0;

@@ -57,8 +57,7 @@ int chemin_possible(t_cellule grille[N][M],t_coord a,t_coord b){
 			}
 		}
 	}
-	//printf("\nAffichage de la zone:");
-	//afficher_chemin(grille_zone);
+
 	if(grille_zone[a.x][a.y]==grille_zone[b.x][b.y])return 1;
 	else return 0;
 }
@@ -124,8 +123,8 @@ void recherche_chemin(t_cellule grille[N][M],t_coord depart,t_coord arrive){
 			}
 		}	
 	}
-	//printf("\nAffichage du chemin");
-	//afficher_chemin(tab_longueur);
+	/*printf("\nAffichage du chemin");*/
+	/*afficher_chemin(tab_longueur);*/
 	/*Recuperation du chemin*/
 	i=arrive.x;
 	j=arrive.y;
@@ -139,9 +138,10 @@ void recherche_chemin(t_cellule grille[N][M],t_coord depart,t_coord arrive){
 	arrive.x=i;
 	arrive.y=j;
 	permutation(grille,depart,arrive);
+	en_tete();
+	ajout_droit(arrive);
 }
-void vider_liste()
-{	
+void vider_liste(){	
 	if(!liste_vide()){
 		en_queue();//on commence en fin de liste car on utilise oter_elt() qui se positionne sur le predecesseur
 		/*on enleve les elements un par un jusqu'à ce que la liste soit vide*/
@@ -163,20 +163,16 @@ int est_present(t_coord v){
 	}
 	return 0;
 }
-
+/*Fonctionne*/
 void generation_mob_suivante(t_cellule grille[N][M],t_coord personnage){
 	t_coord coordonnee;
 	init_liste();
 	for(coordonnee.x=0;coordonnee.x<N;coordonnee.x++){
 		for(coordonnee.y=0;coordonnee.y<M;coordonnee.y++){
-			//printf("\nX=%d,Y=%d",coordonnee.x,coordonnee.y);
-			if(grille[coordonnee.x][coordonnee.y]==ennemi && !est_present(coordonnee) && chemin_possible(grille,personnage,coordonnee)){
+			if(grille[coordonnee.x][coordonnee.y]==ennemi && !est_present(coordonnee) && chemin_possible(grille,coordonnee,personnage)){
 				recherche_chemin(grille,coordonnee,personnage);
-				en_queue();
-				ajout_droit(coordonnee);
 			}
 		}
 	}
 	vider_liste();
 }
-
