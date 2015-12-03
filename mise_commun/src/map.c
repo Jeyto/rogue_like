@@ -325,6 +325,10 @@ void spawn_item(t_case matrice[N][M]){
 	position_monstre_agressif.x=(position_droite.x_A+position_droite.x_D)/2;
 	position_monstre_agressif.y=(position_droite.y_A+position_droite.y_D)/2;
 	matrice[position_monstre_agressif.x][position_monstre_agressif.y]=monstre_agressif;
+	//position monstre second agressif à l'opposé du héro
+	position_monstre_agressif.x=(position_droite.x_A+position_droite.x_D)/2;
+	position_monstre_agressif.y=(position_droite.y_A+position_droite.y_D)/2;
+	matrice[position_monstre_agressif.x+1][position_monstre_agressif.y+1]=monstre_agressif;
 	//position coffre à l'opposé du hero
 	position_coffre.x=position_droite.x_A-1;
 	position_coffre.y=position_droite.y_A-1;

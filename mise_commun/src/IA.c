@@ -14,7 +14,7 @@ int chemin_possible(t_case grille[N][M],t_coord a,t_coord b){
 	int i,j,k=1;
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
-			if(grille[i][j]==vide || grille[i][j]==couloir || grille[i][j]==porte) {
+			if(grille[i][j]==vide || grille[i][j]==couloir || grille[i][j]==porte || grille[i][j]== monstre_agressif) {
 				grille_zone[i][j]=k;
 				k++;
 			}
@@ -46,11 +46,15 @@ int chemin_possible(t_case grille[N][M],t_coord a,t_coord b){
 
 /*fonction permutant 2 objets de la grille*/
 void permutation(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr){
-	t_case tampon=grille[pos_arr.x][pos_arr.y];
-	grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
-	if(tampon==porte) grille[pos_ini.x][pos_ini.y]=vide;
-	else if (tampon==hero) grille[pos_ini.x][pos_ini.y]=vide;
-	else grille[pos_ini.x][pos_ini.y]=tampon;
+	if(grille[pos_arr.x][pos_arr.y]!=monstre_agressif){
+		t_case tampon=grille[pos_arr.x][pos_arr.y];
+		grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
+		if(tampon==porte) grille[pos_ini.x][pos_ini.y]=vide;
+		else if (tampon==hero) grille[pos_ini.x][pos_ini.y]=vide;
+		else grille[pos_ini.x][pos_ini.y]=tampon;
+		en_tete();
+		ajout_droit(pos_arr);
+	}
 }
 
 void afficher_chemin(int grille[N][M]){
@@ -72,7 +76,7 @@ void recherche_chemin(t_case grille[N][M],t_coord depart,t_coord arrive){
 	int i,j;
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
-				if(grille[i][j]==vide || grille[i][j]==couloir || grille[i][j]==porte){
+				if(grille[i][j]==vide || grille[i][j]==couloir || grille[i][j]==porte || grille[i][j]==monstre_agressif){
 					tab_longueur[i][j]=-1;
 				}
 				else tab_longueur[i][j]=-2;
@@ -123,8 +127,6 @@ void recherche_chemin(t_case grille[N][M],t_coord depart,t_coord arrive){
 	arrive.x=i;
 	arrive.y=j;
 	permutation(grille,depart,arrive);
-	en_tete();
-	ajout_droit(arrive);
 }
 void vider_liste()
 {	
