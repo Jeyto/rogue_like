@@ -30,8 +30,11 @@ int main(void){
 	}
 	int k;
 	while(matrice[personnage.x][personnage.y]==hero){
+		
 		generation_mob_suivante(matrice,personnage);
 		afficher_matrice(matrice);
+		usleep(100000);
+		system("clear");
 	}
 	
 	return 0;
