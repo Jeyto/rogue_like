@@ -18,5 +18,7 @@ int generer_matrice_tot(t_case matrice[N][M], int level);
 
 void spawn_item(t_case matrice[N][M], int nb_piece, int level);
 void afficher_matrice(t_case matrice[N][M]);
+void sauvegarde_map(t_case matrice[N][M]);
+void generer_map_sauvegarde(t_case matrice[N][M]);
 
 #endif

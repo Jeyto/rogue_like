@@ -602,3 +602,37 @@ void afficher_matrice(t_case matrice[N][M]){
     	}
     	printf("\n");
 }
+
+/*****************************************************************/
+/*Fonction sauvedarde_map
+*Ecriture de la map(matrice) dans le fichier txt
+*/
+void sauvegarde_map(t_case matrice[N][M]){
+	int i,j;
+	FILE * fichier;
+	fichier=fopen("save_map.txt","w");
+	for(i=0;i<N;i++){
+		for(j=0;j<M;j++){
+			fprintf(fichier,"%i ",matrice[i][j]);
+		}
+		fprintf(fichier,"\n");
+	}
+	fclose(fichier);
+}
+
+/*******************************************************************/
+/*Fonction generer_map_sauvegarde
+*generer map à partir d'un fichier txt
+*/
+void generer_map_sauvegarde(t_case matrice[N][M]){
+	/*int i=0;
+	int j=0;
+	FILE * fichier;
+	fichier=fopen("save_map.txt","r");
+	while(!feof(fichier)){
+		fscanf(fichier,"%i",&matrice[i][j]);
+		j++;
+	}
+	fclose(fichier);
+	afficher_matrice(matrice);*/
+}

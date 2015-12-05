@@ -27,6 +27,7 @@ void generation_level(t_case matrice[N][M], int level){
 	nb_piece=generer_matrice_tot(matrice,level);
 	spawn_item(matrice,nb_piece,level);
 	afficher_matrice(matrice);
+	sauvegarde_map(matrice);
 	
 	if(level==4 || level==5){
 		for(i=0;i<N;i++){
@@ -42,6 +43,7 @@ void generation_level(t_case matrice[N][M], int level){
 			afficher_matrice(matrice);
 			usleep(100000);
 			system("clear");
+			sauvegarde_map(matrice);
 		}
 	}
 }
@@ -59,7 +61,7 @@ int main(void){
 	do{	//affichage du menu
 		printf("\n\tMenu :\n");
 		printf("\t\t 1 - Jouer\n");
-		printf("\t\t 2 - Partie sauvegardee\n");
+		printf("\t\t 2 - Continuer une partie sauvegardee\n");
 		printf("\t\t 3 - Quitter\n");
 		printf("\tVotre choix : ");
 		scanf("%i",&choix);
@@ -86,7 +88,8 @@ int main(void){
 						default: printf("Erreur: votre choix doit être compris entre 1 et 6\n");
 					}
 					break;
-			case 2:  printf("on verra plus tard\n"); break;
+			case 2: //generer_map_sauvegarde(matrice);
+					break;
 			case 3:  break;
 			default: printf("Erreur: votre choix doit être compris entre 1 et 3\n");
 		}
