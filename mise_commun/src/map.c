@@ -301,12 +301,12 @@ void spawn_item(t_case matrice[N][M]){
 		}
 	}
 	
-	//positionnement de piege un peu partout meme dans les couloirs(limité à 15)
-	/*for(a=0;a<15;a++){
+	//positionnement de piege un peu partout(limité à 15)
+	for(a=0;a<15;a++){
 		position_piege.x=rand()%N;
 		position_piege.y=rand()%M;
-		if(matrice[position_piege.x][position_piege.y]==vide || matrice[position_piege.x][position_piege.y]==couloir )matrice[position_piege.x][position_piege.y]=piege;
-	}*/
+		if(matrice[position_piege.x][position_piege.y]==vide) matrice[position_piege.x][position_piege.y]=piege;
+	}
 	//position monstre inactif aléatoirement dans une case vide d'une pièce
 	for(a=0;a<nombre_piece;a++){
 		if(rand()%3==0){
@@ -325,10 +325,6 @@ void spawn_item(t_case matrice[N][M]){
 	position_monstre_agressif.x=(position_droite.x_A+position_droite.x_D)/2;
 	position_monstre_agressif.y=(position_droite.y_A+position_droite.y_D)/2;
 	matrice[position_monstre_agressif.x][position_monstre_agressif.y]=monstre_agressif;
-	matrice[position_monstre_agressif.x+1][position_monstre_agressif.y+1]=monstre_agressif;/*Ajout d'un monstre*/
-	matrice[position_monstre_agressif.x][position_monstre_agressif.y+1]=monstre_agressif;/*Ajout d'un monstre*/
-	matrice[position_monstre_agressif.x+1][position_monstre_agressif.y]=monstre_agressif;/*Ajout d'un monstre*/
-	matrice[position_monstre_agressif.x-1][position_monstre_agressif.y-1]=monstre_agressif;/*Ajout d'un monstre*/
 	//position coffre à l'opposé du hero
 	position_coffre.x=position_droite.x_A-1;
 	position_coffre.y=position_droite.y_A-1;
@@ -337,7 +333,6 @@ void spawn_item(t_case matrice[N][M]){
 	position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
 	position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
 	matrice[position_cle.x][position_cle.y]=cle;
-	matrice[position_cle.x+1][position_cle.y+1]=monstre_agressif;/*Ajout d'un monstre*/
 	//position hero
 	position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
 	position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
