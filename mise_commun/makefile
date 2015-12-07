@@ -1,6 +1,6 @@
 CC=gcc
 FLAG=-Wall -W -g
-OBJ= main.o IA.o liste_ptr_coord.o map.o
+OBJ= main.o IA.o liste_ptr_coord.o map.o jeu.o structure.o
 JOB= ./include/*.h
 SRC=./src/
 all:main.exe
@@ -19,6 +19,9 @@ liste_ptr_coord.o: ${SRC}IA.c ${JOB}
 
 map.o: ${SRC}map.c ${JOB}
 	${CC} -c ${SRC}map.c ${FLAG}
+
+jeu.o: ${SRC}jeu.c ${JOB}
+	${CC} -c ${SRC}jeu.c ${FLAG}
 
 main.o: ${SRC}main.c ${JOB}
 	${CC} -c ${SRC}main.c ${JOB} ${FLAG}

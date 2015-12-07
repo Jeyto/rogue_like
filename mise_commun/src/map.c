@@ -388,11 +388,17 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		//position clé au milieu de la map
 		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		matrice[position_cle.x][position_cle.y]=cle;
+		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
+			position_cle.x++;
+		}
+		else matrice[position_cle.x][position_cle.y]=cle;
 		//position hero a gauche de la map
 		position_hero.x=(tab_coord_positionD_piece[0].x_D+tab_coord_positionD_piece[0].x_A)/2;
 		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
-		matrice[position_hero.x][position_hero.y]=hero;
+		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
+			position_hero.x++;
+		}
+		else matrice[position_hero.x][position_hero.y]=hero;
 	}
 	
 	//level 1 + ajout monstre inactif + piege
@@ -420,12 +426,17 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		//position clé au milieu de la map
 		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		matrice[position_cle.x][position_cle.y]=cle;
-		//position hero a gauche de la map
+		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
+			position_cle.x++;
+		}
+		else matrice[position_cle.x][position_cle.y]=cle;
 		//position hero a gauche de la map
 		position_hero.x=(tab_coord_positionD_piece[0].x_D+tab_coord_positionD_piece[0].x_A)/2;
 		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
-		matrice[position_hero.x][position_hero.y]=hero;
+		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
+			position_hero.x++;
+		}
+		else matrice[position_hero.x][position_hero.y]=hero;
 	}
 	
 	//level 2 + ajout monstre defensif
@@ -459,11 +470,17 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		//position clé au milieu de la map
 		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		matrice[position_cle.x][position_cle.y]=cle;
+		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
+			position_cle.x++;
+		}
+		else matrice[position_cle.x][position_cle.y]=cle;
 		//position hero a gauche de la map
 		position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
 		position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
-		matrice[position_hero.x][position_hero.y]=hero;
+		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
+			position_hero.x++;
+		}
+		else matrice[position_hero.x][position_hero.y]=hero;
 	}
 	
 	//level 3 + ajout monstre agressif
@@ -501,11 +518,17 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		//position clé au milieu de la map
 		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		matrice[position_cle.x][position_cle.y]=cle;
+		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
+			position_cle.x++;
+		}
+		else matrice[position_cle.x][position_cle.y]=cle;
 		//position hero a gauche de la map
 		position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
 		position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
-		matrice[position_hero.x][position_hero.y]=hero;
+		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
+			position_hero.x++;
+		}
+		else matrice[position_hero.x][position_hero.y]=hero;
 	}
 	
 	//level 4 + la totale
@@ -544,12 +567,18 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		//position clé au milieu de la map
 		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		matrice[position_cle.x][position_cle.y]=cle;
+		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
+			position_cle.x++;
+		}
+		else matrice[position_cle.x][position_cle.y]=cle;
 		if(matrice[position_cle.x-1][position_cle.y-1]==vide)matrice[position_cle.x-2][position_cle.y-2]=monstre_agressif;
 		//position hero a gauche de la map
 		position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
 		position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
-		matrice[position_hero.x][position_hero.y]=hero;
+		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
+			position_hero.x++;
+		}
+		else matrice[position_hero.x][position_hero.y]=hero;
 	}
 }
 
@@ -613,10 +642,11 @@ void afficher_matrice(t_case matrice[N][M]){
 /*Fonction sauvedarde_map
 *Ecriture de la map(matrice) dans le fichier txt
 */
-void sauvegarde_map(t_case matrice[N][M]){
+void sauvegarde_map(t_case matrice[N][M],int level){
 	int i,j;
 	FILE * fichier;
 	fichier=fopen("save_map.txt","w");
+	fprintf(fichier,"%i\n",level);
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
 			fprintf(fichier,"%i ",matrice[i][j]);
@@ -630,15 +660,18 @@ void sauvegarde_map(t_case matrice[N][M]){
 /*Fonction generer_map_sauvegarde
 *generer map à partir d'un fichier txt
 */
-void generer_map_sauvegarde(t_case matrice[N][M]){
+int generer_map_sauvegarde(t_case matrice[N][M]){
 	int i=0;
 	int j=0;
+	int level;
 	FILE * fichier;
 	fichier=fopen("save_map.txt","r");
+	fscanf(fichier,"%i",&level);
 	while(!feof(fichier)){
 		fscanf(fichier,"%i",&matrice[i][j]);
 		j++;
 	}
 	fclose(fichier);
 	afficher_matrice(matrice);
+	return level;
 }
