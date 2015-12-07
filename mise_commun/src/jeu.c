@@ -44,9 +44,32 @@ void jeu(t_case matrice[N][M], int level){
 			}
 		}
 		while(matrice[personnage.x][personnage.y]==hero){
+			sauvegarde_map(matrice,level);
 			generation_mob_suivante(matrice,personnage);
 			afficher_matrice(matrice);
-			sauvegarde_map(matrice,level);
+		}
+		if(matrice[personnage.x][personnage.y]==monstre_agressif || matrice[personnage.x][personnage.y]==monstre_defensif || matrice[personnage.x][personnage.y]==monstre_inactif || matrice[personnage.x][personnage.y]==piege){
+			game_over(matrice);
 		}
 	}
+}
+/*Fonction game_over
+*Modifie la matrice de jeu et affiche le message "game over"
+*/
+void game_over(t_case matrice[N][M]){	
+	int i=0;
+	int j=0;
+	FILE * fichier;
+	fichier=fopen("map_game_over.txt","r");
+	if(fichier==NULL){
+		init_matrice(matrice);
+	}
+	else{
+		while(!feof(fichier)){
+			fscanf(fichier,"%i",&matrice[i][j]);
+			j++;
+		}
+		fclose(fichier);
+	}
+	afficher_matrice(matrice);
 }

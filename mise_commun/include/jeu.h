@@ -9,5 +9,6 @@
 
 void generation_level(t_case matrice[N][M], int level);
 void jeu(t_case matrice[N][M], int level);
+void game_over(t_case matrice[N][M]);
 
 #endif
