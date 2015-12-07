@@ -41,8 +41,6 @@ void generation_level(t_case matrice[N][M], int level){
 		while(matrice[personnage.x][personnage.y]==hero){
 			generation_mob_suivante(matrice,personnage);
 			afficher_matrice(matrice);
-			usleep(100000);
-			system("clear");
 			sauvegarde_map(matrice);
 		}
 	}
@@ -55,6 +53,7 @@ int main(void){
 	t_case matrice[N][M];
 	
 	//traitement
+	system("clear");
 	printf("\t****************************************************\n");
     printf("\t     ROGUELIKE by Valentin - Baptiste - Maxime      \n");
     printf("\t****************************************************\n\n");
@@ -66,7 +65,7 @@ int main(void){
 		printf("\tVotre choix : ");
 		scanf("%i",&choix);
 		//traitement du choix de l'utilisateur
-		switch(choix){	
+		switch(choix){
 			case 1 ://affichage du menu
 					printf("\n\tMenu des niveaux :\n");
 					printf("\t\t 1 - Niveau 1\n");
@@ -84,12 +83,13 @@ int main(void){
 						case 3: generation_level(matrice, 3); break;
 						case 4: generation_level(matrice, 4); break;
 						case 5: generation_level(matrice, 5); break;
-						case 6: break;
+						case 6: system("clear"); break;
 						default: printf("Erreur: votre choix doit être compris entre 1 et 6\n");
 					}
 					break;
-			case 2: //generer_map_sauvegarde(matrice);
-					break;
+			case 2: generer_map_sauvegarde(matrice);
+				generation_level(matrice,5);
+				break;
 			case 3:  break;
 			default: printf("Erreur: votre choix doit être compris entre 1 et 3\n");
 		}

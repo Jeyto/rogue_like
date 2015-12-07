@@ -173,8 +173,13 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 	//autre piece
 		while(compteur_piece<nombre_piece){
 			//random pour connaitre la position de depart de la creation de la piece
-			positionD.x=rand()%N+1;
-			positionD.y=rand()%M+1;
+			if(level==1 || level==2){
+				positionD.x=(N-taille_max_piece_principale)/2;
+				positionD.y=positionD.y+taille_largeur_piece + 40;
+			}else{
+				positionD.x=rand()%N+1;
+				positionD.y=rand()%M+1;
+			}
 			//random pour connaitre la largeur et la longueur de la piece(limitee à 35*35cases minimum et 40*40cases maximum pour niveau <3, 10*10cases minimum et 15*15cases maximum pour niveau=3, 10*10cases minimum et 15*15cases maximum pour niveau >3)
 			taille_largeur_piece=rand()%5+taille_max_piece_secondaire;
 			taille_longueur_piece=rand()%5+taille_max_piece_secondaire;
@@ -385,8 +390,8 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
 		matrice[position_cle.x][position_cle.y]=cle;
 		//position hero a gauche de la map
-		position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
-		position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
+		position_hero.x=(tab_coord_positionD_piece[0].x_D+tab_coord_positionD_piece[0].x_A)/2;
+		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
 		matrice[position_hero.x][position_hero.y]=hero;
 	}
 	
@@ -417,8 +422,9 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
 		matrice[position_cle.x][position_cle.y]=cle;
 		//position hero a gauche de la map
-		position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
-		position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
+		//position hero a gauche de la map
+		position_hero.x=(tab_coord_positionD_piece[0].x_D+tab_coord_positionD_piece[0].x_A)/2;
+		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
 		matrice[position_hero.x][position_hero.y]=hero;
 	}
 	
@@ -625,7 +631,7 @@ void sauvegarde_map(t_case matrice[N][M]){
 *generer map à partir d'un fichier txt
 */
 void generer_map_sauvegarde(t_case matrice[N][M]){
-	/*int i=0;
+	int i=0;
 	int j=0;
 	FILE * fichier;
 	fichier=fopen("save_map.txt","r");
@@ -634,5 +640,5 @@ void generer_map_sauvegarde(t_case matrice[N][M]){
 		j++;
 	}
 	fclose(fichier);
-	afficher_matrice(matrice);*/
+	afficher_matrice(matrice);
 }
