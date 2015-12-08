@@ -594,44 +594,57 @@ void afficher_matrice(t_case matrice[N][M]){
    	for(i=0;i<N;i++){
         	for(j=0;j<M;j++){
 				if(matrice[i][j]==mur_contour){
+					couleur(33);
 					printf("&");
 				}
 				else if(matrice[i][j]==mur){
+					couleur(33);
 					printf("X");
 				}
 				else if(matrice[i][j]==vide){
 					printf(" ");
 				}
 				else if(matrice[i][j]==couloir){
-					printf(".");
+					printf(" ");
 				}
 				else if(matrice[i][j]==porte){
+					couleur(0);
 					printf("P");
 				}
 				else if(matrice[i][j]==coffre){
+					couleur(32);
 					printf("C");
 				}
 				else if(matrice[i][j]==cle){
+					couleur(32);
 					printf("K");
 				}
 				else if(matrice[i][j]==piege){
+					couleur(35);
 					printf("^");
 				}
 				else if(matrice[i][j]==hero){
+					couleur(36);
+					couleur(32);
 					printf("@");
 				}
 				else if(matrice[i][j]==monstre_agressif){
+					couleur(35);
 					printf("M");
 				}
 				else if(matrice[i][j]==monstre_defensif){
+					couleur(35);
 					printf("D");
 				}
 				else if(matrice[i][j]==monstre_inactif){
+					couleur(35);
 					printf("I");
 				}
 				else if(matrice[i][j]==bonus){
+					couleur(34);
 					printf("?");
 				}
+				couleur(0);
         	}
        		printf("\n\t");
     	}
