@@ -164,6 +164,7 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 		
 		//creation piece avec les infos récoltees precedemment
 		piece(taille_longueur_piece,taille_largeur_piece,matrice,positionD.x,positionD.y,dir_porte);
+		
 		//stock de la position de la piece
 		tab_coord_positionD_piece[compteur_piece].x_D=positionD.x;
 		tab_coord_positionD_piece[compteur_piece].y_D=positionD.y;
@@ -284,12 +285,31 @@ void recherche_chemin_couloir(t_case matrice[N][M],t_coord depart,t_coord arrive
 	i=arrive.x;
 	j=arrive.y;
 	while(tab_longueur[i][j]!=1){
-	//recherche des coordonnees de la prochaine coordonnee
-		if(i-1>=0 && tab_longueur[i-1][j]==tab_longueur[i][j]-1) i--;
-		else if(i+1<N && tab_longueur[i+1][j]==tab_longueur[i][j]-1) i++;
-		else if(j-1>=0 && tab_longueur[i][j-1]==tab_longueur[i][j]-1) j--;
-		else if(j+1<M && tab_longueur[i][j+1]==tab_longueur[i][j]-1) j++;
-		matrice[i][j]=couloir;
+	//recherche des coordonnees de la prochaine coordonnee et creation de couloir de largeur 2
+		if(i-1>=0 && tab_longueur[i-1][j]==tab_longueur[i][j]-1){
+			i--;
+			matrice[i][j]=couloir;
+			if(matrice[i][j+1]==mur)matrice[i][j+1]=couloir;
+			else if(matrice[i][j-1]==mur)matrice[i][j-1]=couloir;
+		}
+		else if(i+1<N && tab_longueur[i+1][j]==tab_longueur[i][j]-1){
+			i++;
+			matrice[i][j]=couloir;
+			if(matrice[i][j+1]==mur)matrice[i][j+1]=couloir;
+			else if(matrice[i][j-1]==mur)matrice[i][j-1]=couloir;
+		}
+		else if(j-1>=0 && tab_longueur[i][j-1]==tab_longueur[i][j]-1){
+			j--;
+			matrice[i][j]=couloir;
+			if(matrice[i-1][j]==mur)matrice[i-1][j]=couloir;
+			else if(matrice[i+1][j]==mur)matrice[i+1][j]=couloir;
+		}
+		else if(j+1<M && tab_longueur[i][j+1]==tab_longueur[i][j]-1){
+			j++;
+			matrice[i][j]=couloir;
+			if(matrice[i-1][j]==mur)matrice[i-1][j]=couloir;
+			else if(matrice[i+1][j]==mur)matrice[i+1][j]=couloir;
+		}
 	}
 }
 
@@ -594,11 +614,11 @@ void afficher_matrice(t_case matrice[N][M]){
    	for(i=0;i<N;i++){
         	for(j=0;j<M;j++){
 				if(matrice[i][j]==mur_contour){
-					couleur(33);
+					//couleur(33);
 					printf("&");
 				}
 				else if(matrice[i][j]==mur){
-					couleur(33);
+					//couleur(33);
 					printf("X");
 				}
 				else if(matrice[i][j]==vide){
@@ -608,43 +628,42 @@ void afficher_matrice(t_case matrice[N][M]){
 					printf(" ");
 				}
 				else if(matrice[i][j]==porte){
-					couleur(0);
+					//couleur(0);
 					printf("P");
 				}
 				else if(matrice[i][j]==coffre){
-					couleur(32);
+					//couleur(32);
 					printf("C");
 				}
 				else if(matrice[i][j]==cle){
-					couleur(32);
+					//couleur(32);
 					printf("K");
 				}
 				else if(matrice[i][j]==piege){
-					couleur(35);
+					//couleur(35);
 					printf("^");
 				}
 				else if(matrice[i][j]==hero){
-					couleur(36);
-					couleur(32);
+					//couleur(32);
 					printf("@");
 				}
 				else if(matrice[i][j]==monstre_agressif){
-					couleur(35);
+					//couleur(35);
 					printf("M");
 				}
 				else if(matrice[i][j]==monstre_defensif){
-					couleur(35);
+					//couleur(35);
 					printf("D");
 				}
 				else if(matrice[i][j]==monstre_inactif){
-					couleur(35);
+					//couleur(35);
 					printf("I");
 				}
 				else if(matrice[i][j]==bonus){
-					couleur(34);
+					//couleur(34);
 					printf("?");
 				}
-				couleur(0);
+				//couleur(0);
         	}
        		printf("\n\t");
     	}
