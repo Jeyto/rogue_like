@@ -72,9 +72,9 @@ int main(void){
 							couleur(0);
 							couleur(32);printf("\t\tK:\t cle\n");
 							couleur(0);
-							couleur(35);printf("\t\t^:\t piege\n");
-							couleur(0);
 							couleur(32);printf("\t\t@:\t hero\n");
+							couleur(0);
+							couleur(35);printf("\t\t^:\t piege\n");
 							couleur(0);
 							couleur(35);printf("\t\tM:\t monstre agressif\n");
 							couleur(0);

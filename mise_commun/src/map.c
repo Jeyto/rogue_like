@@ -380,6 +380,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 	t_coord position_coffre;
 	t_coord position_cle;
 	t_coord position_piege;
+	int nb_piege;
 	
 	for(a=1;a<nb_piece;a++){
 		//recuperation des coordonnees des salles les plus eloignees
@@ -399,138 +400,33 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		}
 	}
 	
-	//hero,cle,coffre
-	if(level==1){
-		//position coffre a l'oppose du hero (a droite de la map)
-		position_coffre.x=position_droite.x_A-1;
-		position_coffre.y=position_droite.y_A-1;
-		matrice[position_coffre.x][position_coffre.y]=coffre;
-		//position clé au milieu de la map
-		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
-		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
-			position_cle.x++;
-		}
-		else matrice[position_cle.x][position_cle.y]=cle;
-		//position hero a gauche de la map
-		position_hero.x=(tab_coord_positionD_piece[0].x_D+tab_coord_positionD_piece[0].x_A)/2;
-		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
-		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
-			position_hero.x++;
-		}
-		else matrice[position_hero.x][position_hero.y]=hero;
-	}
-	
-	//level 1 + ajout monstre inactif + piege
-	else if(level==2){
-		//positionnement de piege un peu partout(limite à 10)
-		for(a=0;a<10;a++){
-			position_piege.x=rand()%N;
-			position_piege.y=rand()%M;
-			if(matrice[position_piege.x][position_piege.y]==vide) matrice[position_piege.x][position_piege.y]=piege;
-			if(matrice[position_piege.x][position_piege.y-1]==vide) matrice[position_piege.x][position_piege.y-1]=piege;
-			if(matrice[position_piege.x][position_piege.y+1]==vide) matrice[position_piege.x][position_piege.y+1]=piege;
-		}
-		//position monstre inactif aleatoirement dans une case vide d'une piece
+	//level 5 + la totale
+	if(level>5){
+		//position monstre defensif dans toutes les salles
 		for(a=0;a<nb_piece;a++){
-			if(rand()%3==0){
-				position_monstre_inactif.x=rand()%(tab_coord_positionD_piece[a].x_A-tab_coord_positionD_piece[a].x_D)+tab_coord_positionD_piece[a].x_D;
-				position_monstre_inactif.y=rand()%(tab_coord_positionD_piece[a].y_A-tab_coord_positionD_piece[a].y_D)+tab_coord_positionD_piece[a].y_D;
-				if(matrice[position_monstre_inactif.x][position_monstre_inactif.y]==vide)matrice[position_monstre_inactif.x][position_monstre_inactif.y]=monstre_inactif;
-			}
-		}
-		//position coffre a l'oppose du hero (a droite de la map)
-		position_coffre.x=position_droite.x_A-1;
-		position_coffre.y=position_droite.y_A-1;
-		matrice[position_coffre.x][position_coffre.y]=coffre;
-		//position clé au milieu de la map
-		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
-		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
-			position_cle.x++;
-		}
-		else matrice[position_cle.x][position_cle.y]=cle;
-		//position hero a gauche de la map
-		position_hero.x=(tab_coord_positionD_piece[0].x_D+tab_coord_positionD_piece[0].x_A)/2;
-		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
-		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
-			position_hero.x++;
-		}
-		else matrice[position_hero.x][position_hero.y]=hero;
-	}
-	
-	//level 2 + ajout monstre defensif
-	else if(level==3){
-		//positionnement de piege un peu partout(limite à 10)
-		for(a=0;a<10;a++){
-			position_piege.x=rand()%N;
-			position_piege.y=rand()%M;
-			if(matrice[position_piege.x][position_piege.y]==vide) matrice[position_piege.x][position_piege.y]=piege;
-			if(matrice[position_piege.x][position_piege.y-1]==vide) matrice[position_piege.x][position_piege.y-1]=piege;
-			if(matrice[position_piege.x][position_piege.y+1]==vide) matrice[position_piege.x][position_piege.y+1]=piege;
-		}
-		//position monstre inactif aleatoirement dans une case vide d'une piece
-		for(a=0;a<nb_piece;a++){
-			if(rand()%3==0){
-				position_monstre_inactif.x=rand()%(tab_coord_positionD_piece[a].x_A-tab_coord_positionD_piece[a].x_D)+tab_coord_positionD_piece[a].x_D;
-				position_monstre_inactif.y=rand()%(tab_coord_positionD_piece[a].y_A-tab_coord_positionD_piece[a].y_D)+tab_coord_positionD_piece[a].y_D;
-				if(matrice[position_monstre_inactif.x][position_monstre_inactif.y]==vide)matrice[position_monstre_inactif.x][position_monstre_inactif.y]=monstre_inactif;
-			}
-		}
-		//position monstre defensif dans la moitie des salles
-		for(a=0;a<nb_piece/2;a++){
 			position_monstre_defensif.x=(tab_coord_positionD_piece[a].x_D+tab_coord_positionD_piece[a].x_A)/2;
 			position_monstre_defensif.y=(tab_coord_positionD_piece[a].y_D+tab_coord_positionD_piece[a].y_A)/2;
 			if(matrice[position_monstre_defensif.x][position_monstre_defensif.y]==vide)matrice[position_monstre_defensif.x][position_monstre_defensif.y]=monstre_defensif;
 		}
-		//position coffre a l'oppose du hero (a droite de la map)
-		position_coffre.x=position_droite.x_A-1;
-		position_coffre.y=position_droite.y_A-1;
-		matrice[position_coffre.x][position_coffre.y]=coffre;
-		//position clé au milieu de la map
-		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
-		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
-		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
-			position_cle.x++;
-		}
-		else matrice[position_cle.x][position_cle.y]=cle;
-		//position hero a gauche de la map
-		position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
-		position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
-		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
-			position_hero.x++;
-		}
-		else matrice[position_hero.x][position_hero.y]=hero;
 	}
-	
-	//level 3 + ajout monstre agressif
-	else if(level==4){
-		//positionnement de piege un peu partout(limite à 10)
-		for(a=0;a<10;a++){
-			position_piege.x=rand()%N;
-			position_piege.y=rand()%M;
-			if(matrice[position_piege.x][position_piege.y]==vide) matrice[position_piege.x][position_piege.y]=piege;
-			if(matrice[position_piege.x][position_piege.y-1]==vide) matrice[position_piege.x][position_piege.y-1]=piege;
-			if(matrice[position_piege.x][position_piege.y+1]==vide) matrice[position_piege.x][position_piege.y+1]=piege;
-		}
-		//position monstre inactif aleatoirement dans une case vide d'une piece
-		for(a=0;a<nb_piece;a++){
-			if(rand()%3==0){
-				position_monstre_inactif.x=rand()%(tab_coord_positionD_piece[a].x_A-tab_coord_positionD_piece[a].x_D)+tab_coord_positionD_piece[a].x_D;
-				position_monstre_inactif.y=rand()%(tab_coord_positionD_piece[a].y_A-tab_coord_positionD_piece[a].y_D)+tab_coord_positionD_piece[a].y_D;
-				if(matrice[position_monstre_inactif.x][position_monstre_inactif.y]==vide)matrice[position_monstre_inactif.x][position_monstre_inactif.y]=monstre_inactif;
-			}
-		}
-		//position monstre defensif dans la moitie des salles
-		for(a=0;a<nb_piece/2;a++){
-			position_monstre_defensif.x=(tab_coord_positionD_piece[a].x_D+tab_coord_positionD_piece[a].x_A)/2;
-			position_monstre_defensif.y=(tab_coord_positionD_piece[a].y_D+tab_coord_positionD_piece[a].y_A)/2;
-			if(matrice[position_monstre_defensif.x][position_monstre_defensif.y]==vide)matrice[position_monstre_defensif.x][position_monstre_defensif.y]=monstre_defensif;
-		}
+		
+	//pour tous les niveaux >=3 ajout monstre agressif
+	if(level>=4){
 		//position monstre agressif à l'opposé du héro
 		position_monstre_agressif.x=(position_droite.x_A+position_droite.x_D)/2;
 		position_monstre_agressif.y=(position_droite.y_A+position_droite.y_D)/2;
 		matrice[position_monstre_agressif.x][position_monstre_agressif.y]=monstre_agressif;
+	}
+	
+	
+	//pour tous les niveaux >=3 ajout monstre defensif
+	if(level>=3){
+		//position monstre defensif dans la moitie des salles
+		for(a=0;a<nb_piece/2;a++){
+			position_monstre_defensif.x=(tab_coord_positionD_piece[a].x_D+tab_coord_positionD_piece[a].x_A)/2;
+			position_monstre_defensif.y=(tab_coord_positionD_piece[a].y_D+tab_coord_positionD_piece[a].y_A)/2;
+			if(matrice[position_monstre_defensif.x][position_monstre_defensif.y]==vide)matrice[position_monstre_defensif.x][position_monstre_defensif.y]=monstre_defensif;
+		}
 		//position coffre a l'oppose du hero (a droite de la map)
 		position_coffre.x=position_droite.x_A-1;
 		position_coffre.y=position_droite.y_A-1;
@@ -551,10 +447,12 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		else matrice[position_hero.x][position_hero.y]=hero;
 	}
 	
-	//level 4 + la totale
-	else if(level==5){
-		//positionnement de piege un peu partout(limite à 20)
-		for(a=0;a<20;a++){
+	//pour tous les niveaux >=2 ajout monstre inactif + piege
+	if(level>=2){
+		//positionnement de piege un peu partout(limite à 10 ou 20 selon le niveau)
+		if(level==2) nb_piege=10;
+		if(level>=4)nb_piege=20;
+		for(a=0;a<nb_piege;a++){
 			position_piege.x=rand()%N;
 			position_piege.y=rand()%M;
 			if(matrice[position_piege.x][position_piege.y]==vide) matrice[position_piege.x][position_piege.y]=piege;
@@ -566,24 +464,15 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 			position_monstre_inactif.x=rand()%(tab_coord_positionD_piece[a].x_A-tab_coord_positionD_piece[a].x_D)+tab_coord_positionD_piece[a].x_D;
 			position_monstre_inactif.y=rand()%(tab_coord_positionD_piece[a].y_A-tab_coord_positionD_piece[a].y_D)+tab_coord_positionD_piece[a].y_D;
 			if(matrice[position_monstre_inactif.x][position_monstre_inactif.y]==vide)matrice[position_monstre_inactif.x][position_monstre_inactif.y]=monstre_inactif;
-		}
-		//position monstre defensif dans toutes les salles
-		for(a=0;a<nb_piece;a++){
-			position_monstre_defensif.x=(tab_coord_positionD_piece[a].x_D+tab_coord_positionD_piece[a].x_A)/2;
-			position_monstre_defensif.y=(tab_coord_positionD_piece[a].y_D+tab_coord_positionD_piece[a].y_A)/2;
-			if(matrice[position_monstre_defensif.x][position_monstre_defensif.y]==vide)matrice[position_monstre_defensif.x][position_monstre_defensif.y]=monstre_defensif;
-		}
-		//position monstre agressif à l'opposé du héro et dans d'autres salles
-		position_monstre_agressif.x=(position_droite.x_A+position_droite.x_D)/2;
-		position_monstre_agressif.y=(position_droite.y_A+position_droite.y_D)/2;
-		matrice[position_monstre_agressif.x][position_monstre_agressif.y]=monstre_agressif;
-		
+		 }
+	}
+	
+	//hero,cle,coffre pour tous les niveaux >=1
+	if(level==1 || level==2){
 		//position coffre a l'oppose du hero (a droite de la map)
 		position_coffre.x=position_droite.x_A-1;
 		position_coffre.y=position_droite.y_A-1;
 		matrice[position_coffre.x][position_coffre.y]=coffre;
-		if(matrice[position_coffre.x-2][position_coffre.y-2]==vide)matrice[position_coffre.x-2][position_coffre.y-2]=monstre_agressif;
-		
 		//position clé au milieu de la map
 		position_cle.x=rand()%(tab_coord_positionD_piece[0].x_A-tab_coord_positionD_piece[0].x_D)+tab_coord_positionD_piece[0].x_D;
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
@@ -591,10 +480,9 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 			position_cle.x++;
 		}
 		else matrice[position_cle.x][position_cle.y]=cle;
-		if(matrice[position_cle.x-1][position_cle.y-1]==vide)matrice[position_cle.x-2][position_cle.y-2]=monstre_agressif;
 		//position hero a gauche de la map
-		position_hero.x=(position_gauche.x_A+position_gauche.x_D)/2;
-		position_hero.y=(position_gauche.y_A+position_gauche.y_D)/2;
+		position_hero.x=(tab_coord_positionD_piece[0].x_D+tab_coord_positionD_piece[0].x_A)/2;
+		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
 		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
 			position_hero.x++;
 		}
@@ -613,12 +501,11 @@ void afficher_matrice(t_case matrice[N][M]){
    	printf("\t");
    	for(i=0;i<N;i++){
         	for(j=0;j<M;j++){
+        			couleur(33);//couleur orange de base
 				if(matrice[i][j]==mur_contour){
-					//couleur(33);
 					printf("&");
 				}
 				else if(matrice[i][j]==mur){
-					//couleur(33);
 					printf("X");
 				}
 				else if(matrice[i][j]==vide){
@@ -628,42 +515,42 @@ void afficher_matrice(t_case matrice[N][M]){
 					printf(" ");
 				}
 				else if(matrice[i][j]==porte){
-					//couleur(0);
+					couleur(0);
 					printf("P");
 				}
 				else if(matrice[i][j]==coffre){
-					//couleur(32);
+					couleur(32);
 					printf("C");
 				}
 				else if(matrice[i][j]==cle){
-					//couleur(32);
+					couleur(32);
 					printf("K");
 				}
 				else if(matrice[i][j]==piege){
-					//couleur(35);
+					couleur(35);
 					printf("^");
 				}
 				else if(matrice[i][j]==hero){
-					//couleur(32);
+					couleur(32);
 					printf("@");
 				}
 				else if(matrice[i][j]==monstre_agressif){
-					//couleur(35);
+					couleur(35);
 					printf("M");
 				}
 				else if(matrice[i][j]==monstre_defensif){
-					//couleur(35);
+					couleur(35);
 					printf("D");
 				}
 				else if(matrice[i][j]==monstre_inactif){
-					//couleur(35);
+					couleur(35);
 					printf("I");
 				}
 				else if(matrice[i][j]==bonus){
-					//couleur(34);
+					couleur(34);
 					printf("?");
 				}
-				//couleur(0);
+        			couleur(0);//remise couleur de base
         	}
        		printf("\n\t");
     	}
