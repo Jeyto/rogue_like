@@ -297,7 +297,7 @@ t_case tampon;
 	
 }
 void chemin_aleatoire(t_case grille[N][M],t_coord depart){
-	int nbr_alea;	
+	int nbr_alea;
 	nbr_alea=rand()%4;
 	t_coord arrive;
 	switch (nbr_alea){
@@ -347,7 +347,6 @@ int est_present(t_coord v){
 }
 
 void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
-    srand(time(NULL));
 	t_coord coordonnee;
 	init_liste();
 	for(coordonnee.x=0;coordonnee.x<N;coordonnee.x++){

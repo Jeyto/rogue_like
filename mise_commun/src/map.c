@@ -103,7 +103,6 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 	int random_porte;
 	t_direction dir_porte;
 	//random
-	srand(time(NULL));
 	int passage;
 	
 	//permet de reduire le nombre de pieces pour les niveaux debutants

@@ -12,6 +12,7 @@
 #include <unistd.h>
 
 int main(void){
+    srand(time(NULL));
 	//declaration
 	int choix;	//choix de l'utilisateur
 	int choix2;
