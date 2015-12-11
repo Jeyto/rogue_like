@@ -47,8 +47,6 @@ void jeu(t_case matrice[N][M], int level){
 			sauvegarde_map(matrice,level);
 			generation_mob_suivante(matrice,personnage);
 			afficher_matrice(matrice);
-			sleep(1);
-			system("clear");
 		}
 		if(matrice[personnage.x][personnage.y]==monstre_agressif || matrice[personnage.x][personnage.y]==monstre_defensif || matrice[personnage.x][personnage.y]==monstre_inactif || matrice[personnage.x][personnage.y]==piege){
 			game_over(matrice);

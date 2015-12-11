@@ -381,6 +381,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 	t_coord position_cle;
 	t_coord position_piege;
 	int nb_piege;
+	t_coord position_bonus;
 	
 	for(a=1;a<nb_piece;a++){
 		//recuperation des coordonnees des salles les plus eloignees
@@ -450,8 +451,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 	//pour tous les niveaux >=2 ajout monstre inactif + piege
 	if(level>=2){
 		//positionnement de piege un peu partout(limite à 10 ou 20 selon le niveau)
-		if(level==2) nb_piege=10;
-		if(level>=4)nb_piege=20;
+		nb_piege=20;
 		for(a=0;a<nb_piege;a++){
 			position_piege.x=rand()%N;
 			position_piege.y=rand()%M;
@@ -463,7 +463,13 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		for(a=0;a<nb_piece;a++){
 			position_monstre_inactif.x=rand()%(tab_coord_positionD_piece[a].x_A-tab_coord_positionD_piece[a].x_D)+tab_coord_positionD_piece[a].x_D;
 			position_monstre_inactif.y=rand()%(tab_coord_positionD_piece[a].y_A-tab_coord_positionD_piece[a].y_D)+tab_coord_positionD_piece[a].y_D;
-			if(matrice[position_monstre_inactif.x][position_monstre_inactif.y]==vide)matrice[position_monstre_inactif.x][position_monstre_inactif.y]=monstre_inactif;
+			if(matrice[position_monstre_inactif.x][position_monstre_inactif.y]==vide) matrice[position_monstre_inactif.x][position_monstre_inactif.y]=monstre_inactif;
+		 }
+		 //position bonus dans chaque piece
+		 for(a=0;a<nb_piece;a++){
+			position_bonus.x=rand()%(tab_coord_positionD_piece[a].x_A-tab_coord_positionD_piece[a].x_D)+tab_coord_positionD_piece[a].x_D;
+			position_bonus.y=rand()%(tab_coord_positionD_piece[a].y_A-tab_coord_positionD_piece[a].y_D)+tab_coord_positionD_piece[a].y_D;
+			if(matrice[position_bonus.x][position_bonus.y]==vide)matrice[position_bonus.x][position_bonus.y]=bonus;
 		 }
 	}
 	
@@ -478,6 +484,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		position_cle.y=rand()%(tab_coord_positionD_piece[0].y_A-tab_coord_positionD_piece[0].y_D)+tab_coord_positionD_piece[0].y_D;
 		if(matrice[position_cle.x][position_cle.y]==coffre || matrice[position_cle.x][position_cle.y]==hero){
 			position_cle.x++;
+			matrice[position_cle.x][position_cle.y]=cle;
 		}
 		else matrice[position_cle.x][position_cle.y]=cle;
 		//position hero a gauche de la map
@@ -485,6 +492,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		position_hero.y=(tab_coord_positionD_piece[0].y_D+tab_coord_positionD_piece[0].y_A)/2;
 		if(matrice[position_hero.x][position_hero.y]==coffre || matrice[position_hero.x][position_hero.y]==cle){
 			position_hero.x++;
+			matrice[position_hero.x][position_hero.y]=hero;
 		}
 		else matrice[position_hero.x][position_hero.y]=hero;
 	}
@@ -499,9 +507,9 @@ void afficher_matrice(t_case matrice[N][M]){
   	int i;
    	int j;
    	printf("\t");
+   	couleur(33);//couleur orange de base
    	for(i=0;i<N;i++){
         	for(j=0;j<M;j++){
-        			couleur(33);//couleur orange de base
 				if(matrice[i][j]==mur_contour){
 					printf("&");
 				}
@@ -517,43 +525,52 @@ void afficher_matrice(t_case matrice[N][M]){
 				else if(matrice[i][j]==porte){
 					couleur(0);
 					printf("P");
+					couleur(33);
 				}
 				else if(matrice[i][j]==coffre){
 					couleur(32);
 					printf("C");
+					couleur(33);
 				}
 				else if(matrice[i][j]==cle){
 					couleur(32);
 					printf("K");
+					couleur(33);
 				}
 				else if(matrice[i][j]==piege){
 					couleur(35);
 					printf("^");
+					couleur(33);
 				}
 				else if(matrice[i][j]==hero){
 					couleur(32);
 					printf("@");
+					couleur(33);
 				}
 				else if(matrice[i][j]==monstre_agressif){
 					couleur(35);
 					printf("M");
+					couleur(33);
 				}
 				else if(matrice[i][j]==monstre_defensif){
 					couleur(35);
 					printf("D");
+					couleur(33);
 				}
 				else if(matrice[i][j]==monstre_inactif){
 					couleur(35);
 					printf("I");
+					couleur(33);
 				}
 				else if(matrice[i][j]==bonus){
 					couleur(34);
 					printf("?");
+					couleur(33);
 				}
-        			couleur(0);//remise couleur de base
         	}
        		printf("\n\t");
     	}
+    	couleur(0);//remise couleur de base
     	printf("\n");
 }
 
