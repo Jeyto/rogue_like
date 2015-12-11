@@ -246,9 +246,58 @@ t_case tampon;
 	}
 	
 }
+
+void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr){
+t_case tampon;
+	en_tete();
+	switch(grille[pos_arr.x][pos_arr.y]){
+		case monstre_agressif:
+			ajout_droit(pos_ini);
+			break;
+		case monstre_defensif:
+			ajout_droit(pos_ini);
+			break;
+		case monstre_inactif:
+			ajout_droit(pos_ini);
+			break;
+		case mur_contour:
+			ajout_droit(pos_ini);
+			break;
+		case mur:
+			ajout_droit(pos_ini);
+			break;
+		case porte:
+			ajout_droit(pos_ini);
+			break;
+		case coffre:
+			ajout_droit(pos_ini);
+			break;
+		case cle:
+			ajout_droit(pos_ini);
+			break;
+		case bonus:
+			ajout_droit(pos_ini);
+			break;
+		case piege:
+			ajout_droit(pos_ini);
+			break;
+		case hero:
+			grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
+			grille[pos_ini.x][pos_ini.y]=vide;
+			ajout_droit(pos_arr);
+			break;	
+		default:
+			tampon=grille[pos_arr.x][pos_arr.y];
+			grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
+			grille[pos_ini.x][pos_ini.y]=tampon;
+
+			ajout_droit(pos_arr);
+			break;
+	}
+	
+}
 void chemin_aleatoire(t_case grille[N][M],t_coord depart){
-	srand(time(NULL));
-	int nbr_alea;
+	int nbr_alea;	
 	nbr_alea=rand()%4;
 	t_coord arrive;
 	switch (nbr_alea){
@@ -269,9 +318,8 @@ void chemin_aleatoire(t_case grille[N][M],t_coord depart){
 			arrive.y=depart.y-1;
 			break;
 	}
-	if(grille[arrive.x][arrive.y]==vide || grille[arrive.x][arrive.y]==couloir){
-		permutation_monstre_def(grille,depart,arrive);
-	}
+		permutation_monstre_alea(grille,depart,arrive);
+	
 
 }
 void vider_liste()
@@ -299,10 +347,12 @@ int est_present(t_coord v){
 }
 
 void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
+    srand(time(NULL));
 	t_coord coordonnee;
 	init_liste();
 	for(coordonnee.x=0;coordonnee.x<N;coordonnee.x++){
 		for(coordonnee.y=0;coordonnee.y<M;coordonnee.y++){
+            
 			if(grille[coordonnee.x][coordonnee.y]==monstre_agressif && !est_present(coordonnee)){
 				// déplace le monstre vers le personnage s'il existe un chemin, ne fait rien sinon
 				recherche_chemin_monstre_agr(grille,coordonnee,personnage);
@@ -311,7 +361,7 @@ void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
 				if(recherche_chemin_monstre_def(grille,coordonnee,personnage));
 				else chemin_aleatoire(grille,coordonnee);
 			}
-			else if(grille[coordonnee.x][coordonnee.y]==monstre_inactif) chemin_aleatoire(grille,coordonnee);
+			else if(grille[coordonnee.x][coordonnee.y]==monstre_inactif && !est_present(coordonnee))chemin_aleatoire(grille,coordonnee);
 		}
 	}
 	vider_liste();
