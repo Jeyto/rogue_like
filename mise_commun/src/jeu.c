@@ -1,6 +1,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<time.h>
+#include <unistd.h>
 
 #include "../include/map.h"
 #include "../include/couleur.h"
@@ -31,10 +32,14 @@ void generation_level(t_case matrice[N][M], int level){
 void jeu(t_case matrice[N][M], int level){
 	//declaration
 	int i,j;
+	char dep;
 	t_coord personnage;
+	t_personnage gestion_personnage;
+	gestion_personnage.PV=3; //3 vie au depart    													 //stocker la valeur dans la save
+	gestion_personnage.score_bonus=0; //bonus=0;
 	
 	//traitement
-	if(level>=3){
+	if(level>=1){
 		for(i=0;i<N;i++){
 			for(j=0;j<M;j++){
 				if(matrice[i][j]==hero){
@@ -44,9 +49,48 @@ void jeu(t_case matrice[N][M], int level){
 			}
 		}
 		while(matrice[personnage.x][personnage.y]==hero){
-			sauvegarde_map(matrice,level);
-			generation_mob_suivante(matrice,personnage);
-			afficher_matrice(matrice);
+			scanf("%c",&dep);
+			switch(dep){
+				case 'z':	
+							if(matrice[personnage.x-1][personnage.y]==vide || matrice[personnage.x-1][personnage.y]==couloir || matrice[personnage.x-1][personnage.y]==porte){
+								matrice[personnage.x][personnage.y]=vide;
+								personnage.x--;
+								matrice[personnage.x][personnage.y]=hero;
+								sauvegarde_map(matrice,level);
+								generation_mob_suivante(matrice,personnage,&gestion_personnage);
+								afficher_matrice(matrice);
+							}
+							break;
+				case 'q':	if(matrice[personnage.x][personnage.y-1]==vide || matrice[personnage.x][personnage.y-1]==couloir || matrice[personnage.x][personnage.y-1]==porte){
+								matrice[personnage.x][personnage.y]=vide;
+								personnage.y--;
+								matrice[personnage.x][personnage.y]=hero;
+								sauvegarde_map(matrice,level);
+								generation_mob_suivante(matrice,personnage,&gestion_personnage);
+								afficher_matrice(matrice);
+							}
+							break;
+				case 's':	if(matrice[personnage.x+1][personnage.y]==vide || matrice[personnage.x+1][personnage.y]==couloir || matrice[personnage.x+1][personnage.y]==porte){
+								matrice[personnage.x][personnage.y]=vide;
+								personnage.x++;
+								matrice[personnage.x][personnage.y]=hero;
+								sauvegarde_map(matrice,level);
+								generation_mob_suivante(matrice,personnage,&gestion_personnage);
+								afficher_matrice(matrice);
+							}
+							break;
+				case 'd':	if(matrice[personnage.x][personnage.y+1]==vide || matrice[personnage.x][personnage.y+1]==couloir || matrice[personnage.x][personnage.y+1]==porte){
+								matrice[personnage.x][personnage.y]=vide;
+								personnage.y++;
+								matrice[personnage.x][personnage.y]=hero;
+								sauvegarde_map(matrice,level);
+								generation_mob_suivante(matrice,personnage,&gestion_personnage);
+								afficher_matrice(matrice);
+							}
+							break;
+			
+			}
+			//usleep(500000);
 		}
 		if(matrice[personnage.x][personnage.y]==monstre_agressif || matrice[personnage.x][personnage.y]==monstre_defensif || matrice[personnage.x][personnage.y]==monstre_inactif || matrice[personnage.x][personnage.y]==piege){
 			game_over(matrice);
