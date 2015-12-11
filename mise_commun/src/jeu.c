@@ -34,7 +34,7 @@ void jeu(t_case matrice[N][M], int level){
 	t_coord personnage;
 	
 	//traitement
-	if(level>=4){
+	if(level>=3){
 		for(i=0;i<N;i++){
 			for(j=0;j<M;j++){
 				if(matrice[i][j]==hero){
