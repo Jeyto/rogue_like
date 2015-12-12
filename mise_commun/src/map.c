@@ -506,7 +506,6 @@ void afficher_matrice(t_case matrice[N][M]){
   	int i;
    	int j;
    	printf("\t");
-   	couleur(33);//couleur orange de base
    	for(i=0;i<N;i++){
         	for(j=0;j<M;j++){
 				if(matrice[i][j]==mur_contour){
@@ -522,54 +521,38 @@ void afficher_matrice(t_case matrice[N][M]){
 					printf(" ");
 				}
 				else if(matrice[i][j]==porte){
-					couleur(0);
 					printf("P");
-					couleur(33);
 				}
 				else if(matrice[i][j]==coffre){
-					couleur(32);
 					printf("C");
-					couleur(33);
 				}
 				else if(matrice[i][j]==cle){
-					couleur(32);
 					printf("K");
-					couleur(33);
 				}
 				else if(matrice[i][j]==piege){
-					couleur(35);
 					printf("^");
-					couleur(33);
 				}
 				else if(matrice[i][j]==hero){
-					couleur(32);
 					printf("@");
-					couleur(33);
 				}
 				else if(matrice[i][j]==monstre_agressif){
-					couleur(35);
 					printf("M");
-					couleur(33);
 				}
 				else if(matrice[i][j]==monstre_defensif){
-					couleur(35);
 					printf("D");
-					couleur(33);
 				}
 				else if(matrice[i][j]==monstre_inactif){
-					couleur(35);
 					printf("I");
-					couleur(33);
 				}
 				else if(matrice[i][j]==bonus){
-					couleur(34);
 					printf("?");
-					couleur(33);
+				}
+				else if(matrice[i][j]==sortie){
+					printf("S");
 				}
         	}
        		printf("\n\t");
     	}
-    	couleur(0);//remise couleur de base
     	printf("\n");
 }
 
@@ -577,11 +560,13 @@ void afficher_matrice(t_case matrice[N][M]){
 /*Fonction sauvedarde_map
 *Ecriture de la map(matrice) dans le fichier txt
 */
-void sauvegarde_map(t_case matrice[N][M],int level){
+void sauvegarde_map(t_case matrice[N][M],int level,t_personnage gestion_personnage){
 	int i,j;
 	FILE * fichier;
 	fichier=fopen("save_map.txt","w");
-	fprintf(fichier,"%i\n",level);
+	fprintf(fichier,"%i \n",level);
+	fprintf(fichier,"%i \n",gestion_personnage.score_bonus);
+	fprintf(fichier,"%i \n",gestion_personnage.PV);
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
 			fprintf(fichier,"%i ",matrice[i][j]);
@@ -595,18 +580,19 @@ void sauvegarde_map(t_case matrice[N][M],int level){
 /*Fonction generer_map_sauvegarde
 *generer map à partir d'un fichier txt
 */
-int generer_map_sauvegarde(t_case matrice[N][M]){
+int generer_map_sauvegarde(t_case matrice[N][M],t_personnage gestion_personnage){
 	int i=0;
 	int j=0;
 	int level;
 	FILE * fichier;
 	fichier=fopen("save_map.txt","r");
 	fscanf(fichier,"%i",&level);
+	fscanf(fichier,"%i",&gestion_personnage.score_bonus);
+	fscanf(fichier,"%i",&gestion_personnage.PV);
 	while(!feof(fichier)){
 		fscanf(fichier,"%i",&matrice[i][j]);
 		j++;
 	}
 	fclose(fichier);
-	afficher_matrice(matrice);
 	return level;
 }
