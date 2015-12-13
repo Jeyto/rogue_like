@@ -10,3 +10,4 @@ int recherche_chemin_monstre_def(t_case grille[N][M],t_coord depart,t_coord arri
 int recherche_chemin_monstre_agr(t_case grille[N][M],t_coord depart,t_coord arrive);
 void chemin_aleatoire(t_case grille[N][M],t_coord depart);
 void init_liste_mob(t_case grille[N][M]);
+void vider_liste();

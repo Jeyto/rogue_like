@@ -6,6 +6,7 @@
 #include "../include/liste_ptr_coord.h"
 #include "../include/map.h"
 #include "../include/couleur.h"
+#include "../include/jeu.h"
 /*Fonctions generant le deplacement prochain d'un monstre agressif*/
 /*http://www.maths-algo.fr/algo/exercices/grille_plus_court_chemin.htm*/
 
@@ -246,8 +247,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 			}
 			break;
 		case hero:
-			grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
-			grille[pos_ini.x][pos_ini.y]=vide;
+			spawn_death(grille,&pos_arr);
 			mob.position.x=pos_arr.x;
 			mob.position.y=pos_arr.y;
 			modif_elt(mob);
@@ -277,8 +277,7 @@ void permutation_monstre_def(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 		case monstre_inactif:
 			break;
 		case hero:
-			grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
-			grille[pos_ini.x][pos_ini.y]=vide;
+			spawn_death(grille,&pos_arr);
 			mob.position.x=pos_arr.x;
 			mob.position.y=pos_arr.y;
 			modif_elt(mob);
@@ -321,8 +320,7 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 		case piege:
 			break;
 		case hero:
-			grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
-			grille[pos_ini.x][pos_ini.y]=vide;
+			spawn_death(grille,&pos_arr);
 			mob.position.x=pos_arr.x;
 			mob.position.y=pos_arr.y;
 			modif_elt(mob);

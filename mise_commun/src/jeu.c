@@ -27,7 +27,11 @@ void init_personnage(){
 void gain_bonus_personnage(int gain){
 	personnage->score_bonus=personnage->score_bonus+gain;
 }
+void valeur_personnage(t_personnage *valeur){
+	valeur->PV=personnage->PV;
+	valeur->score_bonus=personnage->score_bonus;
 
+}
 
 /******************************************************************/
 /*Fonction spawn_death
@@ -40,6 +44,9 @@ void spawn_death(t_case matrice[N][M],t_coord *pos_personnage){
 	pos_personnage->x=personnage->position_spawn.x;
 	pos_personnage->y=personnage->position_spawn.y;
 	sauvegarde_map(matrice,level,*personnage);
+	vider_liste();
+	init_liste_mob(matrice);
+
 }
 
 /*Fonction generation_level
