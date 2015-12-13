@@ -247,10 +247,8 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 			}
 			break;
 		case hero:
+			oter_elt();
 			spawn_death(grille,&pos_arr);
-			mob.position.x=pos_arr.x;
-			mob.position.y=pos_arr.y;
-			modif_elt(mob);
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
@@ -277,10 +275,8 @@ void permutation_monstre_def(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 		case monstre_inactif:
 			break;
 		case hero:
+			oter_elt();
 			spawn_death(grille,&pos_arr);
-			mob.position.x=pos_arr.x;
-			mob.position.y=pos_arr.y;
-			modif_elt(mob);
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
@@ -320,10 +316,8 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 		case piege:
 			break;
 		case hero:
+			oter_elt();
 			spawn_death(grille,&pos_arr);
-			mob.position.x=pos_arr.x;
-			mob.position.y=pos_arr.y;
-			modif_elt(mob);
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
