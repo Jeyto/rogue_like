@@ -16,10 +16,8 @@ int main(void){
 	int choix2;
 	int level;
 	t_case matrice[N][M];
-	t_personnage gestion_personnage;
-	gestion_personnage.PV=3;
-	gestion_personnage.score_bonus=0;
-	
+	init_personnage();
+
 	//traitement
 	system("clear");
 	printf("\t****************************************************\n");
@@ -49,21 +47,21 @@ int main(void){
 					switch(choix2){
 						case 1: //joueur
 								generation_level(matrice, 1);
-								jeu(matrice,1,gestion_personnage);
+								jeu(matrice,1);
 								break;
 						case 2: generation_level(matrice, 2);
-								jeu(matrice,2,gestion_personnage);
+								jeu(matrice,2);
 								break;
 						case 3: generation_level(matrice, 3);
-								jeu(matrice,3,gestion_personnage);
+								jeu(matrice,3);
 								break;
 						case 4: generation_level(matrice, 4);
-								jeu(matrice,4,gestion_personnage);
+								jeu(matrice,4);
 								break;
 						case 5: generation_level(matrice, 5);
-								jeu(matrice,5,gestion_personnage);
+								jeu(matrice,5);
 								break;
-						case 6: 
+						case 6:
 							printf("\t\t&:\t Contour des pieces infranchissable\n");
 							printf("\t\tX:\t mur infranchissable\n");
 							printf("\t\t(vide):\t Deplacement autorise\n");
@@ -81,15 +79,15 @@ int main(void){
 						default: printf("Erreur: votre choix doit être compris entre 1 et 7\n");
 					}
 					break;
-			case 2: level=generer_map_sauvegarde(matrice,gestion_personnage);
+			case 2: level=1;//generer_map_sauvegarde(matrice,personnage);
 					afficher_matrice(matrice);
-					jeu(matrice,level,gestion_personnage);
+					jeu(matrice,level);
 					break;
 			case 3:  break;
 			default: printf("Erreur: votre choix doit être compris entre 1 et 3\n");
 		}
 	}while(choix!=3);
-	
+
 	printf("\n\t******************** FIN DU JEU ********************\n");
 	return 0;
 }

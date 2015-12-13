@@ -19,7 +19,7 @@ void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_d
 	//declaration
 	int i,j;
 	t_coord position_porte;
-	
+
 	//traitement
 	//mur contour piece indestructible
 	for(i=pt_x-1;i<hauteur+pt_x+1 && i<N-1;i++){
@@ -47,12 +47,12 @@ void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_d
 
 		case ouest:	position_porte.x=pt_x+(hauteur/2);
 					position_porte.y=pt_y-1;
-					matrice[position_porte.x][position_porte.y]=porte;		
+					matrice[position_porte.x][position_porte.y]=porte;
 					break;
 
 		case est:	position_porte.x=pt_x+(hauteur/2);
 					position_porte.y=pt_y+largeur;
-					matrice[position_porte.x][position_porte.y]=porte;	
+					matrice[position_porte.x][position_porte.y]=porte;
 					break;
 	}
 }
@@ -64,7 +64,7 @@ void piece(int hauteur, int largeur, t_case matrice[N][M],int pt_x, int pt_y,t_d
 void init_matrice(t_case matrice[N][M]){
 	//declaration
 	int i,j;
-	
+
 	//traitement
 	//remplissage avec murs indestructibles
 	for(i=0; i<N; i++) {
@@ -104,7 +104,7 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 	t_direction dir_porte;
 	//random
 	int passage;
-	
+
 	//permet de reduire le nombre de pieces pour les niveaux debutants
 	if(level==1 || level==2){
 		nombre_piece=2;
@@ -121,7 +121,7 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 		taille_max_piece_principale=15;
 		taille_max_piece_secondaire=10;
 	}
-	
+
 	//piece principale
 		//random pour connaitre la largeur et la longueur de la premiere piece(limitee à 25*25cases minimum et 30*30cases maximum pour niveau <3, 20*20cases minimum et 25*25cases maximum pour niveau=3, 15*15cases minimum et 20*20cases maximum pour niveau >3)
 		taille_largeur_piece=rand()%5+taille_max_piece_principale;
@@ -151,7 +151,7 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 			case 1:	if(positionD.x>N-3) dir_porte=nord;
 					else dir_porte=sud;
 					break;
-		
+
 			case 2:	if(positionD.y<3) dir_porte=est;
 					else dir_porte=ouest;
 					break;
@@ -160,10 +160,10 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 					else dir_porte=est;
 					break;
 		}
-		
+
 		//creation piece avec les infos récoltees precedemment
 		piece(taille_longueur_piece,taille_largeur_piece,matrice,positionD.x,positionD.y,dir_porte);
-		
+
 		//stock de la position de la piece
 		tab_coord_positionD_piece[compteur_piece].x_D=positionD.x;
 		tab_coord_positionD_piece[compteur_piece].y_D=positionD.y;
@@ -215,7 +215,7 @@ int generer_piece_matrice(t_case matrice[N][M], int level){
 				case 1:	if(positionD.x>N-2) dir_porte=nord;
 						else dir_porte=sud;
 						break;
-		
+
 				case 2:	if(positionD.y<2) dir_porte=est;
 						else dir_porte=ouest;
 						break;
@@ -241,7 +241,7 @@ void recherche_chemin_couloir(t_case matrice[N][M],t_coord depart,t_coord arrive
 	//declaration
 	int tab_longueur[N][M];
 	int i,j;
-	
+
 	//traitement
 	//initialisation matrice fantome utilisee pour la recherche du chemin
 	for(i=0;i<N;i++){
@@ -250,7 +250,7 @@ void recherche_chemin_couloir(t_case matrice[N][M],t_coord depart,t_coord arrive
 			else if (matrice[i][j]==vide || matrice[i][j]==mur_contour) tab_longueur[i][j]=-2;
 		}
 	}
-	
+
 	tab_longueur[depart.x][depart.y]=0;
 	while(tab_longueur[arrive.x][arrive.y]==-1){
 		for(i=0;i<N;i++){
@@ -325,7 +325,7 @@ int generer_matrice_tot(t_case matrice[N][M], int level){
 	t_coord depart;
 	t_coord arrive;
 	t_coord tab_porte[nombre_piece_max];
-	
+
 	//traitement
 	nb_piece=generer_piece_matrice(matrice,level);
 	//recupere coordonnees des portes
@@ -381,7 +381,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 	t_coord position_piege;
 	int nb_piege;
 	t_coord position_bonus;
-	
+
 	for(a=1;a<nb_piece;a++){
 		//recuperation des coordonnees des salles les plus eloignees
 		//salle gauche
@@ -399,7 +399,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 			position_droite.y_A=tab_coord_positionD_piece[a].y_A;
 		}
 	}
-	
+
 	//level 5 + la totale
 	if(level>5){
 		//position monstre defensif dans toutes les salles
@@ -409,7 +409,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 			if(matrice[position_monstre_defensif.x][position_monstre_defensif.y]==vide)matrice[position_monstre_defensif.x][position_monstre_defensif.y]=monstre_defensif;
 		}
 	}
-		
+
 	//pour tous les niveaux >=3 ajout monstre agressif
 	if(level>=4){
 		//position monstre agressif à l'opposé du héro
@@ -417,8 +417,8 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		position_monstre_agressif.y=(position_droite.y_A+position_droite.y_D)/2;
 		matrice[position_monstre_agressif.x][position_monstre_agressif.y]=monstre_agressif;
 	}
-	
-	
+
+
 	//pour tous les niveaux >=3 ajout monstre defensif
 	if(level>=3){
 		//position monstre defensif dans la moitie des salles
@@ -446,7 +446,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		}
 		else matrice[position_hero.x][position_hero.y]=hero;
 	}
-	
+
 	//pour tous les niveaux >=2 ajout monstre inactif + piege
 	if(level>=2){
 		//positionnement de piege un peu partout(limite à 10 ou 20 selon le niveau)
@@ -471,7 +471,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 			if(matrice[position_bonus.x][position_bonus.y]==vide)matrice[position_bonus.x][position_bonus.y]=bonus;
 		 }
 	}
-	
+
 	//hero,cle,coffre pour tous les niveaux >=1
 	if(level==1 || level==2){
 		//position coffre a l'oppose du hero (a droite de la map)
@@ -584,15 +584,41 @@ int generer_map_sauvegarde(t_case matrice[N][M],t_personnage gestion_personnage)
 	int i=0;
 	int j=0;
 	int level;
+	int valeur;
 	FILE * fichier;
 	fichier=fopen("save_map.txt","r");
 	fscanf(fichier,"%i",&level);
 	fscanf(fichier,"%i",&gestion_personnage.score_bonus);
 	fscanf(fichier,"%i",&gestion_personnage.PV);
 	while(!feof(fichier)){
-		fscanf(fichier,"%i",&matrice[i][j]);
+		fscanf(fichier,"%i",&valeur);
+		convertion_int_enum(matrice,i,j,valeur);
 		j++;
 	}
 	fclose(fichier);
 	return level;
+}
+
+/*****************************************************************/
+/*Fonction convertion_int_enum
+*Permet de convertir un entier en fonction de sa valeur dans un enum
+*/
+void convertion_int_enum(t_case matrice[N][M], int i, int j, int valeur){
+	switch(valeur){
+		case 0: matrice[i][j]=mur_contour; break;
+		case 1: matrice[i][j]=mur; break;
+		case 2: matrice[i][j]=vide; break;
+		case 3: matrice[i][j]=couloir; break;
+		case 4: matrice[i][j]=porte; break;
+		case 5: matrice[i][j]=coffre; break;
+		case 6: matrice[i][j]=cle; break;
+		case 7: matrice[i][j]=bonus; break;
+		case 8: matrice[i][j]=piege; break;
+		case 9: matrice[i][j]=hero; break;
+		case 10: matrice[i][j]=monstre_agressif; break;
+		case 11: matrice[i][j]=monstre_defensif; break;
+		case 12: matrice[i][j]=monstre_inactif; break;
+		case 13: matrice[i][j]=sortie; break;
+	}
+
 }

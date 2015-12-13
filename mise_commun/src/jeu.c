@@ -9,6 +9,39 @@
 #include "../include/structure.h"
 #include "../include/IA.h"
 
+t_personnage *personnage;
+/***************Fonction Personnage***************/
+/*
+*Fonction init_personnage
+*Initialise la variable personnage
+*/
+void init_personnage(){
+	personnage = malloc(sizeof(t_personnage));
+	personnage->PV=3;
+	personnage->score_bonus=0;
+}
+/*
+*Fonction gain_bonus_personnage(int gain)
+* ajoute gain au score
+*/
+void gain_bonus_personnage(int gain){
+	personnage->score_bonus=personnage->score_bonus+gain;
+}
+
+
+/******************************************************************/
+/*Fonction spawn_death
+*si le joueur perd un combat(piege,monstre), il perd un point de vie
+*et retourne a l'objectif precedent(depart, cle, ou coffre)
+*/
+void spawn_death(t_case matrice[N][M],t_coord *pos_personnage){
+	int level=generer_map_sauvegarde(matrice,*personnage);
+	personnage->PV=personnage->PV-1;
+	pos_personnage->x=personnage->position_spawn.x;
+	pos_personnage->y=personnage->position_spawn.y;
+	sauvegarde_map(matrice,level,*personnage);
+}
+
 /*Fonction generation_level
 *Initialise la map, genere les pieces, fait spawn les items,affiche la matrice de jeu
 *Tout cela pour un niveau donne
@@ -31,6 +64,7 @@ void generation_level(t_case matrice[N][M], int level){
 void game_over(t_case matrice[N][M]){
 	int i=0;
 	int j=0;
+	int valeur;
 	FILE * fichier;
 	fichier=fopen("map_game_over.txt","r");
 	//si aucun fichier de ce nom, affiche matrice rempli de mur
@@ -39,14 +73,14 @@ void game_over(t_case matrice[N][M]){
 	}
 	else{
 		while(!feof(fichier)){
-			fscanf(fichier,"%i",&matrice[i][j]);
+			fscanf(fichier,"%i",&valeur);
+			convertion_int_enum(matrice,i,j,valeur);
 			j++;
 		}
 		fclose(fichier);
 	}
 	afficher_matrice(matrice);
 }
-
 /*************************************************************/
 /*Fonction game_win
 *Modifie la matrice de jeu et affiche le message "Winner"
@@ -54,6 +88,7 @@ void game_over(t_case matrice[N][M]){
 void game_win(t_case matrice[N][M]){
 	int i=0;
 	int j=0;
+	int valeur;
 	FILE * fichier;
 	fichier=fopen("map_game_win.txt","r");
 	//si aucun fichier de ce nom, affiche matrice rempli de mur
@@ -62,7 +97,8 @@ void game_win(t_case matrice[N][M]){
 	}
 	else{
 		while(!feof(fichier)){
-			fscanf(fichier,"%i",&matrice[i][j]);
+			fscanf(fichier,"%i",&valeur);
+			convertion_int_enum(matrice,i,j,valeur);
 			j++;
 		}
 		fclose(fichier);
@@ -70,22 +106,10 @@ void game_win(t_case matrice[N][M]){
 	afficher_matrice(matrice);
 }
 /******************************************************************/
-/*Fonction spawn_death
-*si le joueur perd un combat(piege,monstre), il perd un point de vie
-*et retourne a l'objectif precedent(depart, cle, ou coffre)
-*/
-void spawn_death(t_case matrice[N][M],t_personnage *gestion_personnage,t_coord *pos_personnage){
-	int level=generer_map_sauvegarde(matrice,*gestion_personnage);
-	gestion_personnage->PV=gestion_personnage->PV-1;
-	pos_personnage->x=gestion_personnage->position_spawn.x;
-	pos_personnage->y=gestion_personnage->position_spawn.y;
-	sauvegarde_map(matrice,level,*gestion_personnage);
-}
-/******************************************************************/
 /*Fonction jeu
 *Gere le jeu en lui-meme
 */
-void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
+void jeu(t_case matrice[N][M], int level){
 	//declaration
 	int i,j;
 	char dep;
@@ -105,6 +129,8 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 					pos_personnage.y=j;
 					pos_init.x=i;
 					pos_init.y=j;
+					personnage->position_spawn.x=i;
+					personnage->position_spawn.y=j;
 				}
 				if(matrice[i][j]==cle){
 					pos_cle.x=i;
@@ -116,11 +142,11 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 				}
 			}
 		}
-		sauvegarde_map(matrice,level,gestion_personnage);
-		while(gestion_personnage.PV>0 && niveau_termine==0){ //tant que la vie>0
+		sauvegarde_map(matrice,level,*personnage);
+		while(personnage->PV>0 && niveau_termine==0){ //tant que la vie>0
 			scanf("%c",&dep);
-			printf("Score: %i\n",gestion_personnage.score_bonus);
-			printf("Vie: %i\n",gestion_personnage.PV);
+			printf("Score: %i\n",personnage->score_bonus);
+			printf("Vie: %i\n",personnage->PV);
 			switch(dep){
 				case 'z':
 							if(matrice[pos_personnage.x-1][pos_personnage.y]!=mur_contour && matrice[pos_personnage.x-1][pos_personnage.y]!=mur){
@@ -143,43 +169,43 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 									case cle:
 										matrice[pos_personnage.x+1][pos_personnage.y]=vide;
 										//si mort il y a, a l'emplacement de la cle, joueur spawnera
-										gestion_personnage.position_spawn.x=pos_cle.x;
-										gestion_personnage.position_spawn.y=pos_cle.y;
+										personnage->position_spawn.x=pos_cle.x;
+										personnage->position_spawn.y=pos_cle.y;
 										printf("cle prise\n");
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
-										sauvegarde_map(matrice,level,gestion_personnage);
+										sauvegarde_map(matrice,level,*personnage);
 										break;
 									case coffre:
-										if(gestion_personnage.position_spawn.x!=pos_cle.x && gestion_personnage.position_spawn.y!=pos_cle.y){
+										if(personnage->position_spawn.x!=pos_cle.x && personnage->position_spawn.y!=pos_cle.y){
 											pos_personnage.x++; //personnage ne bouge pas
 											printf("veuillez prendre la cle\n");
 										}
 										else{
 											matrice[pos_personnage.x+1][pos_personnage.y]=vide;
-											gestion_personnage.position_spawn.x=pos_coffre.x;
-											gestion_personnage.position_spawn.y=pos_coffre.y;
+											personnage->position_spawn.x=pos_coffre.x;
+											personnage->position_spawn.y=pos_coffre.y;
 											printf("coffre pris\n");
 											matrice[pos_personnage.x][pos_personnage.y]=hero;
 											matrice[pos_init.x][pos_init.y]=sortie;
-											sauvegarde_map(matrice,level,gestion_personnage);
+											sauvegarde_map(matrice,level,*personnage);
 										}
 										break;
 									case bonus:
 										matrice[pos_personnage.x+1][pos_personnage.y]=vide;
-										gestion_personnage.score_bonus=gestion_personnage.score_bonus+20;
+										gain_bonus_personnage(20);
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
 										break;
 									case piege:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_agressif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_defensif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_inactif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case sortie:
 										niveau_termine=1;
@@ -211,43 +237,43 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 									case cle:
 										matrice[pos_personnage.x][pos_personnage.y+1]=vide;
 										//si mort il y a, a l'emplacement de la cle, joueur spawnera
-										gestion_personnage.position_spawn.x=pos_cle.x;
-										gestion_personnage.position_spawn.y=pos_cle.y;
+										personnage->position_spawn.x=pos_cle.x;
+										personnage->position_spawn.y=pos_cle.y;
 										printf("cle prise\n");
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
-										sauvegarde_map(matrice,level,gestion_personnage);
+										sauvegarde_map(matrice,level,*personnage);
 										break;
 									case coffre:
-										if(gestion_personnage.position_spawn.x!=pos_cle.x && gestion_personnage.position_spawn.y!=pos_cle.y){
+										if(personnage->position_spawn.x!=pos_cle.x && personnage->position_spawn.y!=pos_cle.y){
 											pos_personnage.y++; //personnage ne bouge pas
 											printf("veuillez prendre la cle\n");
 										}
 										else{
 											matrice[pos_personnage.x][pos_personnage.y+1]=vide;
-											gestion_personnage.position_spawn.x=pos_coffre.x;
-											gestion_personnage.position_spawn.y=pos_coffre.y;
+											personnage->position_spawn.x=pos_coffre.x;
+											personnage->position_spawn.y=pos_coffre.y;
 											printf("coffre pris\n");
 											matrice[pos_personnage.x][pos_personnage.y]=hero;
 											matrice[pos_init.x][pos_init.y]=sortie;
-											sauvegarde_map(matrice,level,gestion_personnage);
+											sauvegarde_map(matrice,level,*personnage);
 										}
 										break;
 									case bonus:
 										matrice[pos_personnage.x][pos_personnage.y+1]=vide;
-										gestion_personnage.score_bonus=gestion_personnage.score_bonus+20;
+										gain_bonus_personnage(20);
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
 										break;
 									case piege:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_agressif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_defensif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_inactif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case sortie:
 										niveau_termine=1;
@@ -279,43 +305,43 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 									case cle:
 										matrice[pos_personnage.x-1][pos_personnage.y]=vide;
 										//si mort il y a, a l'emplacement de la cle, joueur spawnera
-										gestion_personnage.position_spawn.x=pos_cle.x;
-										gestion_personnage.position_spawn.y=pos_cle.y;
+										personnage->position_spawn.x=pos_cle.x;
+										personnage->position_spawn.y=pos_cle.y;
 										printf("cle prise\n");
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
-										sauvegarde_map(matrice,level,gestion_personnage);
+										sauvegarde_map(matrice,level,*personnage);
 										break;
 									case coffre:
-										if(gestion_personnage.position_spawn.x!=pos_cle.x && gestion_personnage.position_spawn.y!=pos_cle.y){
+										if(personnage->position_spawn.x!=pos_cle.x && personnage->position_spawn.y!=pos_cle.y){
 											pos_personnage.x--; //personnage ne bouge pas
 											printf("veuillez prendre la cle\n");
 										}
 										else{
 											matrice[pos_personnage.x-1][pos_personnage.y]=vide;
-											gestion_personnage.position_spawn.x=pos_coffre.x;
-											gestion_personnage.position_spawn.y=pos_coffre.y;
+											personnage->position_spawn.x=pos_coffre.x;
+											personnage->position_spawn.y=pos_coffre.y;
 											printf("coffre pris\n");
 											matrice[pos_personnage.x][pos_personnage.y]=hero;
 											matrice[pos_init.x][pos_init.y]=sortie;
-											sauvegarde_map(matrice,level,gestion_personnage);
+											sauvegarde_map(matrice,level,*personnage);
 										}
 										break;
 									case bonus:
 										matrice[pos_personnage.x-1][pos_personnage.y]=vide;
-										gestion_personnage.score_bonus=gestion_personnage.score_bonus+20;
+										gain_bonus_personnage(20);
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
 										break;
 									case piege:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_agressif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_defensif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_inactif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case sortie:
 										niveau_termine=1;
@@ -347,43 +373,43 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 									case cle:
 										matrice[pos_personnage.x][pos_personnage.y-1]=vide;
 										//si mort il y a, a l'emplacement de la cle, joueur spawnera
-										gestion_personnage.position_spawn.x=pos_cle.x;
-										gestion_personnage.position_spawn.y=pos_cle.y;
+										personnage->position_spawn.x=pos_cle.x;
+										personnage->position_spawn.y=pos_cle.y;
 										printf("cle prise\n");
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
-										sauvegarde_map(matrice,level,gestion_personnage);
+										sauvegarde_map(matrice,level,*personnage);
 										break;
 									case coffre:
-										if(gestion_personnage.position_spawn.x!=pos_cle.x && gestion_personnage.position_spawn.y!=pos_cle.y){
+										if(personnage->position_spawn.x!=pos_cle.x && personnage->position_spawn.y!=pos_cle.y){
 											pos_personnage.y--; //personnage ne bouge pas
 											printf("veuillez prendre la cle\n");
 										}
 										else{
 											matrice[pos_personnage.x][pos_personnage.y-1]=vide;
-											gestion_personnage.position_spawn.x=pos_coffre.x;
-											gestion_personnage.position_spawn.y=pos_coffre.y;
+											personnage->position_spawn.x=pos_coffre.x;
+											personnage->position_spawn.y=pos_coffre.y;
 											printf("coffre pris\n");
 											matrice[pos_personnage.x][pos_personnage.y]=hero;
 											matrice[pos_init.x][pos_init.y]=sortie;
-											sauvegarde_map(matrice,level,gestion_personnage);
+											sauvegarde_map(matrice,level,*personnage);
 										}
 										break;
 									case bonus:
 										matrice[pos_personnage.x][pos_personnage.y-1]=vide;
-										gestion_personnage.score_bonus=gestion_personnage.score_bonus+20;
+										gain_bonus_personnage(20);
 										matrice[pos_personnage.x][pos_personnage.y]=hero;
 										break;
 									case piege:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_agressif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_defensif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case monstre_inactif:
-										spawn_death(matrice,&gestion_personnage,&pos_personnage);
+										spawn_death(matrice,&pos_personnage);
 										break;
 									case sortie:
 										niveau_termine=1;
