@@ -14,10 +14,10 @@
 *Tout cela pour un niveau donne
 *Permet l'affichage de matrice de jeu avec une difficulte differente
 */
-void generation_level(t_case matrice[N][M], int level){	
+void generation_level(t_case matrice[N][M], int level){
 	//declaration
 	int nb_piece;
-	
+
 	//traitement
 	init_matrice(matrice);
 	nb_piece=generer_matrice_tot(matrice,level);
@@ -28,7 +28,7 @@ void generation_level(t_case matrice[N][M], int level){
 /*Fonction game_over
 *Modifie la matrice de jeu et affiche le message "game over"
 */
-void game_over(t_case matrice[N][M]){	
+void game_over(t_case matrice[N][M]){
 	int i=0;
 	int j=0;
 	FILE * fichier;
@@ -51,7 +51,7 @@ void game_over(t_case matrice[N][M]){
 /*Fonction game_win
 *Modifie la matrice de jeu et affiche le message "Winner"
 */
-void game_win(t_case matrice[N][M]){	
+void game_win(t_case matrice[N][M]){
 	int i=0;
 	int j=0;
 	FILE * fichier;
@@ -94,7 +94,7 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 	t_coord pos_cle;
 	t_coord pos_coffre;
 	int niveau_termine=0;
-	
+	init_liste_mob(matrice);
 	//traitement
 	if(level>=1){
 		//recuperation position objectif
@@ -122,7 +122,7 @@ void jeu(t_case matrice[N][M], int level,t_personnage gestion_personnage){
 			printf("Score: %i\n",gestion_personnage.score_bonus);
 			printf("Vie: %i\n",gestion_personnage.PV);
 			switch(dep){
-				case 'z':	
+				case 'z':
 							if(matrice[pos_personnage.x-1][pos_personnage.y]!=mur_contour && matrice[pos_personnage.x-1][pos_personnage.y]!=mur){
 								pos_personnage.x--;
 								//action en fonction de la nouvelle case
