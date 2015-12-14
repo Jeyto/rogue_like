@@ -16,7 +16,6 @@ int main(void){
 	int choix2;
 	int level;
 	t_case matrice[N][M];
-	init_personnage();
 
 	//traitement
 	system("clear");
@@ -47,23 +46,18 @@ int main(void){
 					switch(choix2){
 						case 1: //joueur
 							generation_level(matrice, 1);
-							init_personnage();
 							jeu(matrice,1);
 							break;
 						case 2: generation_level(matrice, 2);
-							init_personnage();
 							jeu(matrice,2);
 							break;
-						case 3: generation_level(matrice, 3);
-							init_personnage();
+						case 3:	generation_level(matrice, 3);
 							jeu(matrice,3);
 							break;
 						case 4: generation_level(matrice, 4);
-							init_personnage();
 							jeu(matrice,4);
 							break;
 						case 5: generation_level(matrice, 5);
-							init_personnage();
 							jeu(matrice,5);
 							break;
 						case 6:

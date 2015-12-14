@@ -304,7 +304,7 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 			mob.position=pos_arr;
 			mob.race_mob=monstre_agressif;
 			mob.PV=3;
-			ajout_gauche(valeur);
+			ajout_gauche(mob);
 			break;
 		case piege:
 			break;

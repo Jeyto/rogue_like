@@ -3,6 +3,7 @@
 #include<time.h>
 
 #include "../include/map.h"
+#include "../include/jeu.h"
 #include "../include/structure.h"
 #include "../include/couleur.h"
 
@@ -445,6 +446,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 			position_hero.x++;
 		}
 		else matrice[position_hero.x][position_hero.y]=hero;
+		modif_position_personnage(position_hero);
 	}
 
 	//pour tous les niveaux >=2 ajout monstre inactif + piege
@@ -498,6 +500,7 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 			matrice[position_hero.x][position_hero.y]=hero;
 		}
 		else matrice[position_hero.x][position_hero.y]=hero;
+		modif_position_personnage(position_hero);
 	}
 }
 
@@ -564,13 +567,13 @@ void afficher_matrice(t_case matrice[N][M]){
 /*Fonction sauvedarde_map
 *Ecriture de la map(matrice) dans le fichier txt
 */
-void sauvegarde_map(t_case matrice[N][M],int level,t_personnage gestion_personnage){
+void sauvegarde_map(t_case matrice[N][M],int level,t_personnage personnage){
 	int i,j;
 	FILE * fichier;
 	fichier=fopen("save_map.txt","w");
 	fprintf(fichier,"%i \n",level);
-	fprintf(fichier,"%i \n",gestion_personnage.score_bonus);
-	fprintf(fichier,"%i \n",gestion_personnage.PV);
+	fprintf(fichier,"%i \n",personnage.score_bonus);
+	fprintf(fichier,"%i \n",personnage.PV);
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
 			fprintf(fichier,"%i ",matrice[i][j]);

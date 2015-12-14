@@ -8,10 +8,13 @@
 #include "../include/structure.h"
 
 void generation_level(t_case matrice[N][M], int level);
-void game_over(t_case matrice[N][M]);
-void game_win(t_case matrice[N][M]);
-void spawn_death(t_case matrice[N][M],t_coord * pos_personnage);
+void game_message(t_case matrice[N][M], int niveau_termine);
+void spawn_death(void);
 void jeu(t_case matrice[N][M], int level);
 void init_personnage();
+void gain_bonus_personnage(int gain);
+void valeur_personnage(t_personnage *valeur);
+void modif_position_personnage(t_coord npos);
+void valeur_position_personnage(t_coord *pos);
 
 #endif
