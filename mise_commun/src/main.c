@@ -10,7 +10,7 @@
 #include "../include/structure.h"
 
 int main(void){
-    srand(time(NULL));
+   	srand(time(NULL));
 	//declaration
 	int choix;	//choix de l'utilisateur
 	int choix2;
@@ -78,10 +78,10 @@ int main(void){
 						default: printf("Erreur: votre choix doit être compris entre 1 et 7\n");
 					}
 					break;
-			case 2: level=1;//generer_map_sauvegarde(matrice,personnage);
-					afficher_matrice(matrice);
-					jeu(matrice,level);
-					break;
+			case 2: level=generer_map_sauvegarde(matrice);
+				afficher_matrice(matrice);
+				jeu(matrice,level);
+				break;
 			case 3:  break;
 			default: printf("Erreur: votre choix doit être compris entre 1 et 3\n");
 		}

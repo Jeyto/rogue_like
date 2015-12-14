@@ -27,5 +27,5 @@ main.o: ${SRC}main.c ${JOB}
 	${CC} -c ${SRC}main.c ${JOB} ${FLAG}
 	
 clean:
+	rm ./include/*.gch
 	rm  *.o
-

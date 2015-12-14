@@ -6,6 +6,7 @@
 #include "../include/jeu.h"
 #include "../include/structure.h"
 #include "../include/couleur.h"
+#include "../include/liste_ptr_coord.h"
 
 t_pos tab_coord_positionD_piece[50];
 
@@ -567,13 +568,33 @@ void afficher_matrice(t_case matrice[N][M]){
 /*Fonction sauvedarde_map
 *Ecriture de la map(matrice) dans le fichier txt
 */
-void sauvegarde_map(t_case matrice[N][M],int level,t_personnage personnage){
+void sauvegarde_map(t_case matrice[N][M],int level){
+	//declaration
 	int i,j;
+	t_personnage perso;
+	valeur_personnage(&perso);
+	t_mob mob;
 	FILE * fichier;
+	
+	//traitement
 	fichier=fopen("save_map.txt","w");
-	fprintf(fichier,"%i \n",level);
-	fprintf(fichier,"%i \n",personnage.score_bonus);
-	fprintf(fichier,"%i \n",personnage.PV);
+	//sauvegarde personnage et valeur
+	fprintf(fichier,"%i ",level);
+	fprintf(fichier,"%i ",perso.score_bonus);
+	fprintf(fichier,"%i ",perso.PV);
+	fprintf(fichier,"%i %i",perso.position.x,perso.position.y);
+	fprintf(fichier,"%i ",perso.cle);
+	fprintf(fichier,"%i \n",perso.invisible);
+	//sauvegarde monstre
+	en_tete();
+	while(!hors_liste()){
+		valeur_elt(&mob);
+		fprintf(fichier,"%i ",mob.PV);
+		fprintf(fichier,"%i %i ",mob.position.x,mob.position.y);
+		fprintf(fichier,"%i \n",mob.race_mob);
+		suivant();
+	}
+	fprintf(fichier,"-1 \n");
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
 			fprintf(fichier,"%i ",matrice[i][j]);
@@ -581,29 +602,6 @@ void sauvegarde_map(t_case matrice[N][M],int level,t_personnage personnage){
 		fprintf(fichier,"\n");
 	}
 	fclose(fichier);
-}
-
-/*******************************************************************/
-/*Fonction generer_map_sauvegarde
-*generer map à partir d'un fichier txt
-*/
-int generer_map_sauvegarde(t_case matrice[N][M],t_personnage gestion_personnage){
-	int i=0;
-	int j=0;
-	int level;
-	int valeur;
-	FILE * fichier;
-	fichier=fopen("save_map.txt","r");
-	fscanf(fichier,"%i",&level);
-	fscanf(fichier,"%i",&gestion_personnage.score_bonus);
-	fscanf(fichier,"%i",&gestion_personnage.PV);
-	while(!feof(fichier)){
-		fscanf(fichier,"%i",&valeur);
-		convertion_int_enum(matrice,i,j,valeur);
-		j++;
-	}
-	fclose(fichier);
-	return level;
 }
 
 /*****************************************************************/
@@ -627,5 +625,58 @@ void convertion_int_enum(t_case matrice[N][M], int i, int j, int valeur){
 		case 12: matrice[i][j]=monstre_inactif; break;
 		case 13: matrice[i][j]=sortie; break;
 	}
+}
 
+void convertion_int_enum_monstre(t_mob * mob,int valeur){
+	switch(valeur){
+		case 10: mob->race_mob=monstre_agressif; break;
+		case 11: mob->race_mob=monstre_defensif; break;
+		case 12: mob->race_mob=monstre_inactif; break;
+	}
+}
+
+/*******************************************************************/
+/*Fonction generer_map_sauvegarde
+*generer map à partir d'un fichier txt
+*/
+int generer_map_sauvegarde(t_case matrice[N][M]){
+	//declaration
+	int i=0;
+	int j=0;
+	int level;
+	int valeur;
+	int valeur_mob;
+	t_personnage perso_save;
+	t_mob mob;
+	FILE * fichier;
+	
+	//traitement
+	//recuperation personnage
+	fichier=fopen("save_map.txt","r");
+	fscanf(fichier,"%i",&level);
+	fscanf(fichier,"%i",&perso_save.score_bonus);
+	fscanf(fichier,"%i",&perso_save.PV);
+	fscanf(fichier,"%i %i",&perso_save.position.x,&perso_save.position.y);
+	fscanf(fichier,"%i",&perso_save.cle);
+	fscanf(fichier,"%i",&perso_save.invisible);
+	modif_personnage(perso_save);
+	//recuperation mob
+	init_liste();
+	en_tete();
+	fscanf(fichier,"%i \n",&mob.PV);
+	while(mob.PV!=-1){
+		fscanf(fichier,"%i %i\n",&mob.position.x,&mob.position.y);
+		fscanf(fichier,"%i \n",&valeur_mob);
+		convertion_int_enum_monstre(&mob,valeur_mob);
+		ajout_droit(mob);
+		fscanf(fichier,"%i \n",&mob.PV);
+	}
+		
+	while(!feof(fichier)){
+		fscanf(fichier,"%i",&valeur);
+		convertion_int_enum(matrice,i,j,valeur);
+		j++;
+	}
+	fclose(fichier);
+	return level;
 }

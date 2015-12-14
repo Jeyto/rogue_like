@@ -18,7 +18,9 @@ int generer_matrice_tot(t_case matrice[N][M], int level);
 
 void spawn_item(t_case matrice[N][M], int nb_piece, int level);
 void afficher_matrice(t_case matrice[N][M]);
-void sauvegarde_map(t_case matrice[N][M], int level,t_personnage gestion_personnage);
-int generer_map_sauvegarde(t_case matrice[N][M],t_personnage gestion_personnage);
+
+void sauvegarde_map(t_case matrice[N][M], int level);
+int generer_map_sauvegarde(t_case matrice[N][M]);
 void convertion_int_enum(t_case matrice[N][M], int i, int j, int valeur);
+void convertion_int_enum_monstre(t_mob * mob, int valeur);
 #endif

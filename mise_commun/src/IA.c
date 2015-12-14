@@ -354,7 +354,6 @@ void vider_liste(){
 		/*on enleve les elements un par un jusqu'� ce que la liste soit vide*/
 		while(!hors_liste()){
 			oter_elt();
-
 		}
 	}
 }

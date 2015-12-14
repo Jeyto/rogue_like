@@ -14,6 +14,7 @@ void jeu(t_case matrice[N][M], int level);
 void init_personnage();
 void gain_bonus_personnage(int gain);
 void valeur_personnage(t_personnage *valeur);
+void modif_personnage(t_personnage nperso);
 void modif_position_personnage(t_coord npos);
 void valeur_position_personnage(t_coord *pos);
 

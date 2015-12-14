@@ -6,6 +6,7 @@
 #include "../include/map.h"
 #include "../include/couleur.h"
 #include "../include/jeu.h"
+#include "../include/liste_ptr_coord.h"
 #include "../include/structure.h"
 #include "../include/IA.h"
 
@@ -32,7 +33,17 @@ void gain_bonus_personnage(int gain){
 void valeur_personnage(t_personnage *valeur){
 	valeur->PV=personnage->PV;
 	valeur->score_bonus=personnage->score_bonus;
+	valeur->position.x=personnage->position.x;
+	valeur->position.y=personnage->position.y;
+	valeur->cle=personnage->cle;
+	valeur->invisible=personnage->invisible;
 
+}
+void modif_personnage(t_personnage nperso){
+	personnage->PV=nperso.PV;
+	personnage->score_bonus=nperso.score_bonus;
+	personnage->cle=nperso.cle;
+	personnage->invisible=nperso.invisible;
 }
 void modif_position_personnage(t_coord npos){
 	personnage->position.x=npos.x;
@@ -63,10 +74,12 @@ void generation_level(t_case matrice[N][M], int level){
 	//declaration
 	int nb_piece;
 	init_personnage();
+	
 	//traitement
 	init_matrice(matrice);
 	nb_piece=generer_matrice_tot(matrice,level);
 	spawn_item(matrice,nb_piece,level);
+	init_liste_mob(matrice);
 	afficher_matrice(matrice);
 }
 
@@ -105,11 +118,17 @@ void jeu(t_case matrice[N][M], int level){
 	char dep;
 	t_coord pos_sortie=personnage->position;
 	int niveau_termine=0;
-	init_liste_mob(matrice);
-	
+	t_mob mob;
+	en_tete();
+	while(!hors_liste()){
+		valeur_elt(&mob);
+		printf("\n%i %i %i",mob.PV,mob.position.x,mob.position.y);
+		suivant(); 
+		
+	}
 	//traitement
 	if(level>=1){
-		sauvegarde_map(matrice,level,*personnage);
+		sauvegarde_map(matrice,level);
 		while(personnage->PV>0 && niveau_termine==0){ //tant que la vie>0 et niveau en cours
 			scanf("%c",&dep);
 			printf("Score: %i\n",personnage->score_bonus);
@@ -185,7 +204,7 @@ void jeu(t_case matrice[N][M], int level){
 							if(personnage->invisible<=3) personnage->invisible=personnage->invisible+1;
 							else personnage->invisible=0;
 						}
-						sauvegarde_map(matrice,level,*personnage);
+						sauvegarde_map(matrice,level);
 						afficher_matrice(matrice);
 					}
 					break;
@@ -259,7 +278,7 @@ void jeu(t_case matrice[N][M], int level){
 							if(personnage->invisible<=3) personnage->invisible=personnage->invisible+1;
 							else personnage->invisible=0;
 						}
-						sauvegarde_map(matrice,level,*personnage);
+						sauvegarde_map(matrice,level);
 						afficher_matrice(matrice);
 					}
 					break;
@@ -333,7 +352,7 @@ void jeu(t_case matrice[N][M], int level){
 							if(personnage->invisible<=3) personnage->invisible=personnage->invisible+1;
 							else personnage->invisible=0;
 						}
-						sauvegarde_map(matrice,level,*personnage);
+						sauvegarde_map(matrice,level);
 						afficher_matrice(matrice);
 					}
 					break;
@@ -407,7 +426,7 @@ void jeu(t_case matrice[N][M], int level){
 							if(personnage->invisible<=3) personnage->invisible=personnage->invisible+1;
 							else personnage->invisible=0;
 						}
-						sauvegarde_map(matrice,level,*personnage);
+						sauvegarde_map(matrice,level);
 						afficher_matrice(matrice);
 					}
 					break;
