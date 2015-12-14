@@ -32,6 +32,13 @@ void valeur_personnage(t_personnage *valeur){
 	valeur->score_bonus=personnage->score_bonus;
 
 }
+void modif_position_personnage(t_coord npos){
+	personnage->position=npos;
+}
+void valeur_position_personnage(t_coord *pos){
+	pos->x=personnage.position.x;
+	pos->y=personnage.position.y;
+}
 
 /******************************************************************/
 /*Fonction spawn_death
