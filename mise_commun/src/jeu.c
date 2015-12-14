@@ -62,6 +62,7 @@ void generation_level(t_case matrice[N][M], int level){
 	init_matrice(matrice);
 	nb_piece=generer_matrice_tot(matrice,level);
 	spawn_item(matrice,nb_piece,level);
+	afficher_matrice(matrice);
 }
 
 /*************************************************************/
