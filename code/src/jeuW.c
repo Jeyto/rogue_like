@@ -176,7 +176,7 @@ void jeu(t_case matrice[N][M], int level){
 						if(valeur_invi_personnage()==0)
 							generation_mob_suivante(matrice,perso_position);
 						else{
-							if(valeur_invi_personnage()<=50) modif_invi_personnage(valeur_invi_personnage()+1);
+							if(valeur_invi_personnage()<=3) modif_invi_personnage(valeur_invi_personnage()+1);
 							else modif_invi_personnage(0);
 						}
 						modif_position_personnage(perso_position);
