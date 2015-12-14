@@ -1,0 +1,38 @@
+CC=gcc
+FLAG=-Wall -W -g -I ./include/
+OBJ= mainW.o IA.o liste_ptr_coord.o mapW.o jeuW.o structure.o sauvegarde.o personnage.o
+JOB= ./include/*.h
+LIB=-lncurses
+SRC=./src/
+all:main.exe
+
+main.exe: ${OBJ}
+	${CC} -o ./bin/main.exe ${OBJ} ${FLAG}
+
+structure.o: ${SRC}structure.c ${JOB}
+	${CC} -c ${SRC}structure.c ${FLAG}
+	
+personnage.o: ${SRC}personnage.c ${JOB}
+	${CC} -c ${SRC}personnage.c ${FLAG}
+
+IA.o: ${SRC}IA.c ${JOB}
+	${CC} -c ${SRC}IA.c ${FLAG}
+
+liste_ptr_coord.o: ${SRC}IA.c ${JOB}
+	${CC} -c ${SRC}liste_ptr_coord.c ${FLAG} 
+
+mapW.o: ${SRC}mapW.c ${JOB}
+	${CC} -c ${SRC}mapW.c ${FLAG}
+
+jeuW.o: ${SRC}jeuW.c ${JOB}
+	${CC} -c ${SRC}jeuW.c ${FLAG}
+
+sauvegarde.o: ${SRC}sauvegarde.c ${JOB}
+	${CC} -c ${SRC}sauvegarde.c ${FLAG}
+
+mainW.o: ${SRC}mainW.c ${JOB}
+	${CC} -c ${SRC}mainW.c ${JOB} ${FLAG}
+	
+clean:
+	rm ./include/*.gch
+	rm  *.o
