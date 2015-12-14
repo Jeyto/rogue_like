@@ -38,17 +38,7 @@ void init_liste_mob(t_case grille[N][M]){
 		}
 	}
 }
-void sauvegarde_monstre(){
-	t_mob mob;
-	en_tete();
-	while(!hors_liste()){
-		valeur_elt(&mob);
-		printf("\n%i %i %i %i",mob.position.x,mob.position.y,mob.race_mob,mob.PV);
-	}
-}
-void recuperation_sauvegarde_mob(){
 
-}
 void afficher_chemin(int grille[N][M]){
 	int i,j;
 	for(i=0;i<N;i++){
@@ -65,7 +55,7 @@ void afficher_chemin(int grille[N][M]){
 
 
 /*
-* renvoie vrai si chemin trouv�, faux sinon
+* renvoie vrai si chemin trouve, faux sinon
 */
 int recherche_chemin_monstre_agr(t_case grille[N][M],t_coord depart,t_coord arrive){
 	int tab_longueur[N][M];
@@ -247,8 +237,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 			}
 			break;
 		case hero:
-			oter_elt();
-			spawn_death(grille,&pos_arr);
+			spawn_death();
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
@@ -275,9 +264,8 @@ void permutation_monstre_def(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 		case monstre_inactif:
 			break;
 		case hero:
-			oter_elt();
-			spawn_death(grille,&pos_arr);
-			break;
+			spawn_death();
+		break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
 			grille[pos_arr.x][pos_arr.y]=grille[pos_ini.x][pos_ini.y];
@@ -312,12 +300,16 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 		case cle:
 			break;
 		case bonus:
+			grille[pos_arr.x][pos_arr.y]=monstre_agressif;
+			mob.position=pos_arr;
+			mob.race_mob=monstre_agressif;
+			mob.PV=3;
+			ajout_gauche(valeur);
 			break;
 		case piege:
 			break;
 		case hero:
-			oter_elt();
-			spawn_death(grille,&pos_arr);
+			spawn_death();
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
