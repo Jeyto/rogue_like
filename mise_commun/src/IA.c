@@ -12,7 +12,6 @@
 
 void init_liste_mob(t_case grille[N][M]){
 	t_mob valeur;
-	init_liste();
 	en_tete();
 	for(valeur.position.x=0;valeur.position.x<N;valeur.position.x++){
 		for(valeur.position.y=0;valeur.position.y<M;valeur.position.y++){

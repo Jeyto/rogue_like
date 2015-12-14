@@ -8,6 +8,7 @@
 #include "../include/jeu.h"
 #include "../include/IA.h"
 #include "../include/structure.h"
+#include "../include/liste_ptr_coord.h"
 
 int main(void){
    	srand(time(NULL));
@@ -16,6 +17,7 @@ int main(void){
 	int choix2;
 	int level;
 	t_case matrice[N][M];
+	init_liste();
 
 	//traitement
 	system("clear");

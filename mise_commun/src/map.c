@@ -4,6 +4,7 @@
 
 #include "../include/map.h"
 #include "../include/jeu.h"
+#include "../include/IA.h"
 #include "../include/structure.h"
 #include "../include/couleur.h"
 #include "../include/liste_ptr_coord.h"
@@ -646,6 +647,7 @@ int generer_map_sauvegarde(t_case matrice[N][M]){
 	int level;
 	int valeur;
 	int valeur_mob;
+	init_personnage();
 	t_personnage perso_save;
 	t_mob mob;
 	FILE * fichier;
@@ -661,7 +663,7 @@ int generer_map_sauvegarde(t_case matrice[N][M]){
 	fscanf(fichier,"%i",&perso_save.invisible);
 	modif_personnage(perso_save);
 	//recuperation mob
-	init_liste();
+	vider_liste();
 	en_tete();
 	fscanf(fichier,"%i \n",&mob.PV);
 	while(mob.PV!=-1){
@@ -671,7 +673,6 @@ int generer_map_sauvegarde(t_case matrice[N][M]){
 		ajout_droit(mob);
 		fscanf(fichier,"%i \n",&mob.PV);
 	}
-		
 	while(!feof(fichier)){
 		fscanf(fichier,"%i",&valeur);
 		convertion_int_enum(matrice,i,j,valeur);

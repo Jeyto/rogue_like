@@ -44,6 +44,8 @@ void modif_personnage(t_personnage nperso){
 	personnage->score_bonus=nperso.score_bonus;
 	personnage->cle=nperso.cle;
 	personnage->invisible=nperso.invisible;
+	personnage->position.x=nperso.position.x;
+	personnage->position.y=nperso.position.y;
 }
 void modif_position_personnage(t_coord npos){
 	personnage->position.x=npos.x;
@@ -116,16 +118,9 @@ void game_message(t_case matrice[N][M], int niveau_termine){
 void jeu(t_case matrice[N][M], int level){
 	//declaration
 	char dep;
+	int dx, dy;
 	t_coord pos_sortie=personnage->position;
 	int niveau_termine=0;
-	t_mob mob;
-	en_tete();
-	while(!hors_liste()){
-		valeur_elt(&mob);
-		printf("\n%i %i %i",mob.PV,mob.position.x,mob.position.y);
-		suivant(); 
-		
-	}
 	//traitement
 	if(level>=1){
 		sauvegarde_map(matrice,level);
@@ -135,62 +130,74 @@ void jeu(t_case matrice[N][M], int level){
 			printf("Vie: %i\n",personnage->PV);
 			switch(dep){
 				case 'z':
-					if(matrice[personnage->position.x-1][personnage->position.y]!=mur_contour && matrice[personnage->position.x-1][personnage->position.y]!=mur){
-						personnage->position.x=personnage->position.x-1;
+					dx=-1; dy=0;
+					break;
+				case 'q':
+					dx=0; dy=-1;
+					break;
+				case 's':
+					dx=1; dy=0;
+					break;
+				case 'd':
+					dx=0; dy=1;
+					break;
+				default: dx=0; dy=0;
+					break;
+			}
+				
+				if(dx != 0 || dy != 0){
+					if(matrice[personnage->position.x+dx][personnage->position.y+dy]!=mur_contour && matrice[personnage->position.x+dx][personnage->position.y+dy]!=mur){
+						personnage->position.x=personnage->position.x+dx;
+						personnage->position.y=personnage->position.y+dy;
 						//action en fonction de la nouvelle case
 						switch(matrice[personnage->position.x][personnage->position.y]){
 							case vide:
-								matrice[personnage->position.x+1][personnage->position.y]=vide;
+								matrice[personnage->position.x-dx][personnage->position.y-dy]=vide;
 								matrice[personnage->position.x][personnage->position.y]=hero;
 								break;
 							case couloir:
-								matrice[personnage->position.x+1][personnage->position.y]=vide;
+								matrice[personnage->position.x-dx][personnage->position.y-dy]=vide;
 								matrice[personnage->position.x][personnage->position.y]=hero;
 								break;
 							case porte:
-								matrice[personnage->position.x+1][personnage->position.y]=vide;
-								personnage->position.x=personnage->position.x-1;
+								matrice[personnage->position.x-dx][personnage->position.y-dy]=vide;
+								personnage->position.x=personnage->position.x+dx;
+								personnage->position.y=personnage->position.y+dy;
 								matrice[personnage->position.x][personnage->position.y]=hero;
 								break;
 							case cle:
-								matrice[personnage->position.x+1][personnage->position.y]=vide;
+								matrice[personnage->position.x-dx][personnage->position.y-dy]=vide;
 								personnage->cle=1;
 								printf("cle prise\n");
 								matrice[personnage->position.x][personnage->position.y]=hero;
 								break;
 							case coffre:
 								if(personnage->cle ==0){
-									personnage->position.x=personnage->position.x+1; //personnage ne bouge pas
+									personnage->position.x=personnage->position.x-dx; //personnage ne bouge pas
+									personnage->position.y=personnage->position.y-dy;
 									printf("veuillez prendre la cle\n");
 								}
 								else{
-									matrice[personnage->position.x+1][personnage->position.y]=vide;
+									matrice[personnage->position.x-dx][personnage->position.y-dy]=vide;
 									printf("coffre pris\n");
 									matrice[personnage->position.x][personnage->position.y]=hero;
 									matrice[pos_sortie.x][pos_sortie.y]=sortie;
 								}
 								break;
 							case bonus:
-								matrice[personnage->position.x+1][personnage->position.y]=vide;
+								matrice[personnage->position.x-dx][personnage->position.y-dy]=vide;
 								gain_bonus_personnage(20);
 								matrice[personnage->position.x][personnage->position.y]=hero;
 								break;
 							case piege:
-								personnage->position.x=personnage->position.x+1; //personnage ne bouge pas
-								spawn_death();
-								break;
 							case monstre_agressif:
-								personnage->position.x=personnage->position.x+1; //personnage ne bouge pas
-								spawn_death();
-								break;
 							case monstre_defensif:
-								personnage->position.x=personnage->position.x+1; //personnage ne bouge pas
-								spawn_death();
-								break;
 							case monstre_inactif:
-								personnage->position.x=personnage->position.x+1; //personnage ne bouge pas
+								personnage->position.x=personnage->position.x-dx; //personnage ne bouge pas
+								personnage->position.y=personnage->position.y-dy;
 								spawn_death();
 								break;
+							
 							case sortie:
 								niveau_termine=1;
 								break;
@@ -207,230 +214,9 @@ void jeu(t_case matrice[N][M], int level){
 						sauvegarde_map(matrice,level);
 						afficher_matrice(matrice);
 					}
-					break;
-				case 'q':
-					if(matrice[personnage->position.x][personnage->position.y-1]!=mur_contour && matrice[personnage->position.x][personnage->position.y-1]!=mur){
-						personnage->position.y=personnage->position.y-1;
-						//action en fonction de la nouvelle case
-						switch(matrice[personnage->position.x][personnage->position.y]){
-							case vide:
-								matrice[personnage->position.x][personnage->position.y+1]=vide;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case couloir:
-								matrice[personnage->position.x][personnage->position.y+1]=vide;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case porte:
-								matrice[personnage->position.x][personnage->position.y+1]=vide;
-								personnage->position.y=personnage->position.y-1;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case cle:
-								matrice[personnage->position.x][personnage->position.y+1]=vide;
-								personnage->cle=1;
-								printf("cle prise\n");
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case coffre:
-								if(personnage->cle==0){
-									personnage->position.y=personnage->position.y+1; //personnage ne bouge pas
-									printf("veuillez prendre la cle\n");
-								}
-								else{
-									matrice[personnage->position.x][personnage->position.y+1]=vide;
-									printf("coffre pris\n");
-									matrice[personnage->position.x][personnage->position.y]=hero;
-									matrice[pos_sortie.x][pos_sortie.y]=sortie;
-								}
-								break;
-							case bonus:
-								matrice[personnage->position.x][personnage->position.y+1]=vide;
-								gain_bonus_personnage(20);
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case piege:
-								personnage->position.y=personnage->position.y+1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_agressif:
-								personnage->position.y=personnage->position.y+1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_defensif:
-								personnage->position.y=personnage->position.y+1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_inactif:
-								personnage->position.y=personnage->position.y+1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case sortie:
-								niveau_termine=1;
-								break;
-							default:
-								break;
-						}
-						//personnage est mort, il a 3 coup pour se sauver et apres attaque des monstres
-						if(personnage->invisible==0)
-							generation_mob_suivante(matrice,personnage->position);
-						else{
-							if(personnage->invisible<=3) personnage->invisible=personnage->invisible+1;
-							else personnage->invisible=0;
-						}
-						sauvegarde_map(matrice,level);
-						afficher_matrice(matrice);
-					}
-					break;
-				case 's':
-					if(matrice[personnage->position.x+1][personnage->position.y]!=mur_contour && matrice[personnage->position.x+1][personnage->position.y]!=mur){
-						personnage->position.x=personnage->position.x+1;
-						//action en fonction de la nouvelle case
-						switch(matrice[personnage->position.x][personnage->position.y]){
-							case vide:
-								matrice[personnage->position.x-1][personnage->position.y]=vide;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case couloir:
-								matrice[personnage->position.x-1][personnage->position.y]=vide;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case porte:
-								matrice[personnage->position.x-1][personnage->position.y]=vide;
-								personnage->position.x=personnage->position.x+1;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case cle:
-								matrice[personnage->position.x-1][personnage->position.y]=vide;
-								personnage->cle=1;
-								printf("cle prise\n");
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case coffre:
-								if(personnage->cle==0){
-									personnage->position.x=personnage->position.x-1; //personnage ne bouge pas
-									printf("veuillez prendre la cle\n");
-								}
-								else{
-									matrice[personnage->position.x-1][personnage->position.y]=vide;
-									printf("coffre pris\n");
-									matrice[personnage->position.x][personnage->position.y]=hero;
-									matrice[pos_sortie.x][pos_sortie.y]=sortie;
-								}
-								break;
-							case bonus:
-								matrice[personnage->position.x-1][personnage->position.y]=vide;
-								gain_bonus_personnage(20);
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case piege:
-								personnage->position.x=personnage->position.x-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_agressif:
-								personnage->position.x=personnage->position.x-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_defensif:
-								personnage->position.x=personnage->position.x-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_inactif:
-								personnage->position.x=personnage->position.x-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case sortie:
-								niveau_termine=1;
-								break;
-							default:
-								break;
-						}
-						//personnage est mort, il a 3 coup pour se sauver et apres attaque des monstres
-						if(personnage->invisible==0)
-							generation_mob_suivante(matrice,personnage->position);
-						else{
-							if(personnage->invisible<=3) personnage->invisible=personnage->invisible+1;
-							else personnage->invisible=0;
-						}
-						sauvegarde_map(matrice,level);
-						afficher_matrice(matrice);
-					}
-					break;
-				case 'd':
-					if(matrice[personnage->position.x][personnage->position.y+1]!=mur_contour && matrice[personnage->position.x][personnage->position.y+1]!=mur){
-						personnage->position.y=personnage->position.y+1;
-						//action en fonction de la nouvelle case
-						switch(matrice[personnage->position.x][personnage->position.y]){
-							case vide:
-								matrice[personnage->position.x][personnage->position.y-1]=vide;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case couloir:
-								matrice[personnage->position.x][personnage->position.y-1]=vide;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case porte:
-								matrice[personnage->position.x][personnage->position.y-1]=vide;
-								personnage->position.y++;
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case cle:
-								matrice[personnage->position.x][personnage->position.y-1]=vide;
-								personnage->cle=1;
-								printf("cle prise\n");
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case coffre:
-								if(personnage->cle==0){
-									personnage->position.y=personnage->position.y-1; //personnage ne bouge pas
-									printf("veuillez prendre la cle\n");
-								}
-								else{
-									matrice[personnage->position.x][personnage->position.y-1]=vide;
-									printf("coffre pris\n");
-									matrice[personnage->position.x][personnage->position.y]=hero;
-									matrice[pos_sortie.x][pos_sortie.y]=sortie;
-								}
-								break;
-							case bonus:
-								matrice[personnage->position.x][personnage->position.y-1]=vide;
-								gain_bonus_personnage(20);
-								matrice[personnage->position.x][personnage->position.y]=hero;
-								break;
-							case piege:
-								personnage->position.y=personnage->position.y-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_agressif:
-								personnage->position.y=personnage->position.y-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_defensif:
-								personnage->position.y=personnage->position.y-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case monstre_inactif:
-								personnage->position.y=personnage->position.y-1; //personnage ne bouge pas
-								spawn_death();
-								break;
-							case sortie:
-								niveau_termine=1;
-								break;
-							default:
-								break;
-						}
-						//personnage est mort, il a 3 coup pour se sauver et apres attaque des monstres
-						if(personnage->invisible==0)
-							generation_mob_suivante(matrice,personnage->position);
-						else{
-							if(personnage->invisible<=3) personnage->invisible=personnage->invisible+1;
-							else personnage->invisible=0;
-						}
-						sauvegarde_map(matrice,level);
-						afficher_matrice(matrice);
-					}
-					break;
-			}
+				}
+					
+				
 		}
 		//perdu ou gagne, message de fin
 		game_message(matrice,niveau_termine);
