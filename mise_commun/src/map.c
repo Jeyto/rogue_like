@@ -454,7 +454,11 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		for(a=0;a<nb_piege;a++){
 			position_piege.x=rand()%N;
 			position_piege.y=rand()%M;
-			if(matrice[position_piege.x][position_piege.y]==vide) matrice[position_piege.x][position_piege.y]=piege;
+			if(matrice[position_piege.x][position_piege.y]==vide || matrice[position_piege.x-1][position_piege.y]==porte || 
+			matrice[position_piege.x+1][position_piege.y]==porte || matrice[position_piege.x][position_piege.y-1]==porte || 
+			matrice[position_piege.x][position_piege.y+1]==porte){
+				 matrice[position_piege.x][position_piege.y]=piege;
+			}
 			if(matrice[position_piege.x][position_piege.y-1]==vide) matrice[position_piege.x][position_piege.y-1]=piege;
 			if(matrice[position_piege.x][position_piege.y+1]==vide) matrice[position_piege.x][position_piege.y+1]=piege;
 		}
