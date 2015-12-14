@@ -100,10 +100,20 @@ void jeu(t_case matrice[N][M], int level){
 	nb_col= col/2;
 	//declaration
 	int dx, dy;
+	int i,j;
 	t_coord pos_sortie;
 	t_coord perso_position;
-	valeur_position_personnage(&pos_sortie);
 	int niveau_termine=0;
+	
+	//position de la sortie 3cases du coffre
+	for(i=0;i<N;i++){
+		for(j=0;j<M;j++){
+			if(matrice[i][j]==coffre){
+				pos_sortie.x=i;
+				pos_sortie.y=j-3;
+			}
+		}
+	}
 	
 	//traitement
 	if(level>=1){
@@ -186,7 +196,16 @@ void jeu(t_case matrice[N][M], int level){
 								matrice[perso_position.x-dx][perso_position.y-dy]=vide;
 								mvprintw(42, nb_col-6,"coffre pris");
 								matrice[perso_position.x][perso_position.y]=hero;
+								//creation piece sortie
 								matrice[pos_sortie.x][pos_sortie.y]=sortie;
+								matrice[pos_sortie.x-2][pos_sortie.y]=porte;
+								matrice[pos_sortie.x-2][pos_sortie.y-1]=mur_contour;
+								matrice[pos_sortie.x-2][pos_sortie.y+1]=mur_contour;
+								matrice[pos_sortie.x-1][pos_sortie.y]=vide;
+								matrice[pos_sortie.x-1][pos_sortie.y-1]=mur_contour;
+								matrice[pos_sortie.x-1][pos_sortie.y+1]=mur_contour;
+								matrice[pos_sortie.x][pos_sortie.y-1]=mur_contour;
+								matrice[pos_sortie.x][pos_sortie.y+1]=mur_contour;
 							}
 							break;
 						case bonus:
@@ -214,7 +233,16 @@ void jeu(t_case matrice[N][M], int level){
 				}
 			}
 		}
-		//perdu ou gagne, message de fin
-		game_message(matrice,niveau_termine);
+		if(niveau_termine==0){
+			game_message(matrice,niveau_termine);
+		}
+		else{
+			level++;
+			if(level<=5){
+				generation_level(matrice, level);
+				jeu(matrice,level);
+			}
+			else game_message(matrice,1);
+		}
 	}
 }

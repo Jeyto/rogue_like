@@ -64,11 +64,21 @@ void jeu(t_case matrice[N][M], int level){
 	//declaration
 	char dep;
 	int dx, dy;
+	int i,j;
 	t_coord pos_sortie;
 	t_coord perso_position;
-	valeur_position_personnage(&pos_sortie);
-	
 	int niveau_termine=0;
+	
+	//position de la sortie 3cases du coffre
+	for(i=0;i<N;i++){
+		for(j=0;j<M;j++){
+			if(matrice[i][j]==coffre){
+				pos_sortie.x=i;
+				pos_sortie.y=j-3;
+			}
+		}
+	}
+	
 	//traitement
 	if(level>=1){
 		sauvegarde_map(matrice,level);
@@ -130,7 +140,16 @@ void jeu(t_case matrice[N][M], int level){
 									matrice[perso_position.x-dx][perso_position.y-dy]=vide;
 									printf("coffre pris\n");
 									matrice[perso_position.x][perso_position.y]=hero;
+									//creation piece sortie
 									matrice[pos_sortie.x][pos_sortie.y]=sortie;
+									matrice[pos_sortie.x-2][pos_sortie.y]=porte;
+									matrice[pos_sortie.x-2][pos_sortie.y-1]=mur_contour;
+									matrice[pos_sortie.x-2][pos_sortie.y+1]=mur_contour;
+									matrice[pos_sortie.x-1][pos_sortie.y]=vide;
+									matrice[pos_sortie.x-1][pos_sortie.y-1]=mur_contour;
+									matrice[pos_sortie.x-1][pos_sortie.y+1]=mur_contour;
+									matrice[pos_sortie.x][pos_sortie.y-1]=mur_contour;
+									matrice[pos_sortie.x][pos_sortie.y+1]=mur_contour;
 								}
 								break;
 							case bonus:
@@ -157,7 +176,7 @@ void jeu(t_case matrice[N][M], int level){
 						if(valeur_invi_personnage()==0)
 							generation_mob_suivante(matrice,perso_position);
 						else{
-							if(valeur_invi_personnage()<=3) modif_invi_personnage(valeur_invi_personnage()+1);
+							if(valeur_invi_personnage()<=50) modif_invi_personnage(valeur_invi_personnage()+1);
 							else modif_invi_personnage(0);
 						}
 						modif_position_personnage(perso_position);
@@ -168,7 +187,16 @@ void jeu(t_case matrice[N][M], int level){
 					
 				
 		}
-		//perdu ou gagne, message de fin
-		game_message(matrice,niveau_termine);
+		if(niveau_termine==0){
+			game_message(matrice,niveau_termine);
+		}
+		else{
+			level++;
+			if(level<=5){
+				generation_level(matrice, level);
+				jeu(matrice,level);
+			}
+			else game_message(matrice,1);
+		}
 	}
 }
