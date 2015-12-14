@@ -46,21 +46,26 @@ int main(void){
 					//traitement du choix de l'utilisateur
 					switch(choix2){
 						case 1: //joueur
-								generation_level(matrice, 1);
-								jeu(matrice,1);
-								break;
+							generation_level(matrice, 1);
+							init_personnage();
+							jeu(matrice,1);
+							break;
 						case 2: generation_level(matrice, 2);
-								jeu(matrice,2);
-								break;
+							init_personnage();
+							jeu(matrice,2);
+							break;
 						case 3: generation_level(matrice, 3);
-								jeu(matrice,3);
-								break;
+							init_personnage();
+							jeu(matrice,3);
+							break;
 						case 4: generation_level(matrice, 4);
-								jeu(matrice,4);
-								break;
+							init_personnage();
+							jeu(matrice,4);
+							break;
 						case 5: generation_level(matrice, 5);
-								jeu(matrice,5);
-								break;
+							init_personnage();
+							jeu(matrice,5);
+							break;
 						case 6:
 							printf("\t\t&:\t Contour des pieces infranchissable\n");
 							printf("\t\tX:\t mur infranchissable\n");
