@@ -10,8 +10,6 @@
 #include "sauvegarde.h"
 #include "personnage.h"
 
-
-
 int main(void){
    	srand(time(NULL));
 	//declaration

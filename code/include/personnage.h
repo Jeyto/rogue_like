@@ -10,6 +10,8 @@ void init_personnage(void);
 
 void init_valeur_personnage(void);
 
+void init_etage_personnage(void);
+
 void gain_bonus_personnage(int gain);
 
 void valeur_personnage(t_personnage *valeur);

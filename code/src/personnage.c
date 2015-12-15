@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "personnage.h"
+#include "IA.h"
 #include "structure.h"
 
 t_personnage *personnage;
@@ -19,6 +20,12 @@ void init_valeur_personnage(void){
 }
 void init_personnage(void){
 	personnage=malloc(sizeof(t_personnage));
+}
+
+void init_etage_personnage(void){
+	personnage->PV=3;
+	personnage->cle=0;
+	personnage->invisible=0;
 }
 
 /*Fonction gain_bonus_personnage(int gain)
@@ -120,4 +127,14 @@ void modif_invi_personnage(int valeur){
 void spawn_death(void){
 	personnage->PV=personnage->PV-1;
 	personnage->invisible=1;
+}
+
+void attaque_personnage(t_case grille[N][M],t_coord pos_attaque){
+	if(position_elt(pos_attaque)){
+		mob_perte_PV(grille,1);
+	}
+	/*else{
+		afficher + sur pos_attaque 
+	}*/
+
 }

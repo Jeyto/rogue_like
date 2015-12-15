@@ -58,7 +58,7 @@ void sauvegarde_map(t_case matrice[N][M],int level){
 	fprintf(fichier,"%i ",level);
 	fprintf(fichier,"%i ",perso.score_bonus);
 	fprintf(fichier,"%i ",perso.PV);
-	fprintf(fichier,"%i %i",perso.position.x,perso.position.y);
+	fprintf(fichier,"%i %i ",perso.position.x,perso.position.y);
 	fprintf(fichier,"%i ",perso.cle);
 	fprintf(fichier,"%i \n",perso.invisible);
 	//sauvegarde monstre
@@ -97,8 +97,8 @@ int generer_map_sauvegarde(t_case matrice[N][M]){
 	FILE * fichier;
 	
 	//traitement
-	//recuperation personnage
 	fichier=fopen("save_map.txt","r");
+	//recuperation personnage
 	fscanf(fichier,"%i",&level);
 	fscanf(fichier,"%i",&perso_save.score_bonus);
 	fscanf(fichier,"%i",&perso_save.PV);
@@ -123,6 +123,6 @@ int generer_map_sauvegarde(t_case matrice[N][M]){
 		j++;
 	}
 	fclose(fichier);
-	afficher_matrice(matrice);
+	afficher_ecran(matrice,level);
 	return level;
 }
