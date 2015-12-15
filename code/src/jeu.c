@@ -156,8 +156,8 @@ void jeu(t_case matrice[N][M], int level){
 				default: 
 					dx=0; 
 					dy=0;
-					break;
-			}
+					break;	
+			}	
 		
 			if(dx != 0 || dy != 0){
 				valeur_position_personnage(&perso_position);
@@ -219,9 +219,12 @@ void jeu(t_case matrice[N][M], int level){
 						case monstre_agressif:
 						case monstre_defensif:
 						case monstre_inactif:
+							if(position_elt(perso_position)){
+								mob_perte_PV(matrice,1);
+							}
 							perso_position.x=perso_position.x-dx; //personnage ne bouge pas
 							perso_position.y=perso_position.y-dy;
-							spawn_death();
+							
 							break;						
 						case sortie:
 							niveau_termine=1;

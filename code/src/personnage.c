@@ -1,7 +1,8 @@
-#include<stdlib.h>
-#include<stdio.h>
-#include<time.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 #include <unistd.h>
+#include <ncurses.h>
 
 #include "personnage.h"
 #include "IA.h"
@@ -129,12 +130,16 @@ void spawn_death(void){
 	personnage->invisible=1;
 }
 
-void attaque_personnage(t_case grille[N][M],t_coord pos_attaque){
-	if(position_elt(pos_attaque)){
-		mob_perte_PV(grille,1);
-	}
-	/*else{
-		afficher + sur pos_attaque 
-	}*/
+void attaque_personnage(t_case matrice[N][M],int ax,int ay){
+	t_coord pos_attaque;
+	pos_attaque.x = personnage->position.x+ax;
+	pos_attaque.y = personnage->position.y+ay;
 
+	if(position_elt(pos_attaque)){
+		mob_perte_PV(matrice,1);
+	}
+	else if(matrice[pos_attaque.x][pos_attaque.y] == vide ){
+		mvprintw( pos_attaque.x, pos_attaque.y,"+");	
+	}
+			
 }

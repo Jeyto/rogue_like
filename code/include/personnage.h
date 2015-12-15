@@ -36,4 +36,6 @@ int valeur_invi_personnage(void);
 
 void modif_invi_personnage(int valeur);
 
+void attaque_personnage(t_case matrice[N][M],int ax,int ay);
+
 #endif
