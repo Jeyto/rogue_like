@@ -126,7 +126,6 @@ void jeu(t_case matrice[N][M], int level){
 					if(valeur_invi_personnage()<=3) modif_invi_personnage(valeur_invi_personnage()+1);
 					else modif_invi_personnage(0);
 				}
-				sauvegarde_map(matrice,level);
 				afficher_ecran(matrice,level);
 				usleep(150000);
 				while(ch == 'p') ch = getch();
@@ -225,7 +224,6 @@ void jeu(t_case matrice[N][M], int level){
 							break;
 					}
 					modif_position_personnage(perso_position);
-					sauvegarde_map(matrice,level);
 					afficher_ecran(matrice,level);
 				}
 			}
