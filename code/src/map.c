@@ -523,47 +523,64 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 void afficher_matrice(t_case matrice[N][M]){
     //declaration
   	int i;
-   	int j;
+   	int j;  	
    	printf("\t");
    	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
 			if(matrice[i][j]==mur_contour){
+				attron(COLOR_PAIR(3));
 				mvprintw(i, j,"&");
 			}
 			else if(matrice[i][j]==mur){
+				attron(COLOR_PAIR(2));
 				mvprintw(i, j,"X");
 			}
-			else if(matrice[i][j]==vide || matrice[i][j]==couloir ){
+			else if(matrice[i][j]==vide){
+				attron(COLOR_PAIR(1));
+				mvprintw(i,j," ");
+			}
+			else if(matrice[i][j]==couloir){
+				attron(COLOR_PAIR(1));
 				mvprintw(i,j," ");
 			}
 			else if(matrice[i][j]==porte){
+				attron(COLOR_PAIR(1));
 				mvprintw(i,j,"P");
 			}
 			else if(matrice[i][j]==coffre){
+				attron(COLOR_PAIR(9));
 				mvprintw(i,j,"C");
 			}
 			else if(matrice[i][j]==cle){
+				attron(COLOR_PAIR(9));
 				mvprintw(i,j,"K");
 			}
 			else if(matrice[i][j]==piege){
+				attron(COLOR_PAIR(5));
 				mvprintw(i,j,"^");
 			}
 			else if(matrice[i][j]==hero){
+				attron(COLOR_PAIR(1));
 				mvprintw(i,j,"@");
 			}
 			else if(matrice[i][j]==monstre_agressif){
+				attron(COLOR_PAIR(5));
 				mvprintw(i,j,"M");
 			}
 			else if(matrice[i][j]==monstre_defensif){
+				attron(COLOR_PAIR(5));
 				mvprintw(i,j,"D");
 			}
 			else if(matrice[i][j]==monstre_inactif){
+				attron(COLOR_PAIR(5));
 				mvprintw(i,j,"I");
 			}
 			else if(matrice[i][j]==bonus){
+				attron(COLOR_PAIR(6));
 				mvprintw(i,j,"?");
 			}
 			else if(matrice[i][j]==sortie){
+				attron(COLOR_PAIR(9));
 				mvprintw(i,j,"S");
 			}
 		}
@@ -574,14 +591,22 @@ void afficher_matrice(t_case matrice[N][M]){
 *Affiche la legende a droite de l'ecran
 */
 void afficher_legende(int level){
+
+	attron(COLOR_PAIR(9));
 	mvprintw(1,122,"K: cle");
 	mvprintw(2,122,"C: coffre");
+	mvprintw(3, 122,"S: sortie");
 	mvprintw(3,122,"^: piege");
+	
+	attron(COLOR_PAIR(5));
 	mvprintw(4,122,"M: monstre agressif");
 	mvprintw(5,122,"D: monstre defensif");
 	mvprintw(6,122,"I: monstre inactif");
+	
+	attron(COLOR_PAIR(6));
 	mvprintw(7,122,"?: bonus"); 
 	
+	attron(COLOR_PAIR(1));
 	mvprintw(10,122, "Level: %i",level);
 	mvprintw(11, 122,"Score: %i",valeur_score_personnage());
 	mvprintw(12, 122,"Vie: %i",valeur_PV_personnage());
@@ -608,6 +633,8 @@ void afficher_legende(int level){
 void afficher_ecran(t_case matrice[N][M],int level){
   	clear();
   	afficher_matrice(matrice);
+  	attron(COLOR_PAIR(1));
   	afficher_legende(level);
+  	attron(COLOR_PAIR(1));
 	refresh();
 }

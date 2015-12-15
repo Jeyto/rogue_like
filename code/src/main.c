@@ -24,6 +24,28 @@ int main(void){
   	curs_set(FALSE);
  	keypad(stdscr, TRUE);
  	raw();
+ 	start_color();
+ 	
+ 	/**********Affichage**********/
+ 	
+ 	//couleur init ( hero portes )
+ 	init_pair(1, COLOR_WHITE, COLOR_BLACK);
+ 	//couleur mur
+ 	init_pair(2, COLOR_YELLOW, COLOR_BLACK);
+ 	//couleur mur contour
+ 	init_pair(3, COLOR_WHITE, COLOR_BLACK);
+ 	// salle couloir
+ 	init_pair(4, COLOR_BLACK, COLOR_BLACK);
+ 	//monstres et pieges
+ 	init_pair(5, COLOR_RED, COLOR_BLACK);
+ 	// bonus
+ 	init_pair(6, COLOR_CYAN, COLOR_BLACK);
+ 	//vie hero
+ 	init_pair(7, COLOR_MAGENTA, COLOR_BLACK);
+ 	init_pair(8, COLOR_RED, COLOR_BLACK);
+ 	// objectifs ( sortie coffre cle )
+ 	init_pair(9, COLOR_GREEN, COLOR_BLACK);
+	
 	
 	do{	//affichage du menu
 		
@@ -31,6 +53,8 @@ int main(void){
 		getmaxyx(stdscr,row,col); /* get the number of rows and columns */
 		nb_col= col/2;
 		
+		
+		attron(COLOR_PAIR(1));
 		clear();
 		mvprintw(0,nb_col-27,"*****************************************************");
 		mvprintw(1,nb_col-27,"*     ROGUELIKE by Valentin - Baptiste - Maxime     *");
@@ -96,21 +120,37 @@ int main(void){
 						getch();
 						break;
 					case 6:
-						mvprintw(20,nb_col-20,"&: Contour des pieces infranchissable");
-						mvprintw(21,nb_col-20,"X: mur infranchissable");
+					
+						attron(COLOR_PAIR(2));
+						mvprintw(20,nb_col-20,"X: mur infranchissable");
+						
+						attron(COLOR_PAIR(3));
+						mvprintw(21,nb_col-20,"&: Contour des pieces infranchissable");
+						
+						attron(COLOR_PAIR(1));
 						mvprintw(22,nb_col-20,"(vide): Deplacement autorise");
 						mvprintw(23,nb_col-20,"P: porte");
 						mvprintw(24,nb_col-20,"@: hero");
+						
+						attron(COLOR_PAIR(9));
 						mvprintw(25,nb_col-20,"K: cle");
 						mvprintw(26,nb_col-20,"C: coffre");
-						mvprintw(27,nb_col-20,"^: piege");
-						mvprintw(28,nb_col-20,"M: monstre agressif");
-						mvprintw(29,nb_col-20,"D: monstre defensif");
-						mvprintw(30,nb_col-20,"I: monstre inactif");
-						mvprintw(31,nb_col-20,"?: bonus");
+						mvprintw(27,nb_col-20,"S: sortie");
 						
-						refresh();
+						attron(COLOR_PAIR(5));
+						mvprintw(28,nb_col-20,"^: piege");						
+						mvprintw(29,nb_col-20,"M: monstre agressif");						
+						mvprintw(30,nb_col-20,"D: monstre defensif");						
+						mvprintw(31,nb_col-20,"I: monstre inactif");	
+						
+						attron(COLOR_PAIR(6));					
+						mvprintw(32,nb_col-20,"?: bonus");
+						
+						
+						
+						refresh();					
 						getch();
+						attron(COLOR_PAIR(1));
 						break;
 					case 7: 
 						clear(); 

@@ -179,7 +179,7 @@ int recherche_chemin_monstre_def(t_case grille[N][M],t_coord depart,t_coord arri
 		}
 		arrive.x=i;
 		arrive.y=j;
-		permutation_monstre_agr(grille,depart,arrive);
+		permutation_monstre_def(grille,depart,arrive);
 	}
 
 	return chemin_trouve;
