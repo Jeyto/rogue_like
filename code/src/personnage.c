@@ -23,9 +23,9 @@ void init_personnage(void){
 }
 
 void init_etage_personnage(void){
-personnage->PV=3;
-personnage->cle=0;
-personnage->invisible=0;
+	personnage->PV=3;
+	personnage->cle=0;
+	personnage->invisible=0;
 }
 
 /*Fonction gain_bonus_personnage(int gain)

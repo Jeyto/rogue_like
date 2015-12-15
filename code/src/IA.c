@@ -305,8 +305,7 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 			ajout_gauche(mob);*/
 			break;
 		case piege:
-			mob.PV--;
-			modif_elt(mob);
+			mob_perte_PV(grille,1);
 			break;
 		case hero:
 			spawn_death();
@@ -348,30 +347,46 @@ void chemin_aleatoire(t_case grille[N][M],t_coord depart){
 
 
 }
-
+int position_elt(t_coord pos){
+	t_mob mob;
+	if(!liste_vide()){
+		en_tete();
+		while(!hors_liste()){
+			valeur_elt(&mob);
+			if(mob.position.x==pos.x && mob.position.y==pos.y) return 1;
+			suivant();
+		}
+	}
+	return 0;
+}
+void mob_perte_PV(t_case grille[N][M],int perte){
+	t_mob mob;
+	valeur_elt(&mob);
+	mob.PV=mob.PV-perte;
+	if(mob.PV>0) modif_elt(mob);
+	else{ 	
+		grille[mob.position.x][mob.position.y]=vide;
+		oter_elt();
+	}
+}
 void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
 	t_mob mob;
 	en_tete();
   while(!hors_liste()){
 		valeur_elt(&mob);
-		if(mob.PV<=0){
-			grille[mob.position.x][mob.position.y]=vide;
-			oter_elt();
-		}
-		else{
-			switch(mob.race_mob){
-				case monstre_agressif:
-					recherche_chemin_monstre_agr(grille,mob.position,personnage);
-					break;
-				case monstre_defensif:
-					if(recherche_chemin_monstre_def(grille,mob.position,personnage));
-					else chemin_aleatoire(grille,mob.position);
-					break;
-				case monstre_inactif:
-					chemin_aleatoire(grille,mob.position);
-					break;
-				default: break;
-			}
+		switch(mob.race_mob){
+			case monstre_agressif:
+				recherche_chemin_monstre_agr(grille,mob.position,personnage);
+				break;
+			case monstre_defensif:
+				if(recherche_chemin_monstre_def(grille,mob.position,personnage));
+				else chemin_aleatoire(grille,mob.position);
+				break;
+			case monstre_inactif:
+				chemin_aleatoire(grille,mob.position);
+				break;
+			default: break;
+			
 		}
 		suivant();
 	}
