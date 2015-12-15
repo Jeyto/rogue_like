@@ -364,7 +364,21 @@ void mob_perte_PV(t_case grille[N][M],int perte){
 	t_mob mob;
 	valeur_elt(&mob);
 	mob.PV=mob.PV-perte;
-	if(mob.PV>0) modif_elt(mob);
+	if(mob.PV>0){
+		switch(mob.race_mob){
+			case monstre_agressif:
+				gain_bonus_personnage(40);
+				break;
+			case monstre_defensif:
+				gain_bonus_personnage(30);
+				break;
+			case monstre_inactif:
+				gain_bonus_personnage(20);
+				break;
+			default: break;
+		}
+	 	modif_elt(mob);
+	}
 	else{ 	
 		grille[mob.position.x][mob.position.y]=vide;
 		oter_elt();
