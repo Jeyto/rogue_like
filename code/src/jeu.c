@@ -213,6 +213,8 @@ void jeu(t_case matrice[N][M], int level){
 							matrice[perso_position.x][perso_position.y]=hero;
 							break;						
 						case piege:
+							spawn_death();
+							break;
 						case monstre_agressif:
 						case monstre_defensif:
 						case monstre_inactif:
