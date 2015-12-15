@@ -17,6 +17,7 @@ int main(void){
 	int nb_col, col, row, level;	
 	t_case matrice[N][M];
 	init_liste();
+	init_personnage();
 	//declaration ncurses
 	initscr();
   	noecho();

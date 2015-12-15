@@ -51,7 +51,6 @@ int kbhit(){
 void generation_level(t_case matrice[N][M], int level){
 	//declaration
 	int nb_piece;
-	init_personnage();
 	
 	//traitement
 	init_matrice(matrice);
@@ -119,8 +118,6 @@ void jeu(t_case matrice[N][M], int level){
 	if(level>=1){
 		sauvegarde_map(matrice,level);
 		while(valeur_PV_personnage()>0 && niveau_termine==0){ //tant que la vie>0 et niveau en cours
-			mvprintw(41, 0,"Score: %i",valeur_score_personnage());
-			mvprintw(42, 0,"Vie: %i",valeur_PV_personnage());
 			while (!kbhit()){	
 				//si personnage meurt, 3 coups ou les monstres sont inactifs pour se sauver
 				if(valeur_invi_personnage()==0)

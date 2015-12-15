@@ -12,6 +12,7 @@
 
 void init_liste_mob(t_case grille[N][M]){
 	t_mob valeur;
+	vider_liste();
 	en_tete();
 	for(valeur.position.x=0;valeur.position.x<N;valeur.position.x++){
 		for(valeur.position.y=0;valeur.position.y<M;valeur.position.y++){
@@ -297,13 +298,15 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 		case cle:
 			break;
 		case bonus:
-			grille[pos_arr.x][pos_arr.y]=monstre_agressif;
+			/*grille[pos_arr.x][pos_arr.y]=monstre_agressif;
 			mob.position=pos_arr;
 			mob.race_mob=monstre_agressif;
 			mob.PV=3;
-			ajout_gauche(mob);
+			ajout_gauche(mob);*/
 			break;
 		case piege:
+			mob.PV--;
+			modif_elt(mob);
 			break;
 		case hero:
 			spawn_death();
@@ -351,7 +354,8 @@ void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
 	en_tete();
   while(!hors_liste()){
 		valeur_elt(&mob);
-		if(mob.PV==0){
+		if(mob.PV<=0){
+			grille[mob.position.x][mob.position.y]=vide;
 			oter_elt();
 		}
 		else{
