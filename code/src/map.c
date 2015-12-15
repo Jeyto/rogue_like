@@ -468,9 +468,9 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level){
 		for(a=0;a<nb_piege;a++){
 			position_piege.x=rand()%N;
 			position_piege.y=rand()%M;
-			if(matrice[position_piege.x][position_piege.y]==vide || matrice[position_piege.x-1][position_piege.y]!=porte || 
-			matrice[position_piege.x+1][position_piege.y]!=porte || matrice[position_piege.x][position_piege.y-1]!=porte || 
-			matrice[position_piege.x][position_piege.y+1]!=porte){
+			if(matrice[position_piege.x][position_piege.y]==vide || matrice[position_piege.x-1][position_piege.y]==porte || 
+			matrice[position_piege.x+1][position_piege.y]==porte || matrice[position_piege.x][position_piege.y-1]==porte || 
+			matrice[position_piege.x][position_piege.y+1]==porte){
 				 matrice[position_piege.x][position_piege.y]=piege;
 			}
 			if(matrice[position_piege.x][position_piege.y-1]==vide) matrice[position_piege.x][position_piege.y-1]=piege;
@@ -585,7 +585,7 @@ void afficher_legende(int level){
 	mvprintw(10,122, "Level: %i",level);
 	mvprintw(11, 122,"Score: %i",valeur_score_personnage());
 	mvprintw(12, 122,"Vie: %i",valeur_PV_personnage());
-	//mvprintw(13, 122,"Armure: %i", A REMPLIR);
+	mvprintw(13, 122,"Armure: %i",valeur_armure_personnage());
 	
 	if(valeur_cle_personnage()){ 
 		mvprintw(15, 122, "Vous avez la cle,");

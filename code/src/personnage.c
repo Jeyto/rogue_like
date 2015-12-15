@@ -18,6 +18,7 @@ void init_valeur_personnage(void){
 	personnage->score_bonus=0;
 	personnage->cle=0;
 	personnage->invisible=0;
+	personnage->armure=0;
 }
 void init_personnage(void){
 	personnage=malloc(sizeof(t_personnage));
@@ -27,6 +28,7 @@ void init_etage_personnage(void){
 	personnage->PV=3;
 	personnage->cle=0;
 	personnage->invisible=0;
+	personnage->armure=0;
 }
 
 /*Fonction gain_bonus_personnage(int gain)
@@ -46,6 +48,7 @@ void valeur_personnage(t_personnage *valeur){
 	valeur->position.y=personnage->position.y;
 	valeur->cle=personnage->cle;
 	valeur->invisible=personnage->invisible;
+	valeur->armure=personnage->armure;
 }
 
 /*Fonction modif_personnage
@@ -58,6 +61,7 @@ void modif_personnage(t_personnage nperso){
 	personnage->invisible=nperso.invisible;
 	personnage->position.x=nperso.position.x;
 	personnage->position.y=nperso.position.y;
+	personnage->armure=nperso.armure;
 }
 
 /*Fonction modif__position_personnage
@@ -120,13 +124,32 @@ void modif_invi_personnage(int valeur){
 	personnage->invisible=valeur;
 }
 
+/*Fonction valeur_armure_personnage
+*Permet de connaitre la valeur de l'armure (0 ou 1)
+*/
+int valeur_armure_personnage(void){
+	return personnage->armure;
+}
+
+/*Fonction modif_armure_personnage
+*Modifie la valeur de l'armure avec la valeur "valeur"
+*/
+void gain_armure_personnage(int valeur){
+	personnage->armure=personnage->armure+valeur;
+}
+
 /******************************************************************/
-/*Fonction spawn_death
+/*Fonction degat_personnage
 *si le joueur perd un combat(piege,monstre), il perd un point de vie
 *il est invisible pendant un certain nombre de deplacements
 */
-void spawn_death(void){
-	personnage->PV=personnage->PV-1;
+void degat_personnage(void){
+	if(personnage->armure>0){
+		personnage->armure=personnage->armure-1;
+	}
+	else{
+		personnage->PV=personnage->PV-1;
+	}
 	personnage->invisible=1;
 }
 

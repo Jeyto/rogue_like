@@ -209,11 +209,16 @@ void jeu(t_case matrice[N][M], int level){
 							break;						
 						case bonus:
 							matrice[perso_position.x-dx][perso_position.y-dy]=vide;
-							gain_bonus_personnage(20);
+							if(rand()%3==0){
+								gain_armure_personnage(1);
+							}
+							else{
+								gain_bonus_personnage(20);
+							}
 							matrice[perso_position.x][perso_position.y]=hero;
 							break;						
 						case piege:
-							spawn_death();
+							degat_personnage();
 							break;
 						case monstre_agressif:
 						case monstre_defensif:

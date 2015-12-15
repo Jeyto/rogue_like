@@ -22,7 +22,7 @@ void modif_position_personnage(t_coord npos);
 
 void valeur_position_personnage(t_coord *pos);
 
-void spawn_death(void);
+void degat_personnage(void);
 
 int valeur_cle_personnage(void);
 
@@ -35,6 +35,10 @@ int valeur_score_personnage(void);
 int valeur_invi_personnage(void);
 
 void modif_invi_personnage(int valeur);
+
+int valeur_armure_personnage(void);
+
+void gain_armure_personnage(int valeur);
 
 void attaque_personnage(t_case matrice[N][M],int ax,int ay);
 

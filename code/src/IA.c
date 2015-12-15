@@ -6,6 +6,7 @@
 #include "jeu.h"
 #include "liste_ptr_coord.h"
 #include "structure.h"
+#include "personnage.h"
 
 /*Fonctions generant le deplacement prochain d'un monstre agressif*/
 /*http://www.maths-algo.fr/algo/exercices/grille_plus_court_chemin.htm*/
@@ -237,7 +238,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 			break;
 		case hero:
 			if(!rand()%4)
-				spawn_death();
+				degat_personnage();
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
@@ -263,7 +264,7 @@ void permutation_monstre_def(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 		case monstre_inactif:
 			break;
 		case hero:
-			spawn_death();
+			degat_personnage();
 		break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
@@ -309,7 +310,7 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 			mob_perte_PV(grille,1);
 			break;
 		case hero:
-			spawn_death();
+			degat_personnage();
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
