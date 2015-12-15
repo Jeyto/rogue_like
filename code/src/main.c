@@ -8,6 +8,7 @@
 #include "liste_ptr_coord.h"
 #include "structure.h"
 #include "sauvegarde.h"
+#include "personnage.h"
 
 
 int main(void){
