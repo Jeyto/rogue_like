@@ -582,7 +582,8 @@ void afficher_legende(){
 	mvprintw(6,122,"I: monstre inactif");
 	mvprintw(7,122,"?: bonus"); 
 	
-	mvprintw(10,122,"vie: %i");  	
+	mvprintw(10, 122,"Score: %i",valeur_score_personnage());
+	mvprintw(11, 122,"Vie: %i",valeur_PV_personnage());  	
 }
 
 /*Fonction afficher_ecran
