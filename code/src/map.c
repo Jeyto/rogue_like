@@ -573,7 +573,7 @@ void afficher_matrice(t_case matrice[N][M]){
 /*Fonction afficher_legende
 *Affiche la legende a droite de l'ecran
 */
-void afficher_legende(){
+void afficher_legende(int level){
 	mvprintw(1,122,"K: cle");
 	mvprintw(2,122,"C: coffre");
 	mvprintw(3,122,"^: piege");
@@ -582,18 +582,18 @@ void afficher_legende(){
 	mvprintw(6,122,"I: monstre inactif");
 	mvprintw(7,122,"?: bonus"); 
 	
-	mvprintw(10, 122,"Score: %i",valeur_score_personnage());
-	mvprintw(11, 122,"Vie: %i",valeur_PV_personnage());
-	
-
+	mvprintw(10,122, "Level: %i",level);
+	mvprintw(11, 122,"Score: %i",valeur_score_personnage());
+	mvprintw(12, 122,"Vie: %i",valeur_PV_personnage());
+	valeur_cle_personnage();
 }
 
 /*Fonction afficher_ecran
 *Affiche la matrice et la legende
 */
-void afficher_ecran(t_case matrice[N][M]){
+void afficher_ecran(t_case matrice[N][M],int level){
   	clear();
   	afficher_matrice(matrice);
-  	afficher_legende();
+  	afficher_legende(level);
 	refresh();
 }

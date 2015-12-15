@@ -11,12 +11,14 @@ t_personnage *personnage;
 /*Fonction init_personnage
 *Initialise la variable personnage
 */
-void init_personnage(void){
-	personnage=malloc(sizeof(t_personnage));
+void init_valeur_personnage(void){
 	personnage->PV=3;
 	personnage->score_bonus=0;
 	personnage->cle=0;
 	personnage->invisible=0;
+}
+void init_personnage(void){
+	personnage=malloc(sizeof(t_personnage));
 }
 
 /*Fonction gain_bonus_personnage(int gain)

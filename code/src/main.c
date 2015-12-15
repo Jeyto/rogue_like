@@ -66,26 +66,31 @@ int main(void){
 				//traitement du choix de l'utilisateur
 				switch(ch2){
 					case 1: 
+						init_valeur_personnage();
 						generation_level(matrice, 1);							
 						jeu(matrice,1);
 						getch();
 						break;
 					case 2: 
+						init_valeur_personnage();
 						generation_level(matrice, 2);							
 						jeu(matrice,2);
 						getch();
 						break;
-					case 3: 
+					case 3:
+						init_valeur_personnage();
 						generation_level(matrice, 3);
 						jeu(matrice,3);
 						getch();
 						break;
 					case 4: 
+						init_valeur_personnage();
 						generation_level(matrice, 4);
 						jeu(matrice,4);
 						getch();
 						break;
 					case 5: 
+						init_valeur_personnage();
 						generation_level(matrice, 5);
 						jeu(matrice,5);
 						getch();

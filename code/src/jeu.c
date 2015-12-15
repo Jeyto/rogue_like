@@ -57,14 +57,14 @@ void generation_level(t_case matrice[N][M], int level){
 	nb_piece=generer_matrice_tot(matrice,level);
 	spawn_item(matrice,nb_piece,level);
 	init_liste_mob(matrice);
-	afficher_ecran(matrice);
+	afficher_ecran(matrice,level);
 }
 
 /*************************************************************/
 /*Fonction game_message
 *Modifie la matrice de jeu et affiche le message "game over" ou "good game"
 */
-void game_message(t_case matrice[N][M], int niveau_termine){
+void game_message(t_case matrice[N][M], int niveau_termine, int level){
 	int i=0;
 	int j=0;
 	int valeur;
@@ -83,7 +83,7 @@ void game_message(t_case matrice[N][M], int niveau_termine){
 		}
 		fclose(fichier);
 	}
-	afficher_ecran(matrice);
+	afficher_ecran(matrice,level);
 	getch();
 }
 
@@ -127,7 +127,7 @@ void jeu(t_case matrice[N][M], int level){
 					else modif_invi_personnage(0);
 				}
 				sauvegarde_map(matrice,level);
-				afficher_ecran(matrice);
+				afficher_ecran(matrice,level);
 				usleep(150000);
 				while(ch == 'p') ch = getch();
 			}
@@ -226,12 +226,12 @@ void jeu(t_case matrice[N][M], int level){
 					}
 					modif_position_personnage(perso_position);
 					sauvegarde_map(matrice,level);
-					afficher_ecran(matrice);
+					afficher_ecran(matrice,level);
 				}
 			}
 		}
 		if(niveau_termine==0){
-			game_message(matrice,niveau_termine);
+			game_message(matrice,niveau_termine,level);
 		}
 		else{
 			level++;
@@ -239,7 +239,7 @@ void jeu(t_case matrice[N][M], int level){
 				generation_level(matrice, level);
 				jeu(matrice,level);
 			}
-			else game_message(matrice,1);
+			else game_message(matrice,niveau_termine,level);
 		}
 	}
 }

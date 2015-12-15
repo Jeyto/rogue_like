@@ -9,7 +9,7 @@
 
 void generation_level(t_case matrice[N][M], int level);
 
-void game_message(t_case matrice[N][M], int niveau_termine);
+void game_message(t_case matrice[N][M], int niveau_termine, int level);
 
 void spawn_death(void);
 

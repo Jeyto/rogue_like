@@ -22,8 +22,8 @@ void spawn_item(t_case matrice[N][M], int nb_piece, int level);
 
 void afficher_matrice(t_case matrice[N][M]);
 
-void afficher_legende(void);
+void afficher_legende(int level);
 
-void afficher_ecran(t_case matrice[N][M]);
+void afficher_ecran(t_case matrice[N][M],int level);
 
 #endif
