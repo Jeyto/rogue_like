@@ -20,17 +20,17 @@ void init_liste_mob(t_case grille[N][M]){
 				/*La liste contient pour chaques monstres son type,sa position et ces PV initiales*/
 				case monstre_inactif:
 					valeur.race_mob=monstre_inactif;
-					valeur.PV=3;
+					valeur.PV=1;
 					ajout_droit(valeur);
 					break;
 				case monstre_agressif:
 					valeur.race_mob=monstre_agressif;
-					valeur.PV=1;
+					valeur.PV=2;
 					ajout_droit(valeur);
 					break;
 				case monstre_defensif:
 					valeur.race_mob=monstre_defensif;
-					valeur.PV=2;
+					valeur.PV=1;
 					ajout_droit(valeur);
 					break;
 				default: break;
@@ -236,7 +236,8 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 			}
 			break;
 		case hero:
-			spawn_death();
+			if(!rand()%4)
+				spawn_death();
 			break;
 		default:
 			tampon=grille[pos_arr.x][pos_arr.y];
@@ -298,11 +299,11 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 		case cle:
 			break;
 		case bonus:
-			/*grille[pos_arr.x][pos_arr.y]=monstre_agressif;
+			grille[pos_arr.x][pos_arr.y]=monstre_defensif;
 			mob.position=pos_arr;
-			mob.race_mob=monstre_agressif;
-			mob.PV=3;
-			ajout_gauche(mob);*/
+			mob.race_mob=monstre_defensif;
+			mob.PV=1;
+			ajout_gauche(mob);
 			break;
 		case piege:
 			mob_perte_PV(grille,1);
