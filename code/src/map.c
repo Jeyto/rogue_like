@@ -585,7 +585,21 @@ void afficher_legende(int level){
 	mvprintw(10,122, "Level: %i",level);
 	mvprintw(11, 122,"Score: %i",valeur_score_personnage());
 	mvprintw(12, 122,"Vie: %i",valeur_PV_personnage());
-	valeur_cle_personnage();
+	//mvprintw(13, 122,"Armure: %i", A REMPLIR);
+	
+	if(valeur_cle_personnage()){ 
+		mvprintw(15, 122, "Vous avez la cle,");
+		mvprintw(16, 122, "Sortez vous avez plus le temps!");	
+	}
+	else{
+		mvprintw(15, 122, "Si vous voulez sortir,");
+		mvprintw(16, 122, "Faut d'abord prendre la clé!");
+	}	
+		
+	mvprintw(21,122,"P Pour mettre en pause");
+	mvprintw(22,122,"Echap pour quitter le niveau"); 	
+		
+		
 }
 
 /*Fonction afficher_ecran

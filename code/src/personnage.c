@@ -21,6 +21,11 @@ void init_personnage(void){
 	personnage=malloc(sizeof(t_personnage));
 }
 
+void init_etage_personnage(void){
+	personnage->PV=3;
+	personnage->cle=0;
+	personnage->invisible=0;
+}
 /*Fonction gain_bonus_personnage(int gain)
 *Ajoute gain au score
 */
