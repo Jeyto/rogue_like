@@ -29,7 +29,7 @@ void ajout_gauche(t_mob);
 
 void vider_liste_mob(void);
 
-void init_liste_mob(t_case grille[N][M]);
+void init_carac_mob(t_case grille[N][M]);
 
 int position_mob(t_coord pos);
 

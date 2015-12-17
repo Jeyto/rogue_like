@@ -5,7 +5,7 @@
 #include <ncurses.h>
 
 #include "personnage.h"
-#include "IA.h"
+#include "liste_mob.h"
 #include "structure.h"
 
 t_personnage *personnage;
@@ -158,7 +158,7 @@ void attaque_personnage(t_case matrice[N][M],int ax,int ay){
 	pos_attaque.x = personnage->position.x+ax;
 	pos_attaque.y = personnage->position.y+ay;
 
-	if(position_elt(pos_attaque)){
+	if(position_mob(pos_attaque)){
 		mob_perte_PV(matrice,1);
 	}
 	else if(matrice[pos_attaque.x][pos_attaque.y] == vide ){

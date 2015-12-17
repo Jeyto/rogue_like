@@ -4,6 +4,7 @@
 
 #include "liste_mob.h"
 #include "structure.h"
+#include "personnage.h"
 
 /* Déclaration des indices de queue et d'élément courant */
 t_element *drapeau;
@@ -18,7 +19,7 @@ void init_liste_mob(){
 	ec = drapeau;
 }
 
-void init_liste_mob(t_case grille[N][M]){
+void init_carac_mob(t_case grille[N][M]){
 	t_mob valeur;
 	vider_liste_mob();
 	en_tete();
@@ -154,6 +155,7 @@ int position_mob(t_coord pos){
 		}
 	}
 	return 0;
+}
 
 
 void mob_perte_PV(t_case grille[N][M],int perte){
