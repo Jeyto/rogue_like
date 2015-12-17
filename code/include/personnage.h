@@ -40,6 +40,4 @@ int valeur_armure_personnage(void);
 
 void gain_armure_personnage(int valeur);
 
-void attaque_personnage(t_case matrice[N][M],int ax,int ay);
-
 #endif

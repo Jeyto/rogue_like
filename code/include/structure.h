@@ -1,6 +1,23 @@
 #ifndef STRUCT
 #define STRUCT
 
+/**
+	*\struct t_direction
+    *\brief Enumeration contenant les quatres directions possibles lors d'un placement d'une porte
+	*\struct t_case
+    *\brief Enumeration contenant tous les items possibles dans une case de la matrice(items et decors)
+    *\struct t_coord
+    *\brief Structure qui contient un entier indiquant la ligne, un entier indiquant la colonne. Cette structure represente une coordonnees d'une case.
+    *\struct t_personnage
+    *\brief Structure listant toutes les caractéristiques du personnage(vie, score, position, cle, invisible, armure)
+    *\struct t_pos
+    *\brief Structure contenant les coordonnees de depart et d'arrivee d'une piece
+    *\struct t_mob
+    *\brief Structure listant toutes les caractéristiques d'un mosntre(vie, position, race)
+    *\struct t_element
+    *\brief Structure representant un element de la liste
+*/
+    
 #include<stdlib.h>
 #include<stdio.h>
 #include<time.h>
