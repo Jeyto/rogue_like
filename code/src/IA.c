@@ -4,41 +4,12 @@
 
 #include "IA.h"
 #include "jeu.h"
-#include "liste_ptr_coord.h"
+#include "liste_mob.h"
 #include "structure.h"
 #include "personnage.h"
 
 /*Fonctions generant le deplacement prochain d'un monstre agressif*/
 /*http://www.maths-algo.fr/algo/exercices/grille_plus_court_chemin.htm*/
-
-void init_liste_mob(t_case grille[N][M]){
-	t_mob valeur;
-	vider_liste();
-	en_tete();
-	for(valeur.position.x=0;valeur.position.x<N;valeur.position.x++){
-		for(valeur.position.y=0;valeur.position.y<M;valeur.position.y++){
-			switch(grille[valeur.position.x][valeur.position.y]){
-				/*La liste contient pour chaques monstres son type,sa position et ces PV initiales*/
-				case monstre_inactif:
-					valeur.race_mob=monstre_inactif;
-					valeur.PV=1;
-					ajout_droit(valeur);
-					break;
-				case monstre_agressif:
-					valeur.race_mob=monstre_agressif;
-					valeur.PV=2;
-					ajout_droit(valeur);
-					break;
-				case monstre_defensif:
-					valeur.race_mob=monstre_defensif;
-					valeur.PV=1;
-					ajout_droit(valeur);
-					break;
-				default: break;
-			}
-		}
-	}
-}
 
 void afficher_chemin(int grille[N][M]){
 	int i,j;
@@ -190,7 +161,7 @@ int recherche_chemin_monstre_def(t_case grille[N][M],t_coord depart,t_coord arri
 void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr){
 	t_case tampon;
 	t_mob mob;
-	valeur_elt(&mob);
+	valeur_mob(&mob);
 	switch(grille[pos_arr.x][pos_arr.y]){
 		case monstre_agressif:
 			break;
@@ -206,7 +177,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 					grille[pos_ini.x][pos_ini.y]=vide;
 					mob.position.x=pos_arr.x;
 					mob.position.y=pos_arr.y;
-					modif_elt(mob);
+					modif_mob(mob);
 				}
 				else if(pos_arr.y==pos_ini.y+1){
 					pos_arr.y++;
@@ -214,7 +185,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 					grille[pos_ini.x][pos_ini.y]=vide;
 					mob.position.x=pos_arr.x;
 					mob.position.y=pos_arr.y;
-					modif_elt(mob);
+					modif_mob(mob);
 				}
 			}
 			else if(pos_ini.y==pos_arr.y){
@@ -224,7 +195,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 					grille[pos_ini.x][pos_ini.y]=vide;
 					mob.position.x=pos_arr.x;
 					mob.position.y=pos_arr.y;
-					modif_elt(mob);
+					modif_mob(mob);
 				}
 				else if(pos_arr.x==pos_ini.x+1){
 					pos_arr.x++;
@@ -232,7 +203,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 					grille[pos_ini.x][pos_ini.y]=vide;
 					mob.position.x=pos_arr.x;
 					mob.position.y=pos_arr.y;
-					modif_elt(mob);
+					modif_mob(mob);
 				}
 			}
 			break;
@@ -246,7 +217,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 			grille[pos_ini.x][pos_ini.y]=tampon;
 			mob.position.x=pos_arr.x;
 			mob.position.y=pos_arr.y;
-			modif_elt(mob);
+			modif_mob(mob);
 			break;
 	}
 
@@ -255,7 +226,7 @@ void permutation_monstre_agr(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 void permutation_monstre_def(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr){
 	t_case tampon;
 	t_mob mob;
-	valeur_elt(&mob);
+	valeur_mob(&mob);
 	switch(grille[pos_arr.x][pos_arr.y]){
 		case monstre_agressif:
 			break;
@@ -272,7 +243,7 @@ void permutation_monstre_def(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 			grille[pos_ini.x][pos_ini.y]=tampon;
 			mob.position.x=pos_arr.x;
 			mob.position.y=pos_arr.y;
-			modif_elt(mob);
+			modif_mob(mob);
 			break;
 	}
 
@@ -281,7 +252,7 @@ void permutation_monstre_def(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr
 void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_arr){
 	t_case tampon;
 	t_mob mob;
-	valeur_elt(&mob);
+	valeur_mob(&mob);
 	switch(grille[pos_arr.x][pos_arr.y]){
 		case monstre_agressif:
 			break;
@@ -318,7 +289,7 @@ void permutation_monstre_alea(t_case grille[N][M],t_coord pos_ini,t_coord pos_ar
 			grille[pos_ini.x][pos_ini.y]=tampon;
 			mob.position.x=pos_arr.x;
 			mob.position.y=pos_arr.y;
-			modif_elt(mob);
+			modif_mob(mob);
 			break;
 	}
 }
@@ -349,48 +320,13 @@ void chemin_aleatoire(t_case grille[N][M],t_coord depart){
 
 
 }
-int position_elt(t_coord pos){
-	t_mob mob;
-	if(!liste_vide()){
-		en_tete();
-		while(!hors_liste()){
-			valeur_elt(&mob);
-			if(mob.position.x==pos.x && mob.position.y==pos.y) return 1;
-			suivant();
-		}
-	}
-	return 0;
-}
-void mob_perte_PV(t_case grille[N][M],int perte){
-	t_mob mob;
-	valeur_elt(&mob);
-	mob.PV=mob.PV-perte;
-	if(mob.PV>0){
 
-	 	modif_elt(mob);
-	}
-	else{ 	
-		switch(mob.race_mob){
-			case monstre_agressif:
-				gain_bonus_personnage(40);
-				break;
-			case monstre_defensif:
-				gain_bonus_personnage(30);
-				break;
-			case monstre_inactif:
-				gain_bonus_personnage(20);
-				break;
-			default: break;
-		}
-		grille[mob.position.x][mob.position.y]=vide;
-		oter_elt();
-	}
-}
+
 void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
 	t_mob mob;
 	en_tete();
-  while(!hors_liste()){
-		valeur_elt(&mob);
+  while(!hors_liste_mob()){
+		valeur_mob(&mob);
 		switch(mob.race_mob){
 			case monstre_agressif:
 				recherche_chemin_monstre_agr(grille,mob.position,personnage);
@@ -403,7 +339,7 @@ void generation_mob_suivante(t_case grille[N][M],t_coord personnage){
 				chemin_aleatoire(grille,mob.position);
 				break;
 			default: break;
-			
+
 		}
 		suivant();
 	}

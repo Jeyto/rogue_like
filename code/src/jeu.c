@@ -10,7 +10,7 @@
 
 #include "IA.h"
 #include "jeu.h"
-#include "liste_ptr_coord.h"
+#include "liste_mob.h"
 #include "map.h"
 #include "sauvegarde.h"
 #include "structure.h"
@@ -51,7 +51,7 @@ int kbhit(){
 void generation_level(t_case matrice[N][M], int level){
 	//declaration
 	int nb_piece;
-	
+
 	//traitement
 	init_matrice(matrice);
 	nb_piece=generer_matrice_tot(matrice,level);
@@ -103,7 +103,7 @@ void jeu(t_case matrice[N][M], int level){
 	t_coord pos_sortie;
 	t_coord perso_position;
 	int niveau_termine=0;
-	
+
 	//position de la sortie 3cases du coffre
 	for(i=0;i<N;i++){
 		for(j=0;j<M;j++){
@@ -113,16 +113,16 @@ void jeu(t_case matrice[N][M], int level){
 			}
 		}
 	}
-	
+
 	//traitement
 	if(level>=1){
 		sauvegarde_map(matrice,level);
 		while(valeur_PV_personnage()>0 && niveau_termine==0 && ch != 27){ //tant que la vie>0 et niveau en cours
-			while (!kbhit() && valeur_PV_personnage()>0 ){	
+			while (!kbhit() && valeur_PV_personnage()>0 ){
 				//si personnage meurt, 3 coups ou les monstres sont inactifs pour se sauver
 				if(valeur_invi_personnage()==0)
 					generation_mob_suivante(matrice,perso_position);
-				
+
 				else{
 					if(valeur_invi_personnage()<=3) modif_invi_personnage(valeur_invi_personnage()+1);
 					else modif_invi_personnage(0);
@@ -131,39 +131,39 @@ void jeu(t_case matrice[N][M], int level){
 				usleep(150000);
 				while(ch == 'p') ch = getch();
 			}
-			
+
 			ch = getch();
 			switch(ch){
 				case 'z':
-					dx=-1; 
+					dx=-1;
 					dy=0;
 					break;
 				case 'q':
-					dx=0; 
+					dx=0;
 					dy=-1;
 					break;
 				case 's':
-					dx=1; 
+					dx=1;
 					dy=0;
 					break;
 				case 'd':
-					dx=0; 
+					dx=0;
 					dy=1;
 					break;
-				default: 
-					dx=0; 
+				default:
+					dx=0;
 					dy=0;
-					break;	
-			}	
-		
+					break;
+			}
+
 			if(dx != 0 || dy != 0){
 				valeur_position_personnage(&perso_position);
-				
+
 				if(matrice[perso_position.x+dx][perso_position.y+dy]!=mur_contour && matrice[perso_position.x+dx][perso_position.y+dy]!=mur){
 					perso_position.x=perso_position.x+dx;
 					perso_position.y=perso_position.y+dy;
 					//action en fonction de la nouvelle case
-					
+
 					switch(matrice[perso_position.x][perso_position.y]){
 						case vide:
 							matrice[perso_position.x-dx][perso_position.y-dy]=vide;
@@ -206,7 +206,7 @@ void jeu(t_case matrice[N][M], int level){
 								matrice[pos_sortie.x][pos_sortie.y-1]=mur_contour;
 								matrice[pos_sortie.x][pos_sortie.y+1]=mur_contour;
 							}
-							break;						
+							break;
 						case bonus:
 							matrice[perso_position.x-dx][perso_position.y-dy]=vide;
 							if(rand()%3==0){
@@ -216,23 +216,23 @@ void jeu(t_case matrice[N][M], int level){
 								gain_bonus_personnage(20);
 							}
 							matrice[perso_position.x][perso_position.y]=hero;
-							break;						
+							break;
 						case piege:
 							degat_personnage();
 							break;
 						case monstre_agressif:
 						case monstre_defensif:
 						case monstre_inactif:
-							if(position_elt(perso_position)){
+							if(position_mob(perso_position)){
 								mob_perte_PV(matrice,1);
 							}
 							perso_position.x=perso_position.x-dx; //personnage ne bouge pas
 							perso_position.y=perso_position.y-dy;
-							
-							break;						
+
+							break;
 						case sortie:
 							niveau_termine=1;
-							break;						
+							break;
 						default:
 							break;
 					}

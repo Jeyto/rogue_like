@@ -5,7 +5,7 @@
 #include <ncurses.h>
 
 #include "jeu.h"
-#include "liste_ptr_coord.h"
+#include "liste_mob.h"
 #include "structure.h"
 #include "sauvegarde.h"
 #include "personnage.h"
@@ -14,9 +14,9 @@ int main(void){
    	srand(time(NULL));
 	//declaration
 	int ch, ch2;//choix de l'utilisateur
-	int nb_col, col, row, level;	
+	int nb_col, col, row, level;
 	t_case matrice[N][M];
-	init_liste();
+	init_liste_mob();
 	init_personnage();
 	//declaration ncurses
 	initscr();
@@ -25,9 +25,9 @@ int main(void){
  	keypad(stdscr, TRUE);
  	raw();
  	start_color();
- 	
+
  	/**********Affichage**********/
- 	
+
  	//couleur init ( hero portes )
  	init_pair(1, COLOR_WHITE, COLOR_BLACK);
  	//couleur mur
@@ -45,21 +45,21 @@ int main(void){
  	init_pair(8, COLOR_RED, COLOR_BLACK);
  	// objectifs ( sortie coffre cle )
  	init_pair(9, COLOR_GREEN, COLOR_BLACK);
-	
-	
+
+
 	do{	//affichage du menu
-		
+
 		//traitement
 		getmaxyx(stdscr,row,col); /* get the number of rows and columns */
 		nb_col= col/2;
-		
-		
+
+
 		attron(COLOR_PAIR(1));
 		clear();
 		mvprintw(0,nb_col-27,"*****************************************************");
 		mvprintw(1,nb_col-27,"*     ROGUELIKE by Valentin - Baptiste - Maxime     *");
 		mvprintw(2,nb_col-27,"*****************************************************");
-		
+
 		//affichage du menu
 		mvprintw(4,nb_col-20,"Menu :");
 		mvprintw(5,nb_col-20," 1 - Jouer");
@@ -69,7 +69,7 @@ int main(void){
 		refresh();
 		ch= getch();
 		ch= ch-'0';
-		
+
 		//traitement du choix de l'utilisateur
 		switch(ch){
 			case 1 ://affichage du menu
@@ -83,21 +83,21 @@ int main(void){
 				mvprintw(17,nb_col-20," 7 - Retour");
 				mvprintw(18,nb_col-18,"Votre choix : ");
 				refresh();
-				
+
 				ch2= getch();
 				ch2= ch2-'0';
-				
+
 				//traitement du choix de l'utilisateur
 				switch(ch2){
-					case 1: 
+					case 1:
 						init_valeur_personnage();
-						generation_level(matrice, 1);							
+						generation_level(matrice, 1);
 						jeu(matrice,1);
 						getch();
 						break;
-					case 2: 
+					case 2:
 						init_valeur_personnage();
-						generation_level(matrice, 2);							
+						generation_level(matrice, 2);
 						jeu(matrice,2);
 						getch();
 						break;
@@ -107,60 +107,60 @@ int main(void){
 						jeu(matrice,3);
 						getch();
 						break;
-					case 4: 
+					case 4:
 						init_valeur_personnage();
 						generation_level(matrice, 4);
 						jeu(matrice,4);
 						getch();
 						break;
-					case 5: 
+					case 5:
 						init_valeur_personnage();
 						generation_level(matrice, 5);
 						jeu(matrice,5);
 						getch();
 						break;
 					case 6:
-					
+
 						attron(COLOR_PAIR(2));
 						mvprintw(20,nb_col-20,"X: mur infranchissable");
-						
+
 						attron(COLOR_PAIR(3));
 						mvprintw(21,nb_col-20,"&: Contour des pieces infranchissable");
-						
+
 						attron(COLOR_PAIR(1));
 						mvprintw(22,nb_col-20,"(vide): Deplacement autorise");
 						mvprintw(23,nb_col-20,"P: porte");
 						mvprintw(24,nb_col-20,"@: hero");
-						
+
 						attron(COLOR_PAIR(9));
 						mvprintw(25,nb_col-20,"K: cle");
 						mvprintw(26,nb_col-20,"C: coffre");
 						mvprintw(27,nb_col-20,"S: sortie");
-						
+
 						attron(COLOR_PAIR(5));
-						mvprintw(28,nb_col-20,"^: piege");						
-						mvprintw(29,nb_col-20,"M: monstre agressif");						
-						mvprintw(30,nb_col-20,"D: monstre defensif");						
-						mvprintw(31,nb_col-20,"I: monstre inactif");	
-						
-						attron(COLOR_PAIR(6));					
+						mvprintw(28,nb_col-20,"^: piege");
+						mvprintw(29,nb_col-20,"M: monstre agressif");
+						mvprintw(30,nb_col-20,"D: monstre defensif");
+						mvprintw(31,nb_col-20,"I: monstre inactif");
+
+						attron(COLOR_PAIR(6));
 						mvprintw(32,nb_col-20,"?: bonus");
-						
-						
-						
-						refresh();					
+
+
+
+						refresh();
 						getch();
 						attron(COLOR_PAIR(1));
 						break;
-					case 7: 
-						clear(); 
+					case 7:
+						clear();
 						break;
-						
+
 					default:
 						mvprintw(19,nb_col-20,"Erreur: votre choix doit être compris entre 1 et 7");
 				}
 				break;
-			case 2: 
+			case 2:
 				level=generer_map_sauvegarde(matrice);
 				jeu(matrice,level);
 				break;
@@ -170,7 +170,7 @@ int main(void){
 				mvprintw(9,nb_col-20,"Erreur: votre choix doit être compris entre 1 et 3");
 		}
 	}while(ch!=3);
-	
+
 	endwin();
 	return 0;
 }

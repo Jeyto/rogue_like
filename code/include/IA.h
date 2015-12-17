@@ -23,9 +23,4 @@ int recherche_chemin_monstre_agr(t_case grille[N][M],t_coord depart,t_coord arri
 
 void chemin_aleatoire(t_case grille[N][M],t_coord depart);
 
-void init_liste_mob(t_case grille[N][M]);
-
-int position_elt(t_coord pos);
-
-void mob_perte_PV(t_case grille[N][M],int perte);
 #endif

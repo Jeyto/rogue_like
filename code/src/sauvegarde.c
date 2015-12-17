@@ -4,7 +4,7 @@
 
 #include "IA.h"
 #include "jeu.h"
-#include "liste_ptr_coord.h"
+#include "liste_mob.h"
 #include "map.h"
 #include "structure.h"
 #include "sauvegarde.h"
@@ -51,7 +51,7 @@ void sauvegarde_map(t_case matrice[N][M],int level){
 	valeur_personnage(&perso);
 	t_mob mob;
 	FILE * fichier;
-	
+
 	//traitement
 	fichier=fopen("save_map.txt","w");
 	//sauvegarde personnage et valeur
@@ -63,8 +63,8 @@ void sauvegarde_map(t_case matrice[N][M],int level){
 	fprintf(fichier,"%i \n",perso.invisible);
 	//sauvegarde monstre
 	en_tete();
-	while(!hors_liste()){
-		valeur_elt(&mob);
+	while(!hors_liste_mob()){
+		valeur_mob(&mob);
 		fprintf(fichier,"%i ",mob.PV);
 		fprintf(fichier,"%i %i ",mob.position.x,mob.position.y);
 		fprintf(fichier,"%i \n",mob.race_mob);
@@ -95,7 +95,7 @@ int generer_map_sauvegarde(t_case matrice[N][M]){
 	t_personnage perso_save;
 	t_mob mob;
 	FILE * fichier;
-	
+
 	//traitement
 	fichier=fopen("save_map.txt","r");
 	//recuperation personnage
@@ -107,7 +107,7 @@ int generer_map_sauvegarde(t_case matrice[N][M]){
 	fscanf(fichier,"%i",&perso_save.invisible);
 	modif_personnage(perso_save);
 	//recuperation mob
-	vider_liste();
+	vider_liste_mob();
 	en_tete();
 	fscanf(fichier,"%i \n",&mob.PV);
 	while(mob.PV!=-1){
