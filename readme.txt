@@ -39,6 +39,6 @@ une partie sauvegardée ou tout simplement quitter.
 et .gch.
 
 ps: le programme utilise la librairie Ncrurses et n'est pas installée de base sur 
-tout les ordinateurs. Si lors de la compilation du programme des erreurs vous sont 
+tous les ordinateurs. Si lors de la compilation du programme des erreurs vous sont 
 renvoyées c'est que la librairie n'est pas installée,  il vous faudra alors l'installer 
 sur votre machine puis relancer la compilation pour lancer le programme.
